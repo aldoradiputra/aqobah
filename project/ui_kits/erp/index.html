@@ -1,0 +1,61 @@
+<!-- @dsCard group="ERP Console" viewport="1380x880" name="Aqobah ERP — Admin Console" subtitle="Dashboard, CRM, Sales, Produk, Operasional, Keuangan, HR" -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aqobah ERP Console</title>
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; background:var(--surface-page); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<template id="__bundler_thumbnail">
+  <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#142242,#0593D5)">
+    <svg viewBox="0 0 100 100" width="40%" height="40%" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="18" width="80" height="64" rx="6" fill="#fff"/>
+      <rect x="10" y="18" width="26" height="64" rx="6" fill="#1B2E5A"/>
+      <rect x="44" y="28" width="38" height="8" rx="2" fill="#E7F5FC"/>
+      <rect x="44" y="44" width="38" height="8" rx="2" fill="#E7F5FC"/>
+      <rect x="44" y="60" width="24" height="8" rx="2" fill="#FCB017"/>
+      <circle cx="23" cy="32" r="5" fill="#FCB017"/>
+    </svg>
+  </div>
+</template>
+<script type="text/babel" src="ErpShell.jsx"></script>
+<script type="text/babel" src="ErpModules.jsx"></script>
+<script type="text/babel">
+  const META = {
+    dashboard:['Dashboard','Ringkasan operasional · semua unit bisnis', window.ErpDashboard],
+    crm:['CRM','Pipeline jamaah & klien korporat', window.ErpCrm],
+    sales:['Sales Order','Pesanan paket & pembayaran', window.ErpSales],
+    products:['Produk','Manajemen paket & kuota', window.ErpProducts],
+    ops:['Operasional','Dokumen, manasik & vendor', window.ErpOps],
+    finance:['Keuangan','Akuntansi & arus kas', window.ErpFinance],
+    hr:['SDM / HR','Karyawan & tim lapangan', window.ErpHr],
+  };
+  function App() {
+    const [screen, setScreen] = React.useState('dashboard');
+    const nav = (k) => { setScreen(k); const m=document.querySelector('main'); if(m) m.scrollTop=0; };
+    const [title, subtitle, Screen] = META[screen];
+    const { ErpShell } = window;
+    const actions = (
+      <button style={{ display:'inline-flex', alignItems:'center', gap:'7px', fontFamily:'var(--font-ui)', fontWeight:600, fontSize:'13px', padding:'10px 16px', borderRadius:'var(--radius-pill)', border:'none', background:'var(--brand-primary)', color:'#fff', cursor:'pointer', whiteSpace:'nowrap' }}>+ Buat Baru</button>
+    );
+    return (
+      <ErpShell active={screen} onNav={nav} title={title} subtitle={subtitle} actions={actions}>
+        <Screen />
+      </ErpShell>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

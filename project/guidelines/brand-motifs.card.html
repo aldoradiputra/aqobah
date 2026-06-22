@@ -1,0 +1,37 @@
+<!-- @dsCard group="Brand" viewport="700x210" name="Brand Motifs" subtitle="Gold hairline, four-arc accent, accreditation seal" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; font-family: var(--font-ui); background: var(--surface-card); padding: 26px 28px; color:var(--text-primary); display:flex; flex-direction:column; gap:20px; }
+  .label { font-size:11px; color:var(--text-muted); letter-spacing:var(--tracking-wide); margin-bottom:8px; }
+  .gold-rule { height:2px; width:120px; background:linear-gradient(90deg, var(--gold-300), var(--gold-400)); border-radius:2px; }
+  .arc { width:70px; height:70px; border-radius:50%;
+    background: conic-gradient(var(--danger-500) 0 25%, var(--gold-300) 25% 50%, var(--blue-500) 50% 75%, var(--neutral-900) 75% 100%);
+    -webkit-mask: radial-gradient(circle, transparent 56%, #000 57%);
+    mask: radial-gradient(circle, transparent 56%, #000 57%); }
+  .row { display:flex; gap:48px; align-items:flex-start; }
+  .seal { display:inline-flex; align-items:center; gap:8px; padding:7px 14px; border-radius:var(--radius-pill);
+    background:var(--maroon-500); color:#fff; font-size:12px; font-weight:600; letter-spacing:0.04em; }
+  .seal .dot { width:7px; height:7px; border-radius:50%; background:var(--gold-300); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div>
+      <div class="label">GOLD HAIRLINE — premium divider</div>
+      <div class="gold-rule"></div>
+    </div>
+    <div>
+      <div class="label">FOUR-ARC ACCENT — from the globe ring</div>
+      <div class="arc"></div>
+    </div>
+    <div>
+      <div class="label">ACCREDITATION SEAL</div>
+      <span class="seal"><span class="dot"></span>AKREDITASI A · PIHK 610</span>
+    </div>
+  </div>
+</body>
+</html>

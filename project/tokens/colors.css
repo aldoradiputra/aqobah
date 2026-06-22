@@ -1,0 +1,107 @@
+/* ============================================================
+   Aqobah — Color Tokens
+   Derived from the brand logo: Aqobah sky-blue lettering,
+   the indigo globe, Kaaba gold, and the maroon seal/tagline.
+   ============================================================ */
+
+:root {
+  /* ---- Brand: Aqobah Blue (primary) -------------------- */
+  --blue-50:  #E7F5FC;
+  --blue-100: #C5E8F8;
+  --blue-200: #8FD2F0;
+  --blue-300: #4FB8E8;
+  --blue-400: #1BA1DD;
+  --blue-500: #0593D5;   /* core brand blue (logo lettering) */
+  --blue-600: #0479B0;
+  --blue-700: #045F8A;
+  --blue-800: #064A6C;
+  --blue-900: #073B56;
+
+  /* ---- Brand: Globe Indigo (deep trust / depth) -------- */
+  --indigo-300: #6E86C0;
+  --indigo-400: #4660A0;
+  --indigo-500: #2C4A8E;   /* deep globe blue */
+  --indigo-600: #233C75;
+  --indigo-700: #1B2E5A;
+  --indigo-800: #142242;
+
+  /* ---- Brand: Kaaba Gold (premium accent) -------------- */
+  --gold-50:  #FEF6E4;
+  --gold-100: #FCE9BC;
+  --gold-200: #FAD683;
+  --gold-300: #FCB017;   /* Kaaba gold */
+  --gold-400: #E89C00;
+  --gold-500: #C98400;
+  --gold-600: #A06800;
+
+  /* ---- Brand: Maroon Seal (heritage / accreditation) --- */
+  --maroon-100: #F3DCDD;
+  --maroon-300: #C76A6D;
+  --maroon-500: #A82C30;   /* logo tagline maroon */
+  --maroon-600: #8E2125;
+  --maroon-700: #6E181C;
+
+  /* ---- Neutrals: cool paper → deep navy-ink ------------ */
+  --neutral-0:   #FFFFFF;
+  --neutral-25:  #FBFCFE;
+  --neutral-50:  #F4F7FA;
+  --neutral-100: #EAEFF4;
+  --neutral-200: #D8E0E8;
+  --neutral-300: #BDC8D3;
+  --neutral-400: #95A3B2;
+  --neutral-500: #6B7A8B;
+  --neutral-600: #4D5C6C;
+  --neutral-700: #364555;
+  --neutral-800: #22303F;
+  --neutral-900: #0F1D2B;   /* near-black navy ink */
+
+  /* ---- Semantic status --------------------------------- */
+  --success-500: #1E9E6A;
+  --success-50:  #E4F5EE;
+  --warning-500: #D98A0B;
+  --warning-50:  #FBF0DC;
+  --danger-500:  #C0392B;
+  --danger-50:   #F8E5E2;
+  --info-500:    var(--blue-500);
+  --info-50:     var(--blue-50);
+
+  /* ============================================================
+     SEMANTIC ALIASES — reach for these in components.
+     ============================================================ */
+
+  /* Brand roles */
+  --brand-primary:        var(--blue-500);
+  --brand-primary-hover:  var(--blue-600);
+  --brand-primary-active: var(--blue-700);
+  --brand-deep:           var(--indigo-500);
+  --brand-accent:         var(--gold-300);
+  --brand-accent-deep:    var(--gold-400);
+  --brand-seal:           var(--maroon-500);
+
+  /* Text */
+  --text-primary:    var(--neutral-900);
+  --text-secondary:  var(--neutral-600);
+  --text-muted:      var(--neutral-500);
+  --text-on-brand:   var(--neutral-0);
+  --text-on-accent:  var(--indigo-800);
+  --text-link:       var(--blue-600);
+
+  /* Surfaces */
+  --surface-page:    var(--neutral-50);
+  --surface-card:    var(--neutral-0);
+  --surface-sunken:  var(--neutral-100);
+  --surface-brand:   var(--blue-500);
+  --surface-deep:    var(--indigo-700);
+  --surface-accent-soft: var(--gold-50);
+  --surface-brand-soft:  var(--blue-50);
+
+  /* Borders */
+  --border-subtle:  var(--neutral-200);
+  --border-default: var(--neutral-300);
+  --border-strong:  var(--neutral-400);
+  --border-brand:   var(--blue-500);
+  --border-focus:   var(--blue-400);
+
+  /* Decorative gold hairline (used as premium divider) */
+  --rule-gold: var(--gold-300);
+}

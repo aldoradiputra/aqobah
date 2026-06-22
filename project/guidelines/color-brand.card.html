@@ -1,0 +1,38 @@
+<!-- @dsCard group="Colors" viewport="700x190" name="Brand Palette" subtitle="Aqobah blue, globe indigo, Kaaba gold, maroon seal" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; font-family: var(--font-ui); background: var(--surface-card); color: var(--text-primary); padding: 22px; }
+  .row { display:flex; gap:14px; }
+  .sw { flex:1; border-radius: var(--radius-md); overflow:hidden; box-shadow: var(--shadow-sm); border:1px solid var(--border-subtle); }
+  .chip { height:78px; display:flex; align-items:flex-end; padding:8px 10px; }
+  .meta { padding:8px 10px; background:var(--surface-card); }
+  .name { font-size:12px; font-weight:600; }
+  .hex { font-size:11px; color:var(--text-muted); font-variant-numeric: tabular-nums; }
+  .on-dark { color:#fff; font-size:11px; font-weight:600; }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="sw">
+      <div class="chip" style="background:var(--blue-500)"><span class="on-dark">Primary</span></div>
+      <div class="meta"><div class="name">Aqobah Blue</div><div class="hex">--blue-500 · #0593D5</div></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:var(--indigo-500)"><span class="on-dark">Deep</span></div>
+      <div class="meta"><div class="name">Globe Indigo</div><div class="hex">--indigo-500 · #2C4A8E</div></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:var(--gold-300)"></div>
+      <div class="meta"><div class="name">Kaaba Gold</div><div class="hex">--gold-300 · #FCB017</div></div>
+    </div>
+    <div class="sw">
+      <div class="chip" style="background:var(--maroon-500)"><span class="on-dark">Seal</span></div>
+      <div class="meta"><div class="name">Maroon Seal</div><div class="hex">--maroon-500 · #A82C30</div></div>
+    </div>
+  </div>
+</body>
+</html>

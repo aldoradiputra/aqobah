@@ -1,0 +1,42 @@
+/* ============================================================
+   Aqobah — Typography Tokens
+   Display: Aref Ruqaa  · Body: Lora  · UI: IBM Plex Sans
+   ============================================================ */
+
+:root {
+  /* ---- Families ---------------------------------------- */
+  --font-display: 'Aref Ruqaa', 'Lora', Georgia, serif;
+  --font-body:    'Lora', Georgia, 'Times New Roman', serif;
+  --font-ui:      'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* ---- Weights ----------------------------------------- */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ---- Type scale (1.250 major-third, 16px base) ------- */
+  --text-2xs: 0.6875rem;  /* 11px — micro labels */
+  --text-xs:  0.75rem;    /* 12px — captions, eyebrows */
+  --text-sm:  0.875rem;   /* 14px — UI, meta */
+  --text-base:1rem;       /* 16px — body */
+  --text-md:  1.125rem;   /* 18px — lead body */
+  --text-lg:  1.375rem;   /* 22px — small heading */
+  --text-xl:  1.75rem;    /* 28px */
+  --text-2xl: 2.25rem;    /* 36px */
+  --text-3xl: 2.875rem;   /* 46px */
+  --text-4xl: 3.75rem;    /* 60px — hero display */
+  --text-5xl: 4.75rem;    /* 76px — oversized display */
+
+  /* ---- Line heights ------------------------------------ */
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.72;  /* long-form Lora body */
+
+  /* ---- Letter spacing ---------------------------------- */
+  --tracking-tight:  -0.01em;
+  --tracking-normal: 0;
+  --tracking-wide:   0.04em;
+  --tracking-eyebrow:0.18em;  /* uppercase IBM Plex eyebrows */
+}

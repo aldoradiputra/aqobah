@@ -1,0 +1,9 @@
+/* ============================================================
+   Aqobah — Webfonts
+   Loaded from Google Fonts CDN.
+   Aref Ruqaa  → display / headings (Arabic + Latin, spiritual serif)
+   Lora        → body copy (warm humanist serif)
+   IBM Plex Sans → UI, buttons, labels, data
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');

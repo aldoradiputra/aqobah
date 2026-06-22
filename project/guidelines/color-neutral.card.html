@@ -1,0 +1,30 @@
+<!-- @dsCard group="Colors" viewport="700x150" name="Neutral Ink Scale" subtitle="Cool paper → deep navy ink, 0 → 900" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; font-family: var(--font-ui); background: var(--surface-card); padding: 22px; color:var(--text-primary); }
+  .ramp { display:flex; border-radius: var(--radius-md); overflow:hidden; box-shadow: var(--shadow-sm); border:1px solid var(--border-subtle); }
+  .step { flex:1; height:96px; display:flex; align-items:flex-end; justify-content:center; padding-bottom:8px; font-size:10px; font-weight:600; }
+  .lbl { margin-top:10px; font-size:11px; color:var(--text-muted); text-align:center; }
+</style>
+</head>
+<body>
+  <div class="ramp">
+    <div class="step" style="background:var(--neutral-0);color:#222">0</div>
+    <div class="step" style="background:var(--neutral-50);color:#222">50</div>
+    <div class="step" style="background:var(--neutral-100);color:#222">100</div>
+    <div class="step" style="background:var(--neutral-200);color:#222">200</div>
+    <div class="step" style="background:var(--neutral-300);color:#222">300</div>
+    <div class="step" style="background:var(--neutral-400);color:#fff">400</div>
+    <div class="step" style="background:var(--neutral-500);color:#fff">500</div>
+    <div class="step" style="background:var(--neutral-600);color:#fff">600</div>
+    <div class="step" style="background:var(--neutral-700);color:#fff">700</div>
+    <div class="step" style="background:var(--neutral-800);color:#fff">800</div>
+    <div class="step" style="background:var(--neutral-900);color:#fff">900</div>
+  </div>
+  <div class="lbl">--neutral-0 through --neutral-900 · text uses 900 / 600 / 500</div>
+</body>
+</html>

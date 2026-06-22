@@ -1,0 +1,78 @@
+<!-- @dsCard group="Components" viewport="700x440" name="Core — Buttons, Badges, Card, Input" subtitle="Pill buttons, trust badges, surfaces, fields" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; font-family: var(--font-ui); background: var(--surface-page); padding: 26px; color: var(--text-primary); }
+  .grid { display:flex; flex-direction:column; gap:22px; }
+  .group { display:flex; flex-direction:column; gap:11px; }
+  .cap { font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--text-muted); }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { Button, Badge, Card, Input } = window.AqobahDesignSystem_6897ec;
+  const Ico = ({ name, size=18 }) => {
+    const ref = React.useRef(null);
+    React.useEffect(() => { if (ref.current) { ref.current.innerHTML=''; ref.current.appendChild(lucide.createElement(lucide[name])); const s=ref.current.querySelector('svg'); if(s){s.setAttribute('width',size);s.setAttribute('height',size);} } });
+    return <span ref={ref} style={{display:'flex'}} />;
+  };
+
+  function Demo() {
+    return (
+      <div className="grid">
+        <div className="group">
+          <div className="cap">Buttons</div>
+          <div className="row">
+            <Button variant="primary">Daftar Sekarang</Button>
+            <Button variant="accent" iconRight={<Ico name="ArrowRight" />}>Lihat Paket</Button>
+            <Button variant="secondary">Hubungi Kami</Button>
+            <Button variant="seal">Verifikasi Izin</Button>
+            <Button variant="ghost">Selengkapnya</Button>
+          </div>
+          <div className="row">
+            <Button size="sm" variant="primary">Small</Button>
+            <Button size="md" variant="primary">Medium</Button>
+            <Button size="lg" variant="primary">Large</Button>
+            <Button variant="primary" disabled>Disabled</Button>
+          </div>
+        </div>
+
+        <div className="group">
+          <div className="cap">Badges</div>
+          <div className="row">
+            <Badge variant="seal">PIHK 610</Badge>
+            <Badge variant="brand">PPIU 579</Badge>
+            <Badge variant="accent" soft={false}>VIP</Badge>
+            <Badge variant="success">Tersedia</Badge>
+            <Badge variant="warning">Sisa 4 Kursi</Badge>
+            <Badge variant="neutral">Reguler</Badge>
+          </div>
+        </div>
+
+        <div className="row" style={{alignItems:'stretch', gap:'18px'}}>
+          <Card elevation="md" padding="md" goldTop style={{flex:1}}>
+            <div className="cap" style={{marginBottom:8}}>Featured Card</div>
+            <div style={{fontFamily:'var(--font-display)', fontSize:'1.4rem'}}>Umroh Private</div>
+            <p style={{fontFamily:'var(--font-body)', color:'var(--text-secondary)', margin:'6px 0 0', fontSize:14}}>Layanan eksklusif dengan pendamping pribadi.</p>
+          </Card>
+          <div style={{flex:1}}>
+            <Input label="No. WhatsApp" iconLeft={<Ico name="Phone" size={16} />} placeholder="+62..." hint="Aktif untuk konfirmasi" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>

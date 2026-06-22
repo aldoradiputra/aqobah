@@ -1,0 +1,24 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Radii & Elevation" subtitle="Corner radii and the soft shadow ramp" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin:0; font-family: var(--font-ui); background: var(--surface-page); padding: 26px 28px; color:var(--text-primary); }
+  .row { display:flex; gap:22px; align-items:center; }
+  .item { display:flex; flex-direction:column; align-items:center; gap:9px; }
+  .tile { width:78px; height:60px; background:var(--surface-card); border:1px solid var(--border-subtle); }
+  .tok { font-size:10px; color:var(--text-muted); }
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="item"><div class="tile" style="border-radius:var(--radius-sm);box-shadow:var(--shadow-xs)"></div><div class="tok">sm · xs</div></div>
+    <div class="item"><div class="tile" style="border-radius:var(--radius-md);box-shadow:var(--shadow-sm)"></div><div class="tok">md · sm</div></div>
+    <div class="item"><div class="tile" style="border-radius:var(--radius-lg);box-shadow:var(--shadow-md)"></div><div class="tok">lg · md</div></div>
+    <div class="item"><div class="tile" style="border-radius:var(--radius-xl);box-shadow:var(--shadow-lg)"></div><div class="tok">xl · lg</div></div>
+    <div class="item"><div class="tile" style="border-radius:var(--radius-pill);box-shadow:var(--shadow-brand);width:100px"></div><div class="tok">pill · brand glow</div></div>
+  </div>
+</body>
+</html>

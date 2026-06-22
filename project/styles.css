@@ -1,0 +1,10 @@
+/* ============================================================
+   Aqobah Design System — global entry point.
+   Consumers link THIS file only. Import order matters:
+   fonts → tokens → (theme primitives live in tokens).
+   ============================================================ */
+
+@import url('./tokens/fonts.css');
+@import url('./tokens/colors.css');
+@import url('./tokens/typography.css');
+@import url('./tokens/spacing.css');

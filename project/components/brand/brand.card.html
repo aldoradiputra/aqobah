@@ -1,0 +1,50 @@
+<!-- @dsCard group="Components" viewport="700x520" name="Brand — Headings, Stats, Package" subtitle="Section header, track-record stats, package card" -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body { margin:0; font-family: var(--font-ui); background: var(--surface-page); padding: 26px; color: var(--text-primary); }
+  .wrap { display:flex; flex-direction:column; gap:24px; }
+  .statband { background: var(--surface-deep); border-radius: var(--radius-lg); padding: 24px 28px; display:flex; gap:40px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+  const { SectionHeading, StatBlock, PackageCard } = window.AqobahDesignSystem_6897ec;
+  function Demo() {
+    return (
+      <div className="wrap">
+        <SectionHeading
+          eyebrow="Tentang Kami"
+          title="Santun & Amanah sejak 2011"
+          subtitle="16 tahun melayani lebih dari 10.000 jamaah haji & umrah dengan Akreditasi A."
+        />
+        <div className="statband">
+          <StatBlock value="16 Thn" label="Pengalaman beroperasi" onDark />
+          <StatBlock value="10.000+" label="Jamaah & wisatawan" onDark />
+          <StatBlock value="40" label="Mitra & cabang" onDark />
+          <StatBlock value="4.8/5.0" label="Penilaian pelanggan" onDark />
+        </div>
+        <div style={{ maxWidth: 360 }}>
+          <PackageCard
+            title="Umroh Reguler 12 Hari"
+            badge={{ label: 'Best Seller', variant: 'accent' }}
+            duration="12 Hari" departure="Jakarta" hotelStars={5}
+            facilities={['Hotel dekat Masjidil Haram', 'Pembimbing bersertifikat', 'Maskapai penerbangan resmi']}
+            price="Rp 28.900.000" rating="4.9"
+          />
+        </div>
+      </div>
+    );
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<Demo />);
+</script>
+</body>
+</html>
