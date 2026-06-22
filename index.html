@@ -1,0 +1,790 @@
+<!-- @dsCard group="Website" viewport="1280x760" name="Aqobah Marketing Website" subtitle="Hero, packages, booking — Supabase connected" -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aqobah Travel — Haji &amp; Umroh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Blue */
+  --blue-50:#E7F5FC; --blue-100:#C5E8F8; --blue-200:#8FD2F0;
+  --blue-300:#4FB8E8; --blue-400:#1BA1DD; --blue-500:#0593D5;
+  --blue-600:#0479B0; --blue-700:#045F8A; --blue-800:#064A6C; --blue-900:#073B56;
+  /* Indigo */
+  --indigo-300:#6E86C0; --indigo-400:#4660A0; --indigo-500:#2C4A8E;
+  --indigo-600:#233C75; --indigo-700:#1B2E5A; --indigo-800:#142242;
+  /* Gold */
+  --gold-50:#FEF6E4; --gold-100:#FCE9BC; --gold-200:#FAD683;
+  --gold-300:#FCB017; --gold-400:#E89C00; --gold-500:#C98400; --gold-600:#A06800;
+  /* Maroon */
+  --maroon-100:#F3DCDD; --maroon-300:#C76A6D; --maroon-500:#A82C30;
+  --maroon-600:#8E2125; --maroon-700:#6E181C;
+  /* Neutrals */
+  --neutral-0:#FFFFFF; --neutral-25:#FBFCFE; --neutral-50:#F4F7FA;
+  --neutral-100:#EAEFF4; --neutral-200:#D8E0E8; --neutral-300:#BDC8D3;
+  --neutral-400:#95A3B2; --neutral-500:#6B7A8B; --neutral-600:#4D5C6C;
+  --neutral-700:#364555; --neutral-800:#22303F; --neutral-900:#0F1D2B;
+  /* Status */
+  --success-50:#E4F5EE; --success-500:#1E9E6A;
+  --warning-50:#FBF0DC; --warning-500:#D98A0B;
+  --danger-50:#F8E5E2; --danger-500:#C0392B;
+  /* Semantic */
+  --brand-primary:var(--blue-500);
+  --brand-deep:var(--indigo-500);
+  --brand-accent:var(--gold-300);
+  --brand-seal:var(--maroon-500);
+  --text-primary:var(--neutral-900);
+  --text-secondary:var(--neutral-600);
+  --text-muted:var(--neutral-500);
+  --surface-page:var(--neutral-25);
+  --surface-card:var(--neutral-0);
+  --surface-sunken:var(--neutral-100);
+  --surface-deep:var(--indigo-700);
+  --surface-brand-soft:var(--blue-50);
+  --surface-accent-soft:var(--gold-50);
+  --border-subtle:var(--neutral-200);
+  --border-default:var(--neutral-300);
+  /* Typography */
+  --font-display:'Aref Ruqaa','Lora',Georgia,serif;
+  --font-body:'Lora',Georgia,serif;
+  --font-ui:'IBM Plex Sans',system-ui,sans-serif;
+  --text-xs:0.75rem; --text-sm:0.875rem; --text-base:1rem;
+  --text-md:1.125rem; --text-lg:1.375rem; --text-xl:1.65rem;
+  --text-2xl:2rem; --text-3xl:2.5rem; --text-4xl:3.25rem; --text-5xl:4.75rem;
+  --tracking-eyebrow:0.14em;
+  /* Spacing */
+  --space-1:0.25rem; --space-2:0.5rem; --space-3:0.75rem; --space-4:1rem;
+  --space-5:1.5rem; --space-6:2rem; --space-7:2.5rem; --space-8:3rem;
+  --space-9:4rem; --space-10:5rem; --space-12:7rem;
+  /* Radii */
+  --radius-xs:4px; --radius-sm:8px; --radius-md:12px;
+  --radius-lg:18px; --radius-xl:26px; --radius-pill:999px;
+  /* Shadows */
+  --shadow-xs:0 1px 2px rgba(15,29,43,0.06);
+  --shadow-sm:0 2px 6px rgba(15,29,43,0.07);
+  --shadow-md:0 8px 20px -6px rgba(15,29,43,0.12);
+  --shadow-lg:0 18px 44px -12px rgba(15,29,43,0.18);
+  --shadow-xl:0 30px 70px -20px rgba(20,34,66,0.28);
+  /* Layout */
+  --container-sm:640px; --container-md:860px;
+  --container-lg:1120px; --container-xl:1320px;
+  /* Motion */
+  --ease-out:cubic-bezier(0.22,1,0.36,1);
+  --dur-fast:140ms; --dur-base:240ms; --dur-slow:420ms;
+}
+
+html, body { height: 100%; }
+body { background: var(--surface-page); font-family: var(--font-ui); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
+#root { min-height: 100%; }
+a { text-decoration: none; }
+button { font-family: var(--font-ui); cursor: pointer; }
+button:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
+img { display: block; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect, useRef } = React;
+
+/* ══════════════════════════════════════════════════════════════
+   SUPABASE CONFIG
+   Fill these in after running supabase/migrations/001_create_products.sql
+   ══════════════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://asztgumnilpjdxpizkzn.supabase.co';       // e.g. https://xyzxyz.supabase.co
+const SUPABASE_ANON_KEY = 'sb_publishable_eSriyphjQxKP3rNxNwmpOg_w5K1R_1j';  // your project's anon public key
+
+/* ══════════════════════════════════════════════════════════════
+   FALLBACK DATA — used when Supabase is not yet configured
+   ══════════════════════════════════════════════════════════════ */
+const FALLBACK_PACKAGES = [
+  { id:'reg12', title:'Umroh Reguler 12 Hari', image:'kaaba',  badge:{label:'Best Seller',variant:'accent'}, duration:'12 Hari', departure:'Jakarta',           hotelStars:4, facilities:['Hotel ⭐4 dekat Masjidil Haram','Pembimbing bersertifikat','Maskapai resmi PP'], price:'Rp 28.900.000', rating:'4.9', unit:'Umrah' },
+  { id:'priv9', title:'Umroh Private 9 Hari',  image:'madinah', badge:{label:'VIP',variant:'seal'},          duration:'9 Hari',  departure:'Jakarta · Surabaya', hotelStars:5, facilities:['Hotel ⭐5 view Haram','Muthawif pribadi','Itinerary fleksibel'],             price:'Rp 47.500.000', rating:'5.0', unit:'Umrah' },
+  { id:'haji',  title:'Haji Khusus 1447 H',    image:'group',  badge:{label:'Kuota Resmi',variant:'success'}, duration:'26 Hari', departure:'Jakarta',           hotelStars:5, facilities:['Tenda VIP Arafah–Mina','Bimbingan manasik penuh','Kuota PIHK resmi'],        price:'Rp 198.000.000', rating:'4.8', unit:'Haji Khusus' },
+  { id:'turki', title:'Wisata Halal Turki',     image:'hero',   badge:{label:'Best Value',variant:'brand'},    duration:'10 Hari', departure:'Jakarta',           hotelStars:4, facilities:['Hotel bintang 4','Tour guide muslim-friendly','Kunjungan masjid bersejarah'], price:'Rp 32.000.000',  rating:'4.7', unit:'Wisata Halal' },
+];
+
+const IMG_MAP = {
+  kaaba:'/assets/img-kaaba.jpg', madinah:'/assets/img-madinah.jpg',
+  group:'/assets/img-group.jpg', arafah:'/assets/img-arafah.jpg',
+  hero:'/assets/img-hero-makkah.jpg',
+};
+const imgSrc = key => (!key || key.includes('/') || key.startsWith('http')) ? (key || IMG_MAP.kaaba) : (IMG_MAP[key] || IMG_MAP.kaaba);
+
+function normalizeProduct(row) {
+  return {
+    id: row.id, title: row.name, image: row.image_key || 'kaaba',
+    badge: { label: row.badge_label, variant: row.badge_variant || 'accent' },
+    duration: row.duration || '—', departure: row.departure || 'Jakarta',
+    hotelStars: row.hotel_stars || 4,
+    facilities: Array.isArray(row.facilities) ? row.facilities : [],
+    price: row.price_display || '—', rating: row.rating ? String(row.rating) : '4.8',
+    unit: row.unit, sold: row.sold || 0, cap: row.cap || 20, tone: row.tone || 'blue',
+  };
+}
+
+async function fetchProducts() {
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY) return null;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&is_published=eq.true&order=sort_order.asc`, {
+    headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}` }
+  });
+  if (!res.ok) throw new Error('Supabase error');
+  return (await res.json()).map(normalizeProduct);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   ICON HELPER
+   ══════════════════════════════════════════════════════════════ */
+function Ico({ name, size=20, color, strokeWidth=1.8 }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!ref.current || !window.lucide || !lucide[name]) return;
+    ref.current.innerHTML = '';
+    const el = lucide.createElement(lucide[name]);
+    ref.current.appendChild(el);
+    const s = ref.current.querySelector('svg');
+    if (s) { s.setAttribute('width',size); s.setAttribute('height',size); s.setAttribute('stroke-width',strokeWidth); if (color) s.setAttribute('stroke',color); }
+  });
+  return <span ref={ref} style={{ display:'flex', flexShrink:0 }} />;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   DESIGN SYSTEM COMPONENTS
+   ══════════════════════════════════════════════════════════════ */
+function Button({ variant='primary', size='md', onClick, children, fullWidth, style }) {
+  const V = {
+    primary:   { background:'var(--brand-primary)', color:'#fff', border:'none' },
+    secondary: { background:'var(--surface-card)', color:'var(--text-primary)', border:'1.5px solid var(--border-default)' },
+    accent:    { background:'var(--gold-300)', color:'var(--indigo-800)', border:'none' },
+    seal:      { background:'var(--maroon-500)', color:'#fff', border:'none' },
+    ghost:     { background:'transparent', color:'var(--text-secondary)', border:'1.5px solid var(--border-subtle)' },
+  };
+  const S = { sm:{ padding:'7px 16px', fontSize:'0.8125rem' }, md:{ padding:'10px 20px', fontSize:'0.875rem' }, lg:{ padding:'13px 28px', fontSize:'1rem' } };
+  return <button onClick={onClick} style={{ fontFamily:'var(--font-ui)', fontWeight:600, borderRadius:'var(--radius-pill)', cursor:'pointer', display:'inline-flex', alignItems:'center', justifyContent:'center', gap:6, transition:'all var(--dur-base) var(--ease-out)', width:fullWidth?'100%':'auto', ...V[variant], ...S[size], ...style }}>{children}</button>;
+}
+
+function Badge({ variant='accent', soft=true, children }) {
+  const M = {
+    accent:  soft ? ['var(--gold-50)','var(--gold-600)']    : ['var(--gold-300)','var(--indigo-800)'],
+    seal:    soft ? ['var(--maroon-100)','var(--maroon-600)'] : ['var(--maroon-500)','#fff'],
+    success: soft ? ['var(--success-50)','var(--success-500)'] : ['var(--success-500)','#fff'],
+    brand:   soft ? ['var(--blue-50)','var(--blue-700)']    : ['var(--brand-primary)','#fff'],
+  };
+  const [bg,fg] = M[variant] || M.accent;
+  return <span style={{ display:'inline-block', padding:'4px 11px', borderRadius:'var(--radius-pill)', background:bg, color:fg, fontSize:12, fontWeight:700, whiteSpace:'nowrap', letterSpacing:'0.02em' }}>{children}</span>;
+}
+
+function SectionHeading({ eyebrow, title, subtitle, align='left', onDark }) {
+  return (
+    <div style={{ textAlign:align }}>
+      {eyebrow && <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.75rem', fontWeight:700, letterSpacing:'var(--tracking-eyebrow)', textTransform:'uppercase', color:onDark?'var(--gold-300)':'var(--brand-primary)', marginBottom:10 }}>{eyebrow}</div>}
+      <h2 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-3xl)', lineHeight:1.1, color:onDark?'#fff':'var(--text-primary)', margin:0 }}>{title}</h2>
+      {subtitle && <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-base)', lineHeight:1.75, color:onDark?'rgba(255,255,255,0.8)':'var(--text-secondary)', margin:'12px 0 0' }}>{subtitle}</p>}
+    </div>
+  );
+}
+
+function StatBlock({ value, label, onDark }) {
+  return (
+    <div>
+      <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-2xl)', color:onDark?'#fff':'var(--text-primary)', lineHeight:1 }}>{value}</div>
+      <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.8125rem', color:onDark?'rgba(255,255,255,0.75)':'var(--text-secondary)', marginTop:4 }}>{label}</div>
+    </div>
+  );
+}
+
+function Card({ elevation='sm', padding='md', goldTop, interactive, children, style }) {
+  const shadows = { sm:'var(--shadow-sm)', md:'var(--shadow-md)', lg:'var(--shadow-lg)' };
+  const pads    = { sm:16, md:20, lg:28 };
+  return (
+    <div
+      style={{ background:'var(--surface-card)', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-lg)', boxShadow:shadows[elevation]||shadows.sm, padding:pads[padding]||pads.md, borderTop:goldTop?'3px solid var(--gold-300)':undefined, cursor:interactive?'pointer':undefined, transition:interactive?'box-shadow var(--dur-base) var(--ease-out),transform var(--dur-base) var(--ease-out)':undefined, ...style }}
+      onMouseEnter={interactive?e=>{e.currentTarget.style.boxShadow='var(--shadow-md)';e.currentTarget.style.transform='translateY(-2px)';}:undefined}
+      onMouseLeave={interactive?e=>{e.currentTarget.style.boxShadow=shadows[elevation]||shadows.sm;e.currentTarget.style.transform='none';}:undefined}
+    >{children}</div>
+  );
+}
+
+function Input({ label, placeholder, hint, type='text' }) {
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+      {label && <label style={{ fontFamily:'var(--font-ui)', fontSize:'0.8125rem', fontWeight:600, color:'var(--text-primary)' }}>{label}</label>}
+      <input type={type} placeholder={placeholder} style={{ fontFamily:'var(--font-ui)', fontSize:'0.875rem', padding:'10px 14px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', background:'var(--surface-card)', color:'var(--text-primary)', outline:'none', width:'100%' }}
+        onFocus={e=>e.target.style.borderColor='var(--brand-primary)'} onBlur={e=>e.target.style.borderColor='var(--border-default)'}
+      />
+      {hint && <span style={{ fontFamily:'var(--font-ui)', fontSize:'0.75rem', color:'var(--text-muted)' }}>{hint}</span>}
+    </div>
+  );
+}
+
+function PackageCard({ title, image, badge, duration, departure, hotelStars, facilities, price, rating, onSelect }) {
+  return (
+    <div onClick={onSelect} style={{ background:'var(--surface-card)', borderRadius:'var(--radius-xl)', overflow:'hidden', border:'1px solid var(--border-subtle)', boxShadow:'var(--shadow-sm)', cursor:'pointer', transition:'transform var(--dur-base) var(--ease-out),box-shadow var(--dur-base) var(--ease-out)', display:'flex', flexDirection:'column' }}
+      onMouseEnter={e=>{e.currentTarget.style.transform='translateY(-4px)';e.currentTarget.style.boxShadow='var(--shadow-lg)';}}
+      onMouseLeave={e=>{e.currentTarget.style.transform='none';e.currentTarget.style.boxShadow='var(--shadow-sm)';}}>
+      <div style={{ position:'relative', height:200, overflow:'hidden', flexShrink:0 }}>
+        <img src={imgSrc(image)} alt={title} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+        <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,transparent 50%,rgba(15,29,43,0.35) 100%)' }} />
+        {badge?.label && <span style={{ position:'absolute', top:12, left:12 }}><Badge variant={badge.variant||'accent'} soft={false}>{badge.label}</Badge></span>}
+      </div>
+      <div style={{ padding:20, display:'flex', flexDirection:'column', gap:10, flex:1 }}>
+        <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.1rem', margin:0, color:'var(--text-primary)', lineHeight:1.25 }}>{title}</h3>
+        <div style={{ display:'flex', gap:14, fontFamily:'var(--font-ui)', fontSize:'0.8rem', color:'var(--text-muted)', flexWrap:'wrap' }}>
+          <span>🕒 {duration}</span><span>✈ {departure}</span>
+          <span style={{ color:'var(--gold-400)' }}>{'★'.repeat(hotelStars)}</span>
+        </div>
+        <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:5, flex:1 }}>
+          {(facilities||[]).slice(0,3).map((f,i)=>(
+            <li key={i} style={{ fontFamily:'var(--font-body)', fontSize:'0.8125rem', color:'var(--text-secondary)', display:'flex', gap:7, alignItems:'flex-start' }}>
+              <span style={{ color:'var(--success-500)', marginTop:1, flexShrink:0 }}>✓</span>{f}
+            </li>
+          ))}
+        </ul>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', paddingTop:12, borderTop:'1px solid var(--border-subtle)', marginTop:'auto' }}>
+          <div>
+            <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.2rem', color:'var(--brand-seal)', lineHeight:1 }}>{price}</div>
+            <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.75rem', color:'var(--text-muted)', marginTop:3 }}>★ {rating} · per jamaah</div>
+          </div>
+          <button onClick={e=>{e.stopPropagation();onSelect&&onSelect();}} style={{ background:'var(--brand-primary)', color:'#fff', border:'none', padding:'9px 16px', borderRadius:'var(--radius-pill)', fontFamily:'var(--font-ui)', fontWeight:600, fontSize:'0.8rem', cursor:'pointer' }}>Lihat Detail</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PricingTier({ price, usd, occupancy, featured }) {
+  return (
+    <div style={{ textAlign:'center', padding:'20px 14px', borderRadius:'var(--radius-lg)', background:featured?'var(--brand-primary)':'var(--surface-sunken)', border:'1.5px solid', borderColor:featured?'var(--brand-primary)':'var(--border-subtle)', color:featured?'#fff':'var(--text-primary)', transform:featured?'scale(1.07)':'none', boxShadow:featured?'var(--shadow-md)':'none' }}>
+      <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.7rem', fontWeight:700, letterSpacing:'0.14em', textTransform:'uppercase', color:featured?'rgba(255,255,255,0.75)':'var(--text-muted)', marginBottom:10 }}>{occupancy}</div>
+      <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.5rem', lineHeight:1 }}>Rp {price} Jt</div>
+      <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.8125rem', color:featured?'rgba(255,255,255,0.8)':'var(--text-secondary)', marginTop:5 }}>{usd}</div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CHROME — HEADER & FOOTER
+   ══════════════════════════════════════════════════════════════ */
+function SiteHeader({ onNav, active }) {
+  const links = [['Beranda','home'],['Haji Khusus','hajj'],['Paket Umroh','packages'],['Layanan & B2B','layanan'],['Kontak','contact']];
+  return (
+    <header style={{ position:'sticky', top:0, zIndex:50, background:'rgba(255,255,255,0.9)', backdropFilter:'blur(14px)', WebkitBackdropFilter:'blur(14px)', borderBottom:'1px solid var(--border-subtle)', boxShadow:'var(--shadow-xs)' }}>
+      <div style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'0 var(--space-6)', height:74, display:'flex', alignItems:'center', gap:'var(--space-5)' }}>
+        <a onClick={()=>onNav('home')} style={{ display:'flex', alignItems:'center', gap:10, cursor:'pointer' }}>
+          <img src="/assets/mark-globe.png" alt="Aqobah" style={{ height:40 }} />
+          <span style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.5rem', color:'var(--brand-primary)', letterSpacing:'0.01em' }}>AQOBAH</span>
+        </a>
+        <nav style={{ display:'flex', gap:4, marginLeft:'var(--space-5)', flex:1 }}>
+          {links.map(([label,key])=>(
+            <a key={key} onClick={()=>onNav(key)} style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', fontWeight:active===key?600:500, color:active===key?'var(--brand-primary)':'var(--text-secondary)', cursor:'pointer', padding:'8px 14px', borderRadius:'var(--radius-pill)', background:active===key?'var(--surface-brand-soft)':'transparent', transition:'all var(--dur-base) var(--ease-out)' }}>{label}</a>
+          ))}
+        </nav>
+        <div style={{ display:'flex', gap:10, alignItems:'center' }}>
+          <span style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', fontWeight:600, color:'var(--text-secondary)', whiteSpace:'nowrap' }}>+62 811-1805-330</span>
+          <Button variant="primary" size="sm" onClick={()=>onNav('contact')}>Konsultasi Gratis</Button>
+        </div>
+      </div>
+    </header>
+  );
+}
+
+function SiteFooter({ onNav }) {
+  const cols = [
+    ['Layanan',    ['Umroh Reguler','Umroh Private','Haji Khusus','Provider Visa']],
+    ['Perusahaan', ['Tentang Kami','Legalitas & Izin','Mitra & Cabang','Karier']],
+    ['Bantuan',    ['Hubungi Kami','Pertanyaan Umum','Jadwal Keberangkatan','Panduan Manasik']],
+  ];
+  return (
+    <footer style={{ background:'var(--surface-deep)', color:'rgba(255,255,255,0.82)', marginTop:'var(--space-12)' }}>
+      <div style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-9) var(--space-6) var(--space-6)' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'1.5fr 1fr 1fr 1fr', gap:'var(--space-7)' }}>
+          <div>
+            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14 }}>
+              <img src="/assets/mark-globe.png" alt="Aqobah" style={{ height:38 }} />
+              <span style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.4rem', color:'#fff' }}>AQOBAH</span>
+            </div>
+            <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-sm)', lineHeight:1.75, maxWidth:'34ch', margin:'0 0 16px', color:'rgba(255,255,255,0.75)' }}>Penyelenggara Ibadah Haji Khusus &amp; Umrah. Santun &amp; Amanah sejak 2011 — Akreditasi A.</p>
+            <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+              {['PIHK 610','PPIU 579'].map(t=>(<span key={t} style={{ fontFamily:'var(--font-ui)', fontSize:11, fontWeight:600, padding:'5px 11px', borderRadius:'var(--radius-pill)', background:'rgba(255,255,255,0.1)' }}>{t}</span>))}
+              <span style={{ fontFamily:'var(--font-ui)', fontSize:11, fontWeight:700, padding:'5px 11px', borderRadius:'var(--radius-pill)', background:'var(--gold-300)', color:'var(--indigo-800)' }}>Akreditasi A</span>
+            </div>
+          </div>
+          {cols.map(([h,items])=>(
+            <div key={h}>
+              <div style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-xs)', fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', color:'var(--gold-300)', marginBottom:14 }}>{h}</div>
+              <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:10 }}>
+                {items.map(it=>(<li key={it}><a onClick={()=>onNav('packages')} style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', color:'rgba(255,255,255,0.75)', cursor:'pointer' }}>{it}</a></li>))}
+              </ul>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop:'var(--space-7)', paddingTop:'var(--space-5)', borderTop:'1px solid rgba(255,255,255,0.12)', display:'flex', justifyContent:'space-between', fontFamily:'var(--font-ui)', fontSize:'var(--text-xs)', color:'rgba(255,255,255,0.55)' }}>
+          <span>© 2026 PT. IBS Buana Sejahtera · Tangerang Selatan</span>
+          <span>info@aqobah.com · #SantunAmanah</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HOME SCREEN
+   ══════════════════════════════════════════════════════════════ */
+function HomeScreen({ onNav, onSelectPackage }) {
+  const [packages, setPackages] = useState(FALLBACK_PACKAGES);
+  const [loading, setLoading] = useState(!!SUPABASE_URL);
+
+  useEffect(() => {
+    if (!SUPABASE_URL) return;
+    fetchProducts()
+      .then(pkgs => { if (pkgs && pkgs.length) setPackages(pkgs); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  return (
+    <div>
+      {/* HERO */}
+      <section style={{ position:'relative', overflow:'hidden', background:'var(--surface-deep)', minHeight:540, display:'flex', alignItems:'center' }}>
+        <img src="/assets/img-hero-makkah.jpg" alt="" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', opacity:0.5 }} />
+        <div style={{ position:'absolute', inset:0, background:'linear-gradient(100deg,rgba(15,29,43,0.92) 0%,rgba(20,34,66,0.7) 55%,rgba(20,34,66,0.2) 100%)' }} />
+        <div style={{ position:'relative', maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-12) var(--space-6)', width:'100%' }}>
+          <div style={{ maxWidth:640, display:'flex', flexDirection:'column', gap:'var(--space-5)' }}>
+            <span style={{ display:'inline-flex', alignItems:'center', gap:10, fontFamily:'var(--font-ui)', fontSize:'var(--text-xs)', fontWeight:600, letterSpacing:'var(--tracking-eyebrow)', textTransform:'uppercase', color:'var(--gold-300)' }}>
+              <span style={{ width:22, height:2, background:'var(--gold-300)', borderRadius:2 }} />Penyelenggara Resmi · Akreditasi A
+            </span>
+            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-4xl)', lineHeight:1.08, color:'#fff', margin:0 }}>Ibadah yang Santun &amp; Amanah, ke Tanah Suci</h1>
+            <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-md)', lineHeight:1.75, color:'rgba(255,255,255,0.86)', margin:0, maxWidth:'52ch' }}>16 tahun mendampingi lebih dari 10.000 jamaah haji &amp; umrah — dari rombongan besar hingga tamu VIP dengan permintaan khusus.</p>
+            <div style={{ display:'flex', gap:12, marginTop:4, flexWrap:'wrap' }}>
+              <Button variant="accent" size="lg" onClick={()=>onNav('packages')}>Lihat Paket Umroh</Button>
+              <Button variant="secondary" size="lg" onClick={()=>onNav('contact')} style={{ background:'rgba(255,255,255,0.1)', color:'#fff', borderColor:'rgba(255,255,255,0.3)' }}>Konsultasi via WhatsApp</Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* STAT BAND */}
+      <section style={{ background:'var(--brand-primary)' }}>
+        <div style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-6)', display:'flex', gap:'var(--space-9)', flexWrap:'wrap' }}>
+          <StatBlock value="16 Thn"  label="Pengalaman beroperasi" onDark />
+          <StatBlock value="10.000+" label="Jamaah & wisatawan"    onDark />
+          <StatBlock value="40"      label="Mitra & cabang"        onDark />
+          <StatBlock value="4.8/5.0" label="Penilaian pelanggan"   onDark />
+        </div>
+      </section>
+
+      {/* PACKAGES */}
+      <section style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <SectionHeading eyebrow="Paket Pilihan" title="Berangkat dengan tenang, setiap pekan" subtitle="Pilihan paket umrah dan haji khusus dengan hotel dekat Masjidil Haram dan pembimbing bersertifikat." align="center" />
+        {loading ? (
+          <div style={{ textAlign:'center', padding:'var(--space-8)', color:'var(--text-muted)', fontFamily:'var(--font-ui)' }}>Memuat paket…</div>
+        ) : (
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:'var(--space-5)', marginTop:'var(--space-7)' }}>
+            {packages.map(p=>(<PackageCard key={p.id} {...p} onSelect={()=>onSelectPackage(p)} />))}
+          </div>
+        )}
+      </section>
+
+      {/* PROMISE */}
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <div style={{ background:'var(--surface-accent-soft)', borderRadius:'var(--radius-xl)', padding:'var(--space-8)', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-7)', alignItems:'center' }}>
+          <SectionHeading eyebrow="Komitmen Kami" title="#SantunAmanah dalam setiap langkah" subtitle="Dari pengurusan visa hingga bimbingan manasik, kami memastikan ibadah Anda bermakna dan penuh kebahagiaan." />
+          <ul style={{ listStyle:'none', margin:0, padding:0, display:'flex', flexDirection:'column', gap:14 }}>
+            {['Izin resmi PIHK 610 & PPIU 579','Pembimbing ibadah bersertifikat','Hotel berjarak dekat dari Haram','Pendampingan tamu VIP & big group'].map(t=>(
+              <li key={t} style={{ display:'flex', gap:12, alignItems:'center', fontFamily:'var(--font-body)', fontSize:'var(--text-md)', color:'var(--text-primary)' }}>
+                <span style={{ flex:'none', width:28, height:28, borderRadius:'50%', background:'var(--gold-300)', color:'var(--indigo-800)', display:'flex', alignItems:'center', justifyContent:'center', fontWeight:700 }}>✓</span>{t}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <div style={{ background:'var(--surface-deep)', borderRadius:'var(--radius-xl)', padding:'var(--space-8)', textAlign:'center', display:'flex', flexDirection:'column', alignItems:'center', gap:20, position:'relative', overflow:'hidden' }}>
+          <div style={{ position:'absolute', inset:0, background:'radial-gradient(100% 120% at 80% 0%,rgba(252,176,23,0.15),transparent)' }} />
+          <h2 style={{ position:'relative', fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-2xl)', color:'#fff', margin:0 }}>Siap berangkat ke tanah suci?</h2>
+          <p style={{ position:'relative', fontFamily:'var(--font-body)', color:'rgba(255,255,255,0.8)', margin:0 }}>Konsultasi gratis: <strong style={{ color:'var(--gold-300)' }}>+62 811-1805-330</strong></p>
+          <div style={{ position:'relative', display:'flex', gap:10 }}>
+            <Button variant="accent" size="lg" onClick={()=>onNav('contact')}>Konsultasi Gratis</Button>
+            <Button variant="ghost" size="lg" style={{ color:'rgba(255,255,255,0.8)', borderColor:'rgba(255,255,255,0.25)' }} onClick={()=>onNav('hajj')}>Haji Khusus</Button>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PACKAGE DETAIL
+   ══════════════════════════════════════════════════════════════ */
+function PackageDetail({ pkg, onNav }) {
+  const [submitted, setSubmitted] = useState(false);
+  const p = pkg || FALLBACK_PACKAGES[0];
+  const allFacilities = [...(p.facilities||[]), 'Air Zamzam 5 liter','Perlengkapan ibadah','Asuransi perjalanan','Manasik sebelum berangkat'];
+  return (
+    <div style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-7) var(--space-6) 0' }}>
+      <a onClick={()=>onNav('home')} style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', fontWeight:600, color:'var(--text-secondary)', cursor:'pointer', display:'inline-flex', gap:6, alignItems:'center', marginBottom:'var(--space-5)' }}>← Kembali ke Beranda</a>
+      <div style={{ display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:'var(--space-7)', alignItems:'start' }}>
+        <div>
+          <div style={{ position:'relative', borderRadius:'var(--radius-xl)', overflow:'hidden', height:360, boxShadow:'var(--shadow-md)' }}>
+            <img src={imgSrc(p.image)} alt={p.title} style={{ width:'100%', height:'100%', objectFit:'cover' }} />
+            {p.badge?.label && <span style={{ position:'absolute', top:16, left:16 }}><Badge variant={p.badge.variant||'seal'} soft={false}>{p.badge.label}</Badge></span>}
+          </div>
+          <div style={{ marginTop:'var(--space-6)' }}>
+            <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.75rem', fontWeight:700, letterSpacing:'var(--tracking-eyebrow)', textTransform:'uppercase', color:'var(--brand-primary)', marginBottom:8 }}>{p.duration} · {p.departure}</div>
+            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-3xl)', margin:'0 0 10px', lineHeight:1.1 }}>{p.title}</h1>
+            <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-base)', lineHeight:1.75, color:'var(--text-secondary)', margin:0 }}>Program ibadah lengkap dengan bimbingan penuh, akomodasi terbaik, dan pelayanan Santun &amp; Amanah khas Aqobah.</p>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'var(--space-4)', marginTop:'var(--space-6)' }}>
+            {[['Durasi',p.duration],['Keberangkatan',p.departure],['Hotel',`${p.hotelStars} Bintang`]].map(([k,v])=>(
+              <Card key={k} elevation="sm" padding="md">
+                <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.7rem', color:'var(--text-muted)', letterSpacing:'0.06em', textTransform:'uppercase', marginBottom:4 }}>{k}</div>
+                <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-lg)' }}>{v}</div>
+              </Card>
+            ))}
+          </div>
+          <div style={{ marginTop:'var(--space-6)' }}>
+            <h3 style={{ fontFamily:'var(--font-display)', fontSize:'var(--text-xl)', fontWeight:700, margin:'0 0 14px' }}>Fasilitas Termasuk</h3>
+            <ul style={{ listStyle:'none', margin:0, padding:0, display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+              {allFacilities.map((f,i)=>(<li key={i} style={{ display:'flex', gap:10, alignItems:'flex-start', fontFamily:'var(--font-body)', fontSize:'var(--text-base)', color:'var(--text-secondary)' }}><span style={{ color:'var(--success-500)', flexShrink:0, marginTop:2 }}>✓</span>{f}</li>))}
+            </ul>
+          </div>
+        </div>
+        {/* Booking rail */}
+        <div style={{ position:'sticky', top:94 }}>
+          <Card elevation="lg" padding="lg" goldTop>
+            <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.75rem', color:'var(--text-muted)' }}>Mulai dari</div>
+            <div style={{ fontFamily:'var(--font-display)', fontSize:'var(--text-2xl)', fontWeight:700, color:'var(--brand-seal)', lineHeight:1.1, marginTop:2 }}>{p.price}</div>
+            <div style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', color:'var(--text-secondary)', marginTop:3, marginBottom:'var(--space-5)' }}>per jamaah · ★ {p.rating} dari jamaah</div>
+            {submitted ? (
+              <div style={{ background:'var(--success-50)', borderRadius:'var(--radius-md)', padding:'var(--space-5)', textAlign:'center' }}>
+                <div style={{ fontFamily:'var(--font-display)', fontSize:'var(--text-lg)', fontWeight:700, color:'var(--success-500)' }}>Terima kasih!</div>
+                <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-sm)', color:'var(--text-secondary)', margin:'6px 0 0' }}>Tim kami akan menghubungi Anda via WhatsApp dalam 1×24 jam.</p>
+              </div>
+            ) : (
+              <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-4)' }}>
+                <Input label="Nama Lengkap" placeholder="Sesuai paspor" />
+                <Input label="No. WhatsApp" placeholder="+62..." hint="Aktif untuk konfirmasi" />
+                <Button variant="primary" fullWidth size="lg" onClick={()=>setSubmitted(true)}>Daftar Sekarang</Button>
+                <Button variant="seal" fullWidth onClick={()=>setSubmitted(true)}>Tanya via WhatsApp</Button>
+              </div>
+            )}
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   HAJI KHUSUS SCREEN
+   ══════════════════════════════════════════════════════════════ */
+const HAJI_PKGS = {
+  vip:     { name:'VIP',     tagline:'Fasilitas tertinggi, hotel bintang 5 dua kota', hotels:[['Makkah','Swiss Al Maqam',5],['Madinah','Movenpick',5],['Jeddah','Mercure',4]], tiers:[['270','USD 15.500','QUAD'],['288','USD 16.500','TRIPLE'],['306','USD 17.500','DOUBLE']] },
+  premium: { name:'Premium', tagline:'Hotel Makkah bintang 5, nilai terbaik',         hotels:[['Makkah','Anjum',5],['Madinah','Saja',4],['Jeddah','Mercure',4]],              tiers:[['230','USD 13.500','QUAD'],['250','USD 14.500','TRIPLE'],['270','USD 15.500','DOUBLE']] },
+  mabrur:  { name:'Mabrur',  tagline:'Paket hemat, tetap nyaman & lengkap',           hotels:[['Makkah','Ajyad Makarem',4],['Madinah','Grand Plaza',4],['Jeddah','Mercure',4]], tiers:[['190','USD 11.000','QUAD'],['200','USD 12.000','TRIPLE'],['220','USD 13.000','DOUBLE']] },
+};
+const HAJI_FACS = [
+  ['BedDouble','Hotel','Penginapan nyaman berfasilitas lengkap, memastikan kenyamanan selama beribadah.'],
+  ['UserCheck','Muthawif','Pendamping jamaah berpengalaman membimbing sesuai sunnah sepanjang perjalanan.'],
+  ['Crown','Maktab VIP','Layanan eksklusif di maktab dengan fasilitas premium dan layanan khusus.'],
+  ['Stethoscope','Dokter Pribadi','Layanan kesehatan dengan dokter pribadi yang siap menjaga kondisi jamaah.'],
+  ['Plane','Tiket Pesawat','Penerbangan nyaman dan tepat waktu dengan maskapai internasional terbaik.'],
+  ['UtensilsCrossed','Konsumsi','Makanan halal dan bergizi yang mendukung kebutuhan jamaah selama ibadah.'],
+  ['Building2','Apartemen Transit','Apartemen nyaman untuk transit sebelum puncak haji, fasilitas lengkap.'],
+  ['Bus','Bus AC','Transportasi ber-AC untuk kenyamanan perjalanan antara tempat ibadah dan akomodasi.'],
+  ['BookOpenText','Asatidz Pembimbing','Bimbingan ibadah oleh asatidz bersertifikat sepanjang rangkaian manasik.'],
+];
+const ASATIDZ = ['Ustadz Ahmad Najihan Maududi, S.S.I., MA','Ustadz Chairul Anwar','Ustadz Ahmad Masyhuri'];
+
+function HajiKhususScreen({ onNav }) {
+  const [tier, setTier] = useState('vip');
+  const pkg = HAJI_PKGS[tier];
+  return (
+    <div>
+      <section style={{ position:'relative', overflow:'hidden', minHeight:440, display:'flex', alignItems:'center' }}>
+        <img src="/assets/img-arafah.jpg" alt="" style={{ position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover' }} />
+        <div style={{ position:'absolute', inset:0, background:'linear-gradient(180deg,rgba(15,29,43,0.88) 0%,rgba(20,34,66,0.65) 55%,rgba(15,29,43,0.52) 100%)' }} />
+        <div style={{ position:'relative', maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-10) var(--space-6)', width:'100%' }}>
+          <div style={{ maxWidth:660, display:'flex', flexDirection:'column', gap:18 }}>
+            <span style={{ display:'inline-flex', alignItems:'center', gap:10, fontFamily:'var(--font-ui)', fontSize:'var(--text-xs)', fontWeight:600, letterSpacing:'var(--tracking-eyebrow)', textTransform:'uppercase', color:'var(--gold-300)' }}>
+              <span style={{ width:22, height:2, background:'var(--gold-300)', borderRadius:2 }} />#LebihCepatDanNyamanBerhaji
+            </span>
+            <h1 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-4xl)', lineHeight:1.06, color:'#fff', margin:0 }}>Haji Khusus</h1>
+            <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-md)', lineHeight:1.75, color:'rgba(255,255,255,0.9)', margin:0, maxWidth:'56ch' }}>Paket perjalanan haji dengan visa resmi pemerintah Indonesia — waktu tunggu lebih cepat <strong style={{ color:'var(--gold-300)' }}>5–9 tahun</strong> dan jauh lebih nyaman dibanding haji reguler.</p>
+            <div style={{ display:'flex', gap:10, flexWrap:'wrap', marginTop:4 }}>
+              <Badge variant="seal" soft={false}>PIHK 610</Badge>
+              <Badge variant="accent" soft={false}>DP USD 5.000</Badge>
+              <Badge variant="brand" soft={false}>Kuota Resmi Terbatas</Badge>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-9) var(--space-6) 0' }}>
+        <SectionHeading eyebrow="Apa itu Haji Khusus?" title="Lebih cepat berangkat, lebih nyaman beribadah" subtitle="Kami menawarkan paket haji khusus dengan fasilitas terbaik untuk memenuhi kebutuhan dan kenyamanan Anda. Temukan paket yang tepat untuk Anda." align="center" />
+      </section>
+
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-7) var(--space-6) 0' }}>
+        <div style={{ display:'flex', gap:8, justifyContent:'center', marginBottom:'var(--space-6)' }}>
+          {Object.keys(HAJI_PKGS).map(k=>(
+            <button key={k} onClick={()=>setTier(k)} style={{ fontFamily:'var(--font-ui)', fontWeight:600, fontSize:'var(--text-sm)', cursor:'pointer', padding:'11px 26px', borderRadius:'var(--radius-pill)', border:'1.5px solid', borderColor:tier===k?'var(--brand-primary)':'var(--border-default)', background:tier===k?'var(--brand-primary)':'var(--surface-card)', color:tier===k?'#fff':'var(--text-secondary)', transition:'all var(--dur-base) var(--ease-out)' }}>Haji Khusus {HAJI_PKGS[k].name}</button>
+          ))}
+        </div>
+
+        <Card elevation="lg" padding="lg" goldTop>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1.25fr', gap:'var(--space-7)', alignItems:'center' }}>
+            <div>
+              <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:18 }}>
+                <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-2xl)', margin:0, color:'var(--indigo-700)' }}>Haji Khusus {pkg.name}</h3>
+                {tier==='vip' && <Badge variant="accent" soft={false}>Terlaris</Badge>}
+              </div>
+              <p style={{ fontFamily:'var(--font-body)', color:'var(--text-secondary)', margin:'0 0 20px', fontSize:'var(--text-base)' }}>{pkg.tagline}</p>
+              <div style={{ display:'flex', flexDirection:'column', gap:14 }}>
+                {pkg.hotels.map(([city,hotel,stars])=>(
+                  <div key={city} style={{ display:'flex', alignItems:'center', gap:12, paddingBottom:12, borderBottom:'1px solid var(--border-subtle)' }}>
+                    <Ico name="MapPin" size={18} color="var(--brand-primary)" />
+                    <div>
+                      <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.06em' }}>Hotel {city}</div>
+                      <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-md)' }}>{hotel} <span style={{ color:'var(--gold-400)', fontSize:'0.85em' }}>{'★'.repeat(stars)}</span></div>
+                    </div>
+                  </div>
+                ))}
+                <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+                  <Ico name="Building2" size={18} color="var(--brand-primary)" />
+                  <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-md)' }}>Apartment Transit · Maktab VIP</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:14, alignItems:'end' }}>
+                {pkg.tiers.map(([p,u,o],i)=>(<PricingTier key={o} price={p} usd={u} occupancy={o} featured={i===1} />))}
+              </div>
+              <ul style={{ listStyle:'none', margin:'18px 0 0', padding:0, display:'flex', flexDirection:'column', gap:7 }}>
+                {['Harga rupiah dihitung dengan kurs 17.500','Harga final dihitung kembali pada tahun keberangkatan','Fasilitas & program dapat menyesuaikan tahun keberangkatan'].map(t=>(
+                  <li key={t} style={{ display:'flex', gap:8, fontFamily:'var(--font-ui)', fontSize:'0.75rem', color:'var(--text-muted)' }}><span>•</span>{t}</li>
+                ))}
+              </ul>
+              <div style={{ display:'flex', gap:10, marginTop:18 }}>
+                <Button variant="primary" onClick={()=>onNav('contact')}>Daftar Sekarang</Button>
+                <Button variant="seal" onClick={()=>onNav('contact')}>Tanya Kuota</Button>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:16, marginTop:'var(--space-6)', flexWrap:'wrap' }}>
+          <span style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', fontWeight:600, color:'var(--text-muted)' }}>Maskapai:</span>
+          {['Qatar Airways','Emirates','Saudia'].map(a=>(<span key={a} style={{ fontFamily:'var(--font-ui)', fontWeight:600, fontSize:'var(--text-sm)', color:'var(--indigo-600)', padding:'8px 16px', background:'var(--surface-card)', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-pill)', boxShadow:'var(--shadow-xs)' }}>{a}</span>))}
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <SectionHeading eyebrow="Fasilitas Haji Khusus" title="Sembilan layanan untuk ketenangan ibadah Anda" align="center" />
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'var(--space-6) var(--space-7)', marginTop:'var(--space-7)' }}>
+          {HAJI_FACS.map(([ic,t,d])=>(
+            <div key={t} style={{ display:'flex', gap:14, alignItems:'flex-start' }}>
+              <div style={{ flex:'none', width:48, height:48, borderRadius:'var(--radius-md)', background:'var(--surface-brand-soft)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <Ico name={ic} size={22} color="var(--brand-primary)" />
+              </div>
+              <div><h4 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-md)', margin:'0 0 4px' }}>{t}</h4><p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-sm)', lineHeight:1.65, color:'var(--text-secondary)', margin:0 }}>{d}</p></div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <SectionHeading eyebrow="Asatidz Pembimbing" title="Dibimbing oleh para asatidz tepercaya" align="center" />
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'var(--space-5)', marginTop:'var(--space-7)' }}>
+          {ASATIDZ.map(name=>(
+            <Card key={name} elevation="sm" padding="lg" style={{ textAlign:'center' }}>
+              <div style={{ width:64, height:64, borderRadius:'50%', margin:'0 auto 14px', background:'var(--surface-deep)', display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <Ico name="UserRound" size={28} color="var(--gold-300)" />
+              </div>
+              <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-md)', color:'var(--text-primary)' }}>{name}</div>
+              <div style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-xs)', color:'var(--brand-primary)', marginTop:4, letterSpacing:'0.04em' }}>Pembimbing Haji Khusus</div>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <div style={{ background:'var(--surface-deep)', borderRadius:'var(--radius-xl)', padding:'var(--space-8)', textAlign:'center', display:'flex', flexDirection:'column', alignItems:'center', gap:18, position:'relative', overflow:'hidden' }}>
+          <div style={{ position:'absolute', inset:0, background:'radial-gradient(100% 120% at 80% 0%,rgba(252,176,23,0.16),transparent)' }} />
+          <h2 style={{ position:'relative', fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-2xl)', color:'#fff', margin:0 }}>Segera Daftar, Kuota Terbatas!</h2>
+          <p style={{ position:'relative', fontFamily:'var(--font-body)', color:'rgba(255,255,255,0.82)', margin:0 }}>Hubungi tim haji khusus kami: <strong style={{ color:'var(--gold-300)' }}>0813-8996-2073</strong></p>
+          <div style={{ position:'relative' }}><Button variant="accent" size="lg" onClick={()=>onNav('contact')}>Konsultasi Gratis</Button></div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   LAYANAN SCREEN
+   ══════════════════════════════════════════════════════════════ */
+const BIZ_UNITS = [
+  ['Plane','Umrah','Umroh reguler & private sepanjang tahun.'],
+  ['Sparkles','Haji Khusus','Visa resmi, waktu tunggu 5–9 tahun.'],
+  ['Palmtree','Wisata Halal','Paket wisata muslim-friendly domestik & luar negeri.'],
+  ['Briefcase','B2B','Provider tiket, visa, & layanan korporat.'],
+];
+const B2B_SERVICES = [
+  ['Gift','Hadiah Karyawan','Apresiasi umrah/wisata sebagai benefit karyawan.'],
+  ['Ticket','Hadiah Undian','Paket perjalanan sebagai grand prize program Anda.'],
+  ['HeartHandshake','CSR','Program tanggung jawab sosial berbasis perjalanan ibadah.'],
+  ['PlaneTakeoff','Provider Tiket','Penyediaan tiket & visa untuk instansi dan agen.'],
+];
+
+function LayananScreen({ onNav }) {
+  return (
+    <div>
+      <section style={{ background:'var(--surface-deep)', position:'relative', overflow:'hidden' }}>
+        <div style={{ position:'absolute', inset:0, background:'radial-gradient(90% 120% at 85% 10%,rgba(252,176,23,0.14),transparent)' }} />
+        <div style={{ position:'relative', maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-9) var(--space-6)' }}>
+          <SectionHeading onDark eyebrow="Layanan & Kemitraan" title="Empat unit bisnis, satu komitmen #SantunAmanah" subtitle="Dari ibadah ke tanah suci hingga kemitraan korporat — Aqobah melayani individu dan instansi." />
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-8) var(--space-6) 0' }}>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'var(--space-5)' }}>
+          {BIZ_UNITS.map(([ic,t,d])=>(
+            <Card key={t} elevation="sm" padding="lg" interactive>
+              <div style={{ width:48, height:48, borderRadius:'var(--radius-md)', background:'var(--surface-brand-soft)', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:14 }}><Ico name={ic} size={22} color="var(--brand-primary)" /></div>
+              <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-lg)', margin:'0 0 6px' }}>{t}</h3>
+              <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-sm)', lineHeight:1.65, color:'var(--text-secondary)', margin:0 }}>{d}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <div style={{ background:'var(--surface-accent-soft)', borderRadius:'var(--radius-xl)', padding:'var(--space-8)', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-7)', alignItems:'center' }}>
+          <div>
+            <SectionHeading eyebrow="Layanan Unggulan" title="Pendanaan & Tabungan Umrah dan Haji" subtitle="Wujudkan niat ke tanah suci dengan skema pendanaan dan tabungan ringan, bekerja sama dengan mitra keuangan syariah tepercaya." />
+            <div style={{ marginTop:'var(--space-5)' }}><Button variant="primary" onClick={()=>onNav('contact')}>Ajukan Pendanaan</Button></div>
+          </div>
+          <div>
+            <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.75rem', fontWeight:700, letterSpacing:'0.12em', textTransform:'uppercase', color:'var(--gold-600)', marginBottom:14 }}>Mitra Pendanaan & Tabungan</div>
+            <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+              {['Amitra','Pegadaian Syariah','CIMB Syariah','Bank Jakarta'].map(p=>(
+                <div key={p} style={{ background:'var(--surface-card)', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-md)', padding:'14px 16px', display:'flex', alignItems:'center', gap:10, fontFamily:'var(--font-ui)', fontWeight:600, fontSize:'var(--text-sm)', color:'var(--indigo-700)', boxShadow:'var(--shadow-xs)' }}>
+                  <Ico name="Landmark" size={18} color="var(--success-500)" />{p}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-xl)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0' }}>
+        <SectionHeading eyebrow="Kerja Sama B2B" title="Program kemitraan untuk Individu & Instansi" subtitle="Aqobah menjadi mitra perjalanan untuk kebutuhan korporat — dari apresiasi karyawan hingga program CSR." align="center" />
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:'var(--space-5)', marginTop:'var(--space-7)' }}>
+          {B2B_SERVICES.map(([ic,t,d])=>(
+            <div key={t} style={{ display:'flex', flexDirection:'column', gap:10, padding:'var(--space-5)', borderRadius:'var(--radius-lg)', border:'1px solid var(--border-subtle)', background:'var(--surface-card)', boxShadow:'var(--shadow-xs)' }}>
+              <Ico name={ic} size={26} color="var(--brand-seal)" />
+              <h4 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-md)', margin:0 }}>{t}</h4>
+              <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-sm)', lineHeight:1.65, color:'var(--text-secondary)', margin:0 }}>{d}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section style={{ maxWidth:'var(--container-lg)', margin:'0 auto', padding:'var(--space-10) var(--space-6) 0', textAlign:'center' }}>
+        <div style={{ fontFamily:'var(--font-ui)', fontSize:'var(--text-sm)', color:'var(--text-muted)', marginBottom:18 }}>Dipercaya oleh instansi &amp; perusahaan terkemuka</div>
+        <div style={{ display:'flex', gap:16, justifyContent:'center', flexWrap:'wrap' }}>
+          {['Pegadaian','Bank BRI','UIMA','+ lainnya'].map(t=>(<span key={t} style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-lg)', color:'var(--neutral-400)', padding:'10px 22px', borderRadius:'var(--radius-md)', background:'var(--surface-sunken)' }}>{t}</span>))}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CONTACT SCREEN
+   ══════════════════════════════════════════════════════════════ */
+function ContactScreen({ onNav }) {
+  const [sent, setSent] = useState(false);
+  return (
+    <div style={{ maxWidth:'var(--container-md)', margin:'0 auto', padding:'var(--space-9) var(--space-6)' }}>
+      <SectionHeading eyebrow="Hubungi Kami" title="Konsultasi Gratis" subtitle="Tim kami siap membantu Anda memilih paket terbaik sesuai kebutuhan." align="center" />
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'var(--space-7)', marginTop:'var(--space-8)', alignItems:'start' }}>
+        <Card elevation="md" padding="lg" goldTop>
+          {sent ? (
+            <div style={{ textAlign:'center', padding:'var(--space-5)' }}>
+              <div style={{ width:56, height:56, borderRadius:'50%', background:'var(--success-50)', display:'flex', alignItems:'center', justifyContent:'center', margin:'0 auto 14px' }}><Ico name="CheckCircle" size={28} color="var(--success-500)" /></div>
+              <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-xl)', color:'var(--text-primary)' }}>Pesan Terkirim!</div>
+              <p style={{ fontFamily:'var(--font-body)', fontSize:'var(--text-sm)', color:'var(--text-secondary)', margin:'8px 0 0' }}>Tim kami akan menghubungi Anda segera via WhatsApp.</p>
+            </div>
+          ) : (
+            <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-4)' }}>
+              <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'var(--text-xl)', margin:0 }}>Formulir Kontak</h3>
+              <Input label="Nama Lengkap" placeholder="Nama Anda" />
+              <Input label="No. WhatsApp" placeholder="+62..." hint="Akan dihubungi dalam 1×24 jam" />
+              <div style={{ display:'flex', flexDirection:'column', gap:5 }}>
+                <label style={{ fontFamily:'var(--font-ui)', fontSize:'0.8125rem', fontWeight:600, color:'var(--text-primary)' }}>Paket yang diminati</label>
+                <select style={{ fontFamily:'var(--font-ui)', fontSize:'0.875rem', padding:'10px 14px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', background:'var(--surface-card)', color:'var(--text-primary)', outline:'none', width:'100%' }}>
+                  <option>Umroh Reguler 12 Hari</option><option>Umroh Private 9 Hari</option>
+                  <option>Haji Khusus VIP</option><option>Haji Khusus Premium</option>
+                  <option>Haji Khusus Mabrur</option><option>Wisata Halal</option><option>Lainnya</option>
+                </select>
+              </div>
+              <Button variant="primary" fullWidth size="lg" onClick={()=>setSent(true)}>Kirim Pesan</Button>
+            </div>
+          )}
+        </Card>
+        <div style={{ display:'flex', flexDirection:'column', gap:'var(--space-5)' }}>
+          {[['Phone','Telepon / WhatsApp','+62 811-1805-330'],['Mail','Email','info@aqobah.com'],['MapPin','Kantor Pusat','Tangerang Selatan, Banten 15310'],['Clock','Jam Layanan','Senin–Jumat 08.00–17.00 WIB']].map(([ic,label,val])=>(
+            <div key={label} style={{ display:'flex', gap:14, alignItems:'flex-start' }}>
+              <div style={{ width:40, height:40, borderRadius:'var(--radius-sm)', background:'var(--surface-brand-soft)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}><Ico name={ic} size={19} color="var(--brand-primary)" /></div>
+              <div>
+                <div style={{ fontFamily:'var(--font-ui)', fontSize:'0.75rem', fontWeight:700, letterSpacing:'0.06em', textTransform:'uppercase', color:'var(--text-muted)', marginBottom:2 }}>{label}</div>
+                <div style={{ fontFamily:'var(--font-ui)', fontWeight:600, fontSize:'var(--text-base)', color:'var(--text-primary)' }}>{val}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ══════════════════════════════════════════════════════════════
+   APP ROOT
+   ══════════════════════════════════════════════════════════════ */
+function App() {
+  const [screen, setScreen] = useState('home');
+  const [pkg, setPkg] = useState(null);
+  const nav = k => { window.scrollTo(0,0); if (k==='packages') { setScreen('home'); return; } setScreen(k); };
+  const selectPkg = p => { window.scrollTo(0,0); setPkg(p); setScreen('detail'); };
+  const active = screen==='detail' ? 'packages' : screen;
+  let body;
+  if      (screen==='detail')  body = <PackageDetail pkg={pkg} onNav={nav} />;
+  else if (screen==='hajj')    body = <HajiKhususScreen onNav={nav} />;
+  else if (screen==='layanan') body = <LayananScreen onNav={nav} />;
+  else if (screen==='contact') body = <ContactScreen onNav={nav} />;
+  else                         body = <HomeScreen onNav={nav} onSelectPackage={selectPkg} />;
+  return (
+    <div>
+      <SiteHeader onNav={nav} active={active} />
+      {body}
+      <SiteFooter onNav={nav} />
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

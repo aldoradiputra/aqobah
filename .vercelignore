@@ -1,0 +1,5 @@
+# Design-system handoff bundle and docs — not part of the deployed app.
+# The deployable web root is index.html, erp/, and assets/ (images copied from project/assets).
+project/
+chats/
+supabase/
