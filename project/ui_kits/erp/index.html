@@ -203,6 +203,30 @@ button:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; 
 <script type="text/babel">
 const { useState, useEffect, useRef, useCallback } = React;
 
+/* ══════════════════════════════════════════════════════════════
+   SUPABASE CONFIG
+   Fill in after running supabase/migrations/001_create_products.sql
+   ══════════════════════════════════════════════════════════════ */
+const SUPABASE_URL = '';       // e.g. https://xyzxyz.supabase.co
+const SUPABASE_ANON_KEY = '';  // your project's anon public key
+
+async function sb(path, opts = {}) {
+  if (!SUPABASE_URL) return null;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...opts,
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: opts.method === 'POST' ? 'return=representation' : undefined,
+      ...opts.headers,
+    },
+  });
+  if (!res.ok) throw new Error(`Supabase ${res.status}`);
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
 // ─── Lucide Icon Wrapper ───────────────────────────────────────────────────
 function Icon({ name, size = 18, color, strokeWidth = 1.8, style }) {
   const ref = useRef(null);
@@ -707,58 +731,201 @@ function ErpSales() {
 // ══════════════════════════════════════════════════════════════════════════════
 // MODULE: PRODUCTS
 // ══════════════════════════════════════════════════════════════════════════════
-const products = [
-  { name: 'Haji Khusus VIP',       unit: 'Haji Khusus', tone: 'seal',    price: 'Rp 270–306 Jt', sold: 18, cap: 20 },
-  { name: 'Haji Khusus Premium',   unit: 'Haji Khusus', tone: 'seal',    price: 'Rp 230–270 Jt', sold: 12, cap: 20 },
-  { name: 'Haji Khusus Mabrur',    unit: 'Haji Khusus', tone: 'seal',    price: 'Rp 190–220 Jt', sold: 9,  cap: 20 },
-  { name: 'Umroh Reguler 12 Hari', unit: 'Umrah',       tone: 'blue',    price: 'Rp 28,9 Jt',   sold: 42, cap: 45 },
-  { name: 'Umroh Private 9 Hari',  unit: 'Umrah',       tone: 'blue',    price: 'Rp 47,5 Jt',   sold: 8,  cap: 12 },
-  { name: 'Wisata Halal Turki',    unit: 'Wisata Halal',tone: 'gold',    price: 'Rp 32 Jt',     sold: 15, cap: 30 },
+const PRODUCT_SEED = [
+  { id:'local-1', name:'Haji Khusus VIP',       unit:'Haji Khusus', tone:'seal', price:'Rp 270–306 Jt', sold:18, cap:20, is_published:true },
+  { id:'local-2', name:'Haji Khusus Premium',   unit:'Haji Khusus', tone:'seal', price:'Rp 230–270 Jt', sold:12, cap:20, is_published:true },
+  { id:'local-3', name:'Haji Khusus Mabrur',    unit:'Haji Khusus', tone:'seal', price:'Rp 190–220 Jt', sold:9,  cap:20, is_published:true },
+  { id:'local-4', name:'Umroh Reguler 12 Hari', unit:'Umrah',       tone:'blue', price:'Rp 28,9 Jt',   sold:42, cap:45, is_published:true },
+  { id:'local-5', name:'Umroh Private 9 Hari',  unit:'Umrah',       tone:'blue', price:'Rp 47,5 Jt',   sold:8,  cap:12, is_published:true },
+  { id:'local-6', name:'Wisata Halal Turki',    unit:'Wisata Halal',tone:'gold', price:'Rp 32 Jt',     sold:15, cap:30, is_published:true },
 ];
+const TONE_MAP = { Umrah:'blue', 'Haji Khusus':'seal', 'Wisata Halal':'gold', B2B:'neutral' };
+const UNIT_OPTIONS = ['Umrah','Haji Khusus','Wisata Halal','B2B'];
+
+function ProductModal({ product, onSave, onClose }) {
+  const isEdit = !!(product?.id);
+  const blank = { name:'', unit:'Umrah', price_display:'', sold:0, cap:20, image_key:'kaaba', badge_label:'', duration:'', departure:'Jakarta', hotel_stars:4, rating:4.8, is_published:true };
+  const [form, setForm] = useState(product ? { ...product, price_display: product.price_display||product.price||'' } : blank);
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  return (
+    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.55)', zIndex:900, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={e=>{ if(e.target===e.currentTarget) onClose(); }}>
+      <div style={{ background:'var(--surface-card)', borderRadius:'var(--radius-xl)', width:'100%', maxWidth:560, boxShadow:'var(--shadow-xl)', overflow:'hidden' }}>
+        <div style={{ padding:'18px 24px', borderBottom:'1px solid var(--border-subtle)', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.2rem', margin:0 }}>{isEdit ? 'Edit Paket' : 'Tambah Paket Baru'}</h3>
+          <button onClick={onClose} style={{ background:'none', border:'none', cursor:'pointer', color:'var(--text-muted)', fontSize:22, lineHeight:1, padding:'2px 6px' }}>×</button>
+        </div>
+        <div style={{ padding:'20px 24px', display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, maxHeight:'65vh', overflowY:'auto' }}>
+          <div style={{ gridColumn:'1/-1', display:'flex', flexDirection:'column', gap:4 }}>
+            <label style={{ fontSize:11, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'var(--text-muted)' }}>Nama Paket</label>
+            <input value={form.name} onChange={e=>set('name',e.target.value)} placeholder="Umroh Reguler 12 Hari" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />
+          </div>
+          {[['Unit Bisnis',<select value={form.unit} onChange={e=>{set('unit',e.target.value);set('tone',TONE_MAP[e.target.value]||'blue');}} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', background:'var(--surface-card)', width:'100%' }}>{UNIT_OPTIONS.map(u=><option key={u}>{u}</option>)}</select>],
+           ['Harga (tampilan)',<input value={form.price_display} onChange={e=>set('price_display',e.target.value)} placeholder="Rp 28.900.000" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Durasi',<input value={form.duration||''} onChange={e=>set('duration',e.target.value)} placeholder="12 Hari" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Kuota Total',<input type="number" value={form.cap} onChange={e=>set('cap',+e.target.value)} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Terisi',<input type="number" value={form.sold||0} onChange={e=>set('sold',+e.target.value)} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Gambar',<select value={form.image_key||'kaaba'} onChange={e=>set('image_key',e.target.value)} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', background:'var(--surface-card)', width:'100%' }}>{['kaaba','madinah','group','arafah','hero'].map(k=><option key={k} value={k}>{k}</option>)}</select>],
+           ['Badge Label',<input value={form.badge_label||''} onChange={e=>set('badge_label',e.target.value)} placeholder="Best Seller" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+          ].map(([lbl,el])=>(
+            <div key={lbl} style={{ display:'flex', flexDirection:'column', gap:4 }}>
+              <label style={{ fontSize:11, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'var(--text-muted)' }}>{lbl}</label>
+              {el}
+            </div>
+          ))}
+          <div style={{ gridColumn:'1/-1', display:'flex', alignItems:'center', gap:10 }}>
+            <input type="checkbox" id="pub" checked={form.is_published??true} onChange={e=>set('is_published',e.target.checked)} style={{ width:16, height:16, cursor:'pointer' }} />
+            <label htmlFor="pub" style={{ fontFamily:'var(--font-ui)', fontSize:13, fontWeight:500, color:'var(--text-primary)', cursor:'pointer' }}>Tampilkan di website publik (aqobah.com)</label>
+          </div>
+        </div>
+        <div style={{ padding:'14px 24px', borderTop:'1px solid var(--border-subtle)', display:'flex', justifyContent:'flex-end', gap:10 }}>
+          <button onClick={onClose} className="btn-ghost">Batal</button>
+          <button onClick={()=>onSave(form)} className="btn-primary">{isEdit ? 'Simpan Perubahan' : '+ Tambah Paket'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ErpProducts() {
+  const [products, setProducts] = useState(PRODUCT_SEED);
+  const [loading, setLoading] = useState(!!SUPABASE_URL);
+  const [modal, setModal] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (msg, ok = true) => { setToast({ msg, ok }); setTimeout(() => setToast(null), 3200); };
+
+  const loadProducts = useCallback(() => {
+    return sb('products?select=*&order=sort_order.asc,created_at.asc')
+      .then(rows => {
+        if (rows && rows.length) setProducts(rows.map(r => ({ ...r, price: r.price_display, tone: r.tone || 'blue' })));
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!SUPABASE_URL) return;
+    loadProducts()
+      .catch(() => showToast('Gagal memuat dari Supabase', false))
+      .finally(() => setLoading(false));
+  }, [loadProducts]);
+
+  const saveProduct = async (form) => {
+    const isEdit = !!(form.id && !String(form.id).startsWith('local-'));
+    const payload = {
+      name: form.name, unit: form.unit,
+      price_display: form.price_display || '',
+      duration: form.duration || '', departure: form.departure || 'Jakarta',
+      cap: +form.cap || 20, sold: +form.sold || 0,
+      tone: TONE_MAP[form.unit] || 'blue',
+      image_key: form.image_key || 'kaaba',
+      badge_label: form.badge_label || '',
+      badge_variant: TONE_MAP[form.unit]==='seal'?'seal':TONE_MAP[form.unit]==='gold'?'accent':'brand',
+      is_published: form.is_published ?? true,
+    };
+    if (SUPABASE_URL) {
+      try {
+        if (isEdit) {
+          await sb(`products?id=eq.${form.id}`, { method:'PATCH', body:JSON.stringify(payload) });
+        } else {
+          await sb('products', { method:'POST', body:JSON.stringify(payload) });
+        }
+        await loadProducts();
+        showToast(isEdit ? 'Paket diperbarui ✓' : 'Paket ditambahkan — website akan diperbarui otomatis ✓');
+      } catch { showToast('Gagal menyimpan ke Supabase', false); }
+    } else {
+      if (isEdit) {
+        setProducts(ps => ps.map(p => p.id===form.id ? { ...p, ...payload, price:payload.price_display } : p));
+      } else {
+        setProducts(ps => [...ps, { ...payload, id:`local-${Date.now()}`, price:payload.price_display }]);
+      }
+      showToast(isEdit ? 'Paket diperbarui (lokal)' : 'Paket ditambahkan (lokal) — sambungkan Supabase untuk sinkronisasi');
+    }
+    setModal(null);
+  };
+
+  const deleteProduct = async (id) => {
+    if (!confirm('Hapus paket ini dari katalog?')) return;
+    if (SUPABASE_URL && !String(id).startsWith('local-')) {
+      try {
+        await sb(`products?id=eq.${id}`, { method:'DELETE' });
+        showToast('Paket dihapus dari katalog & website ✓');
+      } catch { showToast('Gagal menghapus', false); return; }
+    } else {
+      showToast('Paket dihapus (lokal)');
+    }
+    setProducts(ps => ps.filter(p => p.id !== id));
+  };
+
+  const totalSold = products.reduce((s, p) => s + (+p.sold||0), 0);
+  const totalCap  = products.reduce((s, p) => s + (+p.cap||0), 0);
+  const fillRate  = totalCap ? Math.round(totalSold / totalCap * 100) : 0;
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
-        <Kpi icon="Package"    label="Total paket aktif" value="6"   accent="var(--brand-primary)" />
-        <Kpi icon="Users"      label="Total kuota"       value="147" accent="var(--indigo-500)" />
-        <Kpi icon="TicketCheck"label="Terisi"            value="104" accent="var(--success-500)" />
-        <Kpi icon="Percent"    label="Fill rate"         value="71%" accent="var(--gold-400)" />
+    <div style={{ display:'flex', flexDirection:'column', gap:22 }}>
+      {/* Toast notification */}
+      {toast && (
+        <div style={{ position:'fixed', top:80, right:24, zIndex:800, background:toast.ok?'var(--success-500)':'var(--danger-500)', color:'#fff', padding:'11px 20px', borderRadius:'var(--radius-pill)', fontFamily:'var(--font-ui)', fontSize:13, fontWeight:600, boxShadow:'var(--shadow-lg)', transition:'all 0.2s' }}>{toast.msg}</div>
+      )}
+
+      {/* KPIs */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:18 }}>
+        <Kpi icon="Package"     label="Total paket aktif"  value={String(products.length)} accent="var(--brand-primary)" />
+        <Kpi icon="Users"       label="Total kuota"        value={String(totalCap)}        accent="var(--indigo-500)" />
+        <Kpi icon="TicketCheck" label="Terisi"             value={String(totalSold)}       accent="var(--success-500)" />
+        <Kpi icon="Percent"     label="Fill rate"          value={`${fillRate}%`}          accent="var(--gold-400)" />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
-        {products.map(p => {
-          const pct = Math.round(p.sold / p.cap * 100);
-          return (
-            <div key={p.name} style={{
-              background: 'var(--surface-card)', border: '1px solid var(--border-subtle)',
-              borderRadius: 'var(--radius-lg)', padding: 20, boxShadow: 'var(--shadow-xs)',
-              display: 'flex', flexDirection: 'column', gap: 14,
-              transition: 'box-shadow var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out)',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-md)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-            onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-xs)'; e.currentTarget.style.transform = 'none'; }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 10 }}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.05rem', margin: 0, lineHeight: 1.25 }}>{p.name}</h3>
-                <Pill tone={p.tone}>{p.unit}</Pill>
-              </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.25rem', color: 'var(--brand-seal)' }}>{p.price}</div>
-              <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--text-muted)', marginBottom: 5 }}>
-                  <span>Kursi terisi</span>
-                  <span style={{ fontWeight: 600, color: pct > 85 ? 'var(--danger-500)' : 'var(--text-secondary)' }}>{p.sold}/{p.cap} ({pct}%)</span>
-                </div>
-                <Progress value={p.sold} max={p.cap} />
-              </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button className="btn-ghost" style={{ flex: 1 }}>Detail</button>
-                <button className="btn-primary" style={{ flex: 1, justifyContent: 'center', borderRadius: 'var(--radius-sm)' }}>Kelola</button>
-              </div>
-            </div>
-          );
-        })}
+      {/* Header row */}
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div>
+          <h2 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.15rem', margin:0 }}>Katalog Paket</h2>
+          <div style={{ fontSize:12, marginTop:2 }}>
+            {SUPABASE_URL
+              ? <span style={{ color:'var(--success-500)', fontWeight:600 }}>● Terhubung ke Supabase — perubahan langsung tampil di aqobah.com</span>
+              : <span style={{ color:'var(--text-muted)' }}>Data lokal · isi SUPABASE_URL untuk sinkronisasi ke website</span>
+            }
+          </div>
+        </div>
+        <button className="btn-primary" onClick={()=>setModal('add')}>+ Paket Baru</button>
       </div>
+
+      {/* Product grid */}
+      {loading ? (
+        <div style={{ textAlign:'center', padding:48, color:'var(--text-muted)', fontFamily:'var(--font-ui)' }}>Memuat paket dari Supabase…</div>
+      ) : (
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:18 }}>
+          {products.map(p => {
+            const pct = Math.round((+p.sold||0) / (+p.cap||1) * 100);
+            return (
+              <div key={p.id||p.name} style={{ background:'var(--surface-card)', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-lg)', padding:20, boxShadow:'var(--shadow-xs)', display:'flex', flexDirection:'column', gap:14, transition:'box-shadow var(--dur-base) var(--ease-out),transform var(--dur-base) var(--ease-out)' }}
+                onMouseEnter={e=>{ e.currentTarget.style.boxShadow='var(--shadow-md)'; e.currentTarget.style.transform='translateY(-2px)'; }}
+                onMouseLeave={e=>{ e.currentTarget.style.boxShadow='var(--shadow-xs)'; e.currentTarget.style.transform='none'; }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:10 }}>
+                  <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.05rem', margin:0, lineHeight:1.25 }}>{p.name}</h3>
+                  <Pill tone={p.tone||'blue'}>{p.unit}</Pill>
+                </div>
+                <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.25rem', color:'var(--brand-seal)' }}>{p.price||p.price_display}</div>
+                <div>
+                  <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, color:'var(--text-muted)', marginBottom:5 }}>
+                    <span>Kursi terisi</span>
+                    <span style={{ fontWeight:600, color:pct>85?'var(--danger-500)':'var(--text-secondary)' }}>{p.sold||0}/{p.cap||0} ({pct}%)</span>
+                  </div>
+                  <Progress value={+p.sold||0} max={+p.cap||1} />
+                </div>
+                {p.is_published===false && (
+                  <div style={{ fontSize:11, color:'var(--warning-500)', fontWeight:600, background:'var(--warning-50)', padding:'4px 10px', borderRadius:'var(--radius-pill)', alignSelf:'flex-start' }}>Tersembunyi dari website</div>
+                )}
+                <div style={{ display:'flex', gap:8 }}>
+                  <button className="btn-ghost" style={{ flex:1 }} onClick={()=>setModal(p)}>Edit</button>
+                  <button className="btn-primary" style={{ flex:1, justifyContent:'center', borderRadius:'var(--radius-sm)', background:'var(--danger-500)' }} onClick={()=>deleteProduct(p.id)}>Hapus</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Modal */}
+      {modal && <ProductModal product={modal==='add'?null:modal} onSave={saveProduct} onClose={()=>setModal(null)} />}
     </div>
   );
 }
