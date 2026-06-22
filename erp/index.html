@@ -1,0 +1,1197 @@
+<!-- @dsCard group="ERP Console" viewport="1380x880" name="Aqobah ERP — Admin Console" subtitle="Dashboard, CRM, Sales, Produk, Operasional, Keuangan, HR" -->
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aqobah ERP Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Lora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Blue palette */
+  --blue-50:  #E7F5FC; --blue-100: #C5E8F8; --blue-200: #8FD2F0;
+  --blue-300: #4FB8E8; --blue-400: #1BA1DD; --blue-500: #0593D5;
+  --blue-600: #0479B0; --blue-700: #045F8A; --blue-800: #064A6C; --blue-900: #073B56;
+  /* Indigo palette */
+  --indigo-300: #6E86C0; --indigo-400: #4660A0; --indigo-500: #2C4A8E;
+  --indigo-600: #233C75; --indigo-700: #1B2E5A; --indigo-800: #142242;
+  /* Gold palette */
+  --gold-50: #FEF6E4; --gold-100: #FCE9BC; --gold-200: #FAD683;
+  --gold-300: #FCB017; --gold-400: #E89C00; --gold-500: #C98400; --gold-600: #A06800;
+  /* Maroon palette */
+  --maroon-100: #F3DCDD; --maroon-300: #C76A6D; --maroon-500: #A82C30;
+  --maroon-600: #8E2125; --maroon-700: #6E181C;
+  /* Neutrals */
+  --neutral-0: #FFFFFF; --neutral-25: #FBFCFE; --neutral-50: #F4F7FA;
+  --neutral-100: #EAEFF4; --neutral-200: #D8E0E8; --neutral-300: #BDC8D3;
+  --neutral-400: #95A3B2; --neutral-500: #6B7A8B; --neutral-600: #4D5C6C;
+  --neutral-700: #364555; --neutral-800: #22303F; --neutral-900: #0F1D2B;
+  /* Status */
+  --success-500: #1E9E6A; --success-50: #E4F5EE;
+  --warning-500: #D98A0B; --warning-50: #FBF0DC;
+  --danger-500: #C0392B; --danger-50: #F8E5E2;
+  /* Semantic */
+  --brand-primary: var(--blue-500);
+  --brand-primary-hover: var(--blue-600);
+  --brand-deep: var(--indigo-500);
+  --brand-accent: var(--gold-300);
+  --brand-seal: var(--maroon-500);
+  --text-primary: var(--neutral-900);
+  --text-secondary: var(--neutral-600);
+  --text-muted: var(--neutral-500);
+  --text-on-brand: var(--neutral-0);
+  --surface-page: var(--neutral-50);
+  --surface-card: var(--neutral-0);
+  --surface-sunken: var(--neutral-100);
+  --surface-deep: var(--indigo-700);
+  --surface-brand-soft: var(--blue-50);
+  --border-subtle: var(--neutral-200);
+  --border-default: var(--neutral-300);
+  --shadow-xs: 0 1px 2px rgba(15,29,43,0.06);
+  --shadow-sm: 0 2px 6px rgba(15,29,43,0.07);
+  --shadow-md: 0 8px 20px -6px rgba(15,29,43,0.12);
+  --radius-xs: 4px; --radius-sm: 8px; --radius-md: 12px;
+  --radius-lg: 18px; --radius-xl: 26px; --radius-pill: 999px;
+  --font-display: 'Aref Ruqaa', 'Lora', Georgia, serif;
+  --font-body: 'Lora', Georgia, serif;
+  --font-ui: 'IBM Plex Sans', system-ui, sans-serif;
+  --text-xs: 0.75rem; --text-sm: 0.875rem; --text-base: 1rem;
+  --text-md: 1.125rem; --text-lg: 1.375rem;
+  --dur-fast: 140ms; --dur-base: 240ms;
+  --ease-out: cubic-bezier(0.22,1,0.36,1);
+}
+
+html, body { height: 100%; }
+body {
+  background: var(--surface-page);
+  font-family: var(--font-ui);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+#root { height: 100%; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--neutral-300); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--neutral-400); }
+
+button { font-family: var(--font-ui); }
+button:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; }
+
+.nav-btn {
+  display: flex; align-items: center; gap: 12px; padding: 10px 14px;
+  border-radius: var(--radius-sm); border: none; cursor: pointer;
+  text-align: left; width: 100%; font-family: var(--font-ui);
+  font-size: 0.875rem; transition: background var(--dur-fast) var(--ease-out),
+  color var(--dur-fast) var(--ease-out);
+}
+.nav-btn:hover:not(.nav-btn--active) {
+  background: rgba(255,255,255,0.07);
+  color: #fff;
+}
+.nav-btn--active {
+  background: rgba(255,255,255,0.13);
+  color: #fff; font-weight: 600;
+  border-left: 3px solid var(--gold-300);
+}
+.nav-btn--inactive {
+  background: transparent; color: rgba(255,255,255,0.72);
+  font-weight: 500; border-left: 3px solid transparent;
+}
+
+.kpi-card {
+  background: var(--surface-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); padding: 18px 20px; box-shadow: var(--shadow-xs);
+  transition: box-shadow var(--dur-base) var(--ease-out),
+  transform var(--dur-base) var(--ease-out);
+}
+.kpi-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th {
+  text-align: left; padding: 12px 18px; font-size: 11px; font-weight: 700;
+  letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted);
+  white-space: nowrap; background: var(--surface-sunken);
+}
+.data-table td {
+  padding: 13px 18px; color: var(--text-primary);
+  border-top: 1px solid var(--border-subtle); vertical-align: middle;
+}
+.data-table tbody tr { transition: background var(--dur-fast); }
+.data-table tbody tr:hover { background: var(--surface-sunken); }
+
+.pill {
+  display: inline-block; padding: 3px 10px; border-radius: var(--radius-pill);
+  font-size: 12px; font-weight: 600; white-space: nowrap; line-height: 1.5;
+}
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: var(--font-ui); font-weight: 600; font-size: 13px;
+  padding: 10px 16px; border-radius: var(--radius-pill); border: none;
+  background: var(--brand-primary); color: #fff; cursor: pointer;
+  transition: background var(--dur-fast) var(--ease-out),
+  box-shadow var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+.btn-primary:hover { background: var(--blue-600); box-shadow: 0 4px 14px rgba(5,147,213,0.4); }
+.btn-primary:active { background: var(--blue-700); transform: scale(0.98); }
+
+.btn-ghost {
+  font-family: var(--font-ui); font-size: 13px; font-weight: 600;
+  padding: 8px 14px; border-radius: var(--radius-sm);
+  border: 1px solid var(--border-default); background: var(--surface-card);
+  color: var(--text-secondary); cursor: pointer;
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+}
+.btn-ghost:hover { background: var(--surface-sunken); border-color: var(--border-default); }
+
+.search-bar {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--surface-sunken); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill); padding: 8px 14px; width: 240px;
+  cursor: text; transition: border-color var(--dur-fast), box-shadow var(--dur-fast);
+}
+.search-bar:hover { border-color: var(--border-default); }
+.search-bar input {
+  border: none; background: transparent; outline: none;
+  font-family: var(--font-ui); font-size: 13px; color: var(--text-primary);
+  width: 100%; caret-color: var(--brand-primary);
+}
+.search-bar input::placeholder { color: var(--text-muted); }
+
+.panel {
+  background: var(--surface-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-xs); overflow: hidden;
+}
+.panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 16px 20px; border-bottom: 1px solid var(--border-subtle);
+}
+.panel-title {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; margin: 0;
+}
+.panel-body { padding: 20px; }
+
+.progress-bar {
+  height: 8px; border-radius: var(--radius-pill);
+  background: var(--surface-sunken); overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: var(--radius-pill);
+  transition: width 0.6s var(--ease-out);
+}
+
+.avatar {
+  border-radius: 50%; display: inline-flex; align-items: center;
+  justify-content: center; font-weight: 700; flex-shrink: 0;
+  font-family: var(--font-ui);
+}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect, useRef, useCallback } = React;
+
+/* ══════════════════════════════════════════════════════════════
+   SUPABASE CONFIG
+   Fill in after running supabase/migrations/001_create_products.sql
+   ══════════════════════════════════════════════════════════════ */
+const SUPABASE_URL = 'https://asztgumnilpjdxpizkzn.supabase.co';       // e.g. https://xyzxyz.supabase.co
+const SUPABASE_ANON_KEY = 'sb_publishable_eSriyphjQxKP3rNxNwmpOg_w5K1R_1j';  // your project's anon public key
+
+async function sb(path, opts = {}) {
+  if (!SUPABASE_URL) return null;
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+    ...opts,
+    headers: {
+      apikey: SUPABASE_ANON_KEY,
+      Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: opts.method === 'POST' ? 'return=representation' : undefined,
+      ...opts.headers,
+    },
+  });
+  if (!res.ok) throw new Error(`Supabase ${res.status}`);
+  const text = await res.text();
+  return text ? JSON.parse(text) : null;
+}
+
+// ─── Lucide Icon Wrapper ───────────────────────────────────────────────────
+function Icon({ name, size = 18, color, strokeWidth = 1.8, style }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    if (!ref.current || !window.lucide || !lucide[name]) return;
+    ref.current.innerHTML = '';
+    const el = lucide.createElement(lucide[name]);
+    ref.current.appendChild(el);
+    const svg = ref.current.querySelector('svg');
+    if (svg) {
+      svg.setAttribute('width', size);
+      svg.setAttribute('height', size);
+      svg.setAttribute('stroke-width', strokeWidth);
+      if (color) svg.setAttribute('stroke', color);
+    }
+  });
+  return <span ref={ref} style={{ display: 'flex', flexShrink: 0, ...style }} />;
+}
+
+// ─── Pill Badge ────────────────────────────────────────────────────────────
+const PILL_TONES = {
+  neutral: { bg: '#EAEFF4', fg: '#364555' },
+  blue:    { bg: '#E7F5FC', fg: '#0479B0' },
+  gold:    { bg: '#FEF6E4', fg: '#A06800' },
+  green:   { bg: '#E4F5EE', fg: '#1E9E6A' },
+  amber:   { bg: '#FBF0DC', fg: '#D98A0B' },
+  red:     { bg: '#F8E5E2', fg: '#C0392B' },
+  seal:    { bg: '#F3DCDD', fg: '#8E2125' },
+};
+function Pill({ children, tone = 'neutral' }) {
+  const { bg, fg } = PILL_TONES[tone] || PILL_TONES.neutral;
+  return (
+    <span className="pill" style={{ background: bg, color: fg }}>
+      {children}
+    </span>
+  );
+}
+
+// ─── KPI Card ──────────────────────────────────────────────────────────────
+function Kpi({ icon, label, value, delta, deltaUp = true, accent = 'var(--brand-primary)' }) {
+  return (
+    <div className="kpi-card">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
+        <span style={{
+          width: 38, height: 38, borderRadius: 'var(--radius-sm)', flexShrink: 0,
+          background: `color-mix(in srgb, ${accent} 12%, white)`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <Icon name={icon} size={19} color={accent} />
+        </span>
+        {delta && (
+          <span style={{
+            fontSize: 12, fontWeight: 600, display: 'inline-flex', alignItems: 'center', gap: 2,
+            color: deltaUp ? 'var(--success-500)' : 'var(--danger-500)',
+          }}>
+            {deltaUp ? '▲' : '▼'} {delta}
+          </span>
+        )}
+      </div>
+      <div style={{
+        fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.65rem',
+        lineHeight: 1.1, color: 'var(--text-primary)', fontVariantNumeric: 'tabular-nums',
+        whiteSpace: 'nowrap',
+      }}>{value}</div>
+      <div style={{ fontSize: 13, color: 'var(--text-muted)', marginTop: 5 }}>{label}</div>
+    </div>
+  );
+}
+
+// ─── Data Table ────────────────────────────────────────────────────────────
+function DataTable({ columns, rows, onRowClick }) {
+  return (
+    <div style={{ overflowX: 'auto' }}>
+      <table className="data-table">
+        <thead>
+          <tr>
+            {columns.map(c => (
+              <th key={c.key} style={{ textAlign: c.align || 'left' }}>{c.label}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i} onClick={() => onRowClick?.(r)} style={{ cursor: onRowClick ? 'pointer' : 'default' }}>
+              {columns.map(c => (
+                <td key={c.key} style={{ textAlign: c.align || 'left', whiteSpace: c.wrap ? 'normal' : 'nowrap' }}>
+                  {c.render ? c.render(r) : r[c.key]}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+// ─── Panel ─────────────────────────────────────────────────────────────────
+function Panel({ title, action, children, noPad = false, style }) {
+  return (
+    <div className="panel" style={style}>
+      <div className="panel-header">
+        <h3 className="panel-title">{title}</h3>
+        {action}
+      </div>
+      {!noPad && <div className="panel-body">{children}</div>}
+      {noPad && children}
+    </div>
+  );
+}
+
+// ─── Progress Bar ──────────────────────────────────────────────────────────
+function Progress({ value, max, color }) {
+  const pct = Math.min(100, Math.round((value / max) * 100));
+  const fill = pct > 85 ? 'var(--danger-500)' : pct > 60 ? 'var(--warning-500)' : 'var(--success-500)';
+  return (
+    <div className="progress-bar">
+      <div className="progress-fill" style={{ width: pct + '%', background: color || fill }} />
+    </div>
+  );
+}
+
+// ─── Stat mini (used in detail panels) ────────────────────────────────────
+function Stat({ label, value, tone }) {
+  return (
+    <div style={{ textAlign: 'center' }}>
+      <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.4rem', color: 'var(--text-primary)' }}>{value}</div>
+      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{label}</div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// NAV CONFIG
+// ══════════════════════════════════════════════════════════════════════════════
+const ERP_NAV = [
+  { key: 'dashboard', label: 'Dashboard',    icon: 'LayoutDashboard' },
+  { key: 'crm',       label: 'CRM',          icon: 'Users' },
+  { key: 'sales',     label: 'Sales Order',  icon: 'ShoppingCart' },
+  { key: 'products',  label: 'Produk',       icon: 'Package' },
+  { key: 'ops',       label: 'Operasional',  icon: 'ClipboardCheck' },
+  { key: 'finance',   label: 'Keuangan',     icon: 'Wallet' },
+  { key: 'hr',        label: 'SDM / HR',     icon: 'UserCog' },
+];
+
+const MODULE_META = {
+  dashboard: { title: 'Dashboard',    subtitle: 'Ringkasan operasional · semua unit bisnis' },
+  crm:       { title: 'CRM',          subtitle: 'Pipeline jamaah & klien korporat' },
+  sales:     { title: 'Sales Order',  subtitle: 'Pesanan paket & pembayaran' },
+  products:  { title: 'Produk',       subtitle: 'Manajemen paket & kuota' },
+  ops:       { title: 'Operasional',  subtitle: 'Dokumen, manasik & vendor' },
+  finance:   { title: 'Keuangan',     subtitle: 'Akuntansi & arus kas' },
+  hr:        { title: 'SDM / HR',     subtitle: 'Karyawan & tim lapangan' },
+};
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SHELL
+// ══════════════════════════════════════════════════════════════════════════════
+function ErpShell({ active, onNav, children }) {
+  const [notifOpen, setNotifOpen] = useState(false);
+  const meta = MODULE_META[active];
+
+  const ACTION_LABELS = {
+    dashboard: null,
+    crm:       '+ Tambah Lead',
+    sales:     '+ Order Baru',
+    products:  '+ Paket Baru',
+    ops:       '+ Dokumen',
+    finance:   '+ Transaksi',
+    hr:        '+ Karyawan',
+  };
+
+  return (
+    <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--surface-page)' }}>
+
+      {/* ── SIDEBAR ─────────────────────────────────────── */}
+      <aside style={{
+        width: 248, flexShrink: 0, background: 'var(--surface-deep)', color: '#fff',
+        display: 'flex', flexDirection: 'column', height: '100vh', overflowY: 'auto',
+      }}>
+        {/* Logo */}
+        <div style={{
+          padding: '20px 22px', display: 'flex', alignItems: 'center', gap: 10,
+          borderBottom: '1px solid rgba(255,255,255,0.1)', flexShrink: 0,
+        }}>
+          <div style={{
+            width: 36, height: 36, borderRadius: '50%', overflow: 'hidden',
+            background: 'var(--indigo-800)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            flexShrink: 0,
+          }}>
+            <svg viewBox="0 0 36 36" width="36" height="36">
+              <circle cx="18" cy="18" r="18" fill="#142242"/>
+              <ellipse cx="18" cy="18" rx="8" ry="14" fill="none" stroke="#0593D5" strokeWidth="1.4"/>
+              <ellipse cx="18" cy="18" rx="14" ry="8" fill="none" stroke="#0593D5" strokeWidth="1.4"/>
+              <circle cx="18" cy="18" r="14" fill="none" stroke="#0593D5" strokeWidth="1.4"/>
+              <circle cx="18" cy="18" r="3" fill="#FCB017"/>
+            </svg>
+          </div>
+          <div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.15rem', lineHeight: 1, letterSpacing: '0.02em' }}>AQOBAH</div>
+            <div style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold-300)', marginTop: 2 }}>ERP Console</div>
+          </div>
+        </div>
+
+        {/* Nav */}
+        <nav style={{ padding: '14px 12px', display: 'flex', flexDirection: 'column', gap: 2, flex: 1 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', padding: '6px 6px 8px' }}>Menu Utama</div>
+          {ERP_NAV.map(({ key, label, icon }) => (
+            <button
+              key={key}
+              onClick={() => onNav(key)}
+              className={`nav-btn ${active === key ? 'nav-btn--active' : 'nav-btn--inactive'}`}
+            >
+              <Icon name={icon} size={17} color={active === key ? '#FCB017' : 'rgba(255,255,255,0.65)'} />
+              <span>{label}</span>
+              {key === 'crm' && (
+                <span style={{ marginLeft: 'auto', background: 'var(--maroon-500)', color: '#fff', fontSize: 10, fontWeight: 700, padding: '1px 6px', borderRadius: 'var(--radius-pill)' }}>17</span>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        {/* Unit selector */}
+        <div style={{ padding: '12px', borderTop: '1px solid rgba(255,255,255,0.08)', flexShrink: 0 }}>
+          <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)', marginBottom: 8, paddingLeft: 4 }}>Unit Bisnis</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>
+            {['Umrah', 'Haji', 'Halal', 'B2B'].map(u => (
+              <span key={u} style={{ fontSize: 11, padding: '3px 8px', borderRadius: 'var(--radius-pill)', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.7)', fontWeight: 500, cursor: 'pointer' }}>{u}</span>
+            ))}
+          </div>
+        </div>
+
+        {/* User */}
+        <div style={{
+          padding: '14px 16px', borderTop: '1px solid rgba(255,255,255,0.1)', display: 'flex',
+          alignItems: 'center', gap: 10, flexShrink: 0,
+        }}>
+          <div className="avatar" style={{ width: 34, height: 34, background: 'var(--gold-300)', color: 'var(--indigo-800)', fontSize: 13 }}>AD</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>Admin Pusat</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', marginTop: 1 }}>Kantor Pusat · Tangsel</div>
+          </div>
+          <button style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 4 }}>
+            <Icon name="LogOut" size={15} color="rgba(255,255,255,0.45)" />
+          </button>
+        </div>
+      </aside>
+
+      {/* ── MAIN ────────────────────────────────────────── */}
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', height: '100vh', overflow: 'hidden' }}>
+
+        {/* Topbar */}
+        <header style={{
+          height: 68, flexShrink: 0, background: 'var(--surface-card)',
+          borderBottom: '1px solid var(--border-subtle)',
+          display: 'flex', alignItems: 'center', gap: 16, padding: '0 28px',
+          position: 'relative', zIndex: 10, boxShadow: 'var(--shadow-xs)',
+        }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.35rem', margin: 0, lineHeight: 1.15 }}>{meta.title}</h1>
+            <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>{meta.subtitle}</div>
+          </div>
+
+          {/* Search */}
+          <div className="search-bar">
+            <Icon name="Search" size={15} color="var(--text-muted)" />
+            <input type="text" placeholder="Cari jamaah, order, paket…" />
+          </div>
+
+          {/* Notifications */}
+          <button
+            style={{ position: 'relative', background: 'var(--surface-sunken)', border: 'none', width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
+            onClick={() => setNotifOpen(o => !o)}
+          >
+            <Icon name="Bell" size={17} color="var(--text-secondary)" />
+            <span style={{ position: 'absolute', top: 9, right: 10, width: 7, height: 7, borderRadius: '50%', background: 'var(--danger-500)', border: '2px solid var(--surface-card)' }} />
+          </button>
+
+          {/* Primary action */}
+          {ACTION_LABELS[active] && (
+            <button className="btn-primary">
+              {ACTION_LABELS[active]}
+            </button>
+          )}
+
+          {/* Date display */}
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', whiteSpace: 'nowrap', borderLeft: '1px solid var(--border-subtle)', paddingLeft: 16 }}>
+            <div style={{ fontWeight: 600, color: 'var(--text-secondary)' }}>Jun 2026</div>
+            <div>Senin, 22 Juni</div>
+          </div>
+        </header>
+
+        {/* Content */}
+        <main style={{ flex: 1, overflow: 'auto', padding: 28 }}>
+          {children}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODULE: DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════════
+const unitRevenue = [
+  { name: 'Haji Khusus', pct: 62, color: 'var(--indigo-500)' },
+  { name: 'Umrah',       pct: 24, color: 'var(--blue-500)' },
+  { name: 'Wisata Halal',pct: 9,  color: 'var(--gold-300)' },
+  { name: 'B2B',         pct: 5,  color: 'var(--maroon-500)' },
+];
+const departures = [
+  { name: 'Umroh Reguler 12H',   date: '24 Sep 2026', origin: 'Jakarta',   sold: 42, cap: 45 },
+  { name: 'Haji Khusus VIP',     date: '05 Mei 2026', origin: 'Jakarta',   sold: 18, cap: 20 },
+  { name: 'Umroh Private 9H',    date: '11 Okt 2026', origin: 'Surabaya',  sold: 8,  cap: 12 },
+];
+const recentOrders = [
+  { id: '#SO-20461', name: 'H. Sulaiman',   pkg: 'Haji Khusus VIP',      total: 'Rp 306.000.000', tone: 'green', status: 'Lunas' },
+  { id: '#SO-20460', name: 'Hj. Aminah',    pkg: 'Umroh Reguler 12H',    total: 'Rp 28.900.000',  tone: 'amber', status: 'Cicilan' },
+  { id: '#SO-20459', name: 'Rizky Pratama', pkg: 'Umroh Private 9H',     total: 'Rp 47.500.000',  tone: 'blue',  status: 'DP' },
+  { id: '#SO-20458', name: 'PT Karya Abadi',pkg: 'B2B · 30 Tiket',       total: 'Rp 124.000.000', tone: 'green', status: 'Lunas' },
+];
+
+function ErpDashboard() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      {/* KPIs */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
+        <Kpi icon="Wallet"      label="Pendapatan bulan ini"  value="Rp 4,82 M" delta="12,4%" accent="var(--brand-primary)" />
+        <Kpi icon="Users"       label="Jamaah aktif"          value="1.284"      delta="8,1%"  accent="var(--indigo-500)" />
+        <Kpi icon="ShoppingCart"label="Sales order baru"      value="96"         delta="5,2%"  accent="var(--gold-400)" />
+        <Kpi icon="CircleAlert" label="Pembayaran tertunda"   value="Rp 612 Jt"  delta="3,0%"  deltaUp={false} accent="var(--maroon-500)" />
+      </div>
+
+      {/* Revenue chart + Departures */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1.4fr 1fr', gap: 22 }}>
+        <Panel title="Pendapatan per Unit Bisnis" action={<span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Kuartal berjalan</span>}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+            {unitRevenue.map(u => (
+              <div key={u.name}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 6 }}>
+                  <span style={{ fontWeight: 600 }}>{u.name}</span>
+                  <span style={{ color: 'var(--text-muted)' }}>{u.pct}%</span>
+                </div>
+                <div className="progress-bar">
+                  <div className="progress-fill" style={{ width: u.pct + '%', background: u.color }} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Panel>
+
+        <Panel title="Keberangkatan Mendatang">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {departures.map(d => {
+              const pct = Math.round(d.sold / d.cap * 100);
+              return (
+                <div key={d.name}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 8 }}>
+                    <span style={{ width: 38, height: 38, borderRadius: 'var(--radius-sm)', background: 'var(--surface-brand-soft)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                      <Icon name="PlaneTakeoff" size={17} color="var(--brand-primary)" />
+                    </span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{d.name}</div>
+                      <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 1 }}>{d.date} · {d.origin}</div>
+                    </div>
+                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, fontVariantNumeric: 'tabular-nums' }}>{d.sold}/{d.cap}</div>
+                      <div style={{ fontSize: 10, color: 'var(--text-muted)' }}>kursi</div>
+                    </div>
+                  </div>
+                  <Progress value={d.sold} max={d.cap} />
+                </div>
+              );
+            })}
+          </div>
+        </Panel>
+      </div>
+
+      {/* Recent orders */}
+      <Panel title="Sales Order Terbaru" noPad action={
+        <span style={{ fontSize: 13, color: 'var(--brand-primary)', fontWeight: 600, cursor: 'pointer' }}>Lihat semua →</span>
+      }>
+        <DataTable
+          columns={[
+            { key: 'id',     label: 'Order' },
+            { key: 'name',   label: 'Jamaah / Klien' },
+            { key: 'pkg',    label: 'Paket', wrap: true },
+            { key: 'total',  label: 'Nilai', align: 'right', render: r => <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>{r.total}</span> },
+            { key: 'status', label: 'Status', render: r => <Pill tone={r.tone}>{r.status}</Pill> },
+          ]}
+          rows={recentOrders}
+        />
+      </Panel>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODULE: CRM
+// ══════════════════════════════════════════════════════════════════════════════
+const leads = [
+  { name: 'Sulaiman Hadi',   pkg: 'Haji Khusus VIP',      src: 'Instagram',   tone: 'seal',    stage: 'Booking',   last: '2 jam lalu' },
+  { name: 'Aminah Zahra',    pkg: 'Umroh Reguler 12H',    src: 'WhatsApp',    tone: 'red',     stage: 'Hot Lead',  last: 'Hari ini' },
+  { name: 'Rizky Pratama',   pkg: 'Umroh Private 9H',     src: 'Referral',    tone: 'blue',    stage: 'Negosiasi', last: 'Kemarin' },
+  { name: 'Dewi Lestari',    pkg: 'Wisata Halal Turki',   src: 'Website',     tone: 'gold',    stage: 'Follow-up', last: '2 hari lalu' },
+  { name: 'PT Karya Abadi',  pkg: 'B2B Provider Tiket',   src: 'Sales Visit', tone: 'green',   stage: 'Closing',   last: '3 hari lalu' },
+  { name: 'Budi Santoso',    pkg: 'Haji Khusus Mabrur',   src: 'WhatsApp',    tone: 'neutral', stage: 'Lead Baru', last: '3 hari lalu' },
+];
+
+function ErpCrm() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
+        <Kpi icon="UserPlus"      label="Lead baru (minggu ini)" value="48"   accent="var(--brand-primary)" />
+        <Kpi icon="Flame"         label="Hot leads"              value="17"   accent="var(--maroon-500)" />
+        <Kpi icon="CalendarCheck" label="Booking dikonfirmasi"   value="29"   accent="var(--success-500)" />
+        <Kpi icon="Percent"       label="Conversion rate"        value="34%"  accent="var(--gold-400)" />
+      </div>
+
+      <Panel title="Pipeline Jamaah & Klien" noPad action={
+        <button className="btn-primary" style={{ fontSize: 12, padding: '7px 14px' }}>+ Tambah Lead</button>
+      }>
+        <DataTable
+          columns={[
+            { key: 'name',  label: 'Nama', render: r => (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10 }}>
+                <div className="avatar" style={{ width: 28, height: 28, background: 'var(--surface-sunken)', color: 'var(--brand-primary)', fontSize: 11 }}>
+                  {r.name.split(' ').slice(0,2).map(w => w[0]).join('')}
+                </div>
+                <span style={{ fontWeight: 600 }}>{r.name}</span>
+              </span>
+            )},
+            { key: 'pkg',   label: 'Minat Paket', wrap: true },
+            { key: 'src',   label: 'Sumber' },
+            { key: 'stage', label: 'Tahap', render: r => <Pill tone={r.tone}>{r.stage}</Pill> },
+            { key: 'last',  label: 'Kontak terakhir', align: 'right' },
+          ]}
+          rows={leads}
+        />
+      </Panel>
+
+      {/* Funnel mini-view */}
+      <Panel title="Funnel Konversi">
+        <div style={{ display: 'flex', gap: 12, alignItems: 'flex-end' }}>
+          {[['Lead Baru','48','var(--neutral-300)'],['Follow-up','31','var(--blue-300)'],['Negosiasi','22','var(--blue-500)'],['Booking','17','var(--indigo-500)'],['Closing','12','var(--success-500)']].map(([s,n,c],i,arr) => {
+            const pct = Math.round(parseInt(n)/parseInt(arr[0][1])*100);
+            return (
+              <div key={s} style={{ flex:1, textAlign:'center' }}>
+                <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.3rem', color:'var(--text-primary)', marginBottom:4 }}>{n}</div>
+                <div style={{ background:c, height: Math.max(40, pct*1.2)+'px', borderRadius:'var(--radius-sm) var(--radius-sm) 0 0', marginBottom:6 }} />
+                <div style={{ fontSize:11, color:'var(--text-muted)' }}>{s}</div>
+              </div>
+            );
+          })}
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODULE: SALES ORDER
+// ══════════════════════════════════════════════════════════════════════════════
+const salesOrders = [
+  { id: '#SO-20461', name: 'H. Sulaiman',    pkg: 'Haji Khusus VIP',      occ: 'Double', total: 'Rp 306.000.000', paid: 'Rp 306.000.000', tone: 'green', status: 'Lunas' },
+  { id: '#SO-20460', name: 'Hj. Aminah',     pkg: 'Umroh Reguler 12H',    occ: 'Quad',   total: 'Rp 28.900.000',  paid: 'Rp 15.000.000',  tone: 'amber', status: 'Cicilan' },
+  { id: '#SO-20459', name: 'Rizky Pratama',  pkg: 'Umroh Private 9H',     occ: 'Double', total: 'Rp 47.500.000',  paid: 'Rp 5.000.000',   tone: 'blue',  status: 'DP' },
+  { id: '#SO-20458', name: 'PT Karya Abadi', pkg: 'B2B · 30 Tiket',       occ: '—',      total: 'Rp 124.000.000', paid: 'Rp 124.000.000', tone: 'green', status: 'Lunas' },
+  { id: '#SO-20457', name: 'Dewi Lestari',   pkg: 'Wisata Halal Turki',   occ: 'Triple', total: 'Rp 32.000.000',  paid: 'Rp 0',           tone: 'red',   status: 'Menunggu DP' },
+];
+
+function ErpSales() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
+        <Kpi icon="Receipt"    label="Order bulan ini" value="96"         delta="5,2%"  accent="var(--brand-primary)" />
+        <Kpi icon="Banknote"   label="Nilai order"     value="Rp 6,1 M"  delta="9,8%"  accent="var(--success-500)" />
+        <Kpi icon="Hourglass"  label="Outstanding"     value="Rp 612 Jt" delta="3,0%"  deltaUp={false} accent="var(--maroon-500)" />
+        <Kpi icon="CheckCheck" label="Lunas"           value="71%"                      accent="var(--gold-400)" />
+      </div>
+
+      <Panel title="Daftar Sales Order" noPad action={
+        <button className="btn-primary" style={{ fontSize: 12, padding: '7px 14px' }}>+ Order Baru</button>
+      }>
+        <DataTable
+          columns={[
+            { key: 'id',     label: 'Order' },
+            { key: 'name',   label: 'Jamaah / Klien' },
+            { key: 'pkg',    label: 'Paket', wrap: true },
+            { key: 'occ',    label: 'Okupansi' },
+            { key: 'total',  label: 'Total', align: 'right', render: r => <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>{r.total}</span> },
+            { key: 'paid',   label: 'Terbayar', align: 'right', render: r => <span style={{ color: 'var(--text-secondary)', fontVariantNumeric: 'tabular-nums' }}>{r.paid}</span> },
+            { key: 'status', label: 'Status', render: r => <Pill tone={r.tone}>{r.status}</Pill> },
+          ]}
+          rows={salesOrders}
+        />
+      </Panel>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODULE: PRODUCTS
+// ══════════════════════════════════════════════════════════════════════════════
+const PRODUCT_SEED = [
+  { id:'local-1', name:'Haji Khusus VIP',       unit:'Haji Khusus', tone:'seal', price:'Rp 270–306 Jt', sold:18, cap:20, is_published:true },
+  { id:'local-2', name:'Haji Khusus Premium',   unit:'Haji Khusus', tone:'seal', price:'Rp 230–270 Jt', sold:12, cap:20, is_published:true },
+  { id:'local-3', name:'Haji Khusus Mabrur',    unit:'Haji Khusus', tone:'seal', price:'Rp 190–220 Jt', sold:9,  cap:20, is_published:true },
+  { id:'local-4', name:'Umroh Reguler 12 Hari', unit:'Umrah',       tone:'blue', price:'Rp 28,9 Jt',   sold:42, cap:45, is_published:true },
+  { id:'local-5', name:'Umroh Private 9 Hari',  unit:'Umrah',       tone:'blue', price:'Rp 47,5 Jt',   sold:8,  cap:12, is_published:true },
+  { id:'local-6', name:'Wisata Halal Turki',    unit:'Wisata Halal',tone:'gold', price:'Rp 32 Jt',     sold:15, cap:30, is_published:true },
+];
+const TONE_MAP = { Umrah:'blue', 'Haji Khusus':'seal', 'Wisata Halal':'gold', B2B:'neutral' };
+const UNIT_OPTIONS = ['Umrah','Haji Khusus','Wisata Halal','B2B'];
+
+function ProductModal({ product, onSave, onClose }) {
+  const isEdit = !!(product?.id);
+  const blank = { name:'', unit:'Umrah', price_display:'', sold:0, cap:20, image_key:'kaaba', badge_label:'', duration:'', departure:'Jakarta', hotel_stars:4, rating:4.8, is_published:true };
+  const [form, setForm] = useState(product ? { ...product, price_display: product.price_display||product.price||'' } : blank);
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  return (
+    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.55)', zIndex:900, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={e=>{ if(e.target===e.currentTarget) onClose(); }}>
+      <div style={{ background:'var(--surface-card)', borderRadius:'var(--radius-xl)', width:'100%', maxWidth:560, boxShadow:'var(--shadow-xl)', overflow:'hidden' }}>
+        <div style={{ padding:'18px 24px', borderBottom:'1px solid var(--border-subtle)', display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+          <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.2rem', margin:0 }}>{isEdit ? 'Edit Paket' : 'Tambah Paket Baru'}</h3>
+          <button onClick={onClose} style={{ background:'none', border:'none', cursor:'pointer', color:'var(--text-muted)', fontSize:22, lineHeight:1, padding:'2px 6px' }}>×</button>
+        </div>
+        <div style={{ padding:'20px 24px', display:'grid', gridTemplateColumns:'1fr 1fr', gap:14, maxHeight:'65vh', overflowY:'auto' }}>
+          <div style={{ gridColumn:'1/-1', display:'flex', flexDirection:'column', gap:4 }}>
+            <label style={{ fontSize:11, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'var(--text-muted)' }}>Nama Paket</label>
+            <input value={form.name} onChange={e=>set('name',e.target.value)} placeholder="Umroh Reguler 12 Hari" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />
+          </div>
+          {[['Unit Bisnis',<select value={form.unit} onChange={e=>{set('unit',e.target.value);set('tone',TONE_MAP[e.target.value]||'blue');}} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', background:'var(--surface-card)', width:'100%' }}>{UNIT_OPTIONS.map(u=><option key={u}>{u}</option>)}</select>],
+           ['Harga (tampilan)',<input value={form.price_display} onChange={e=>set('price_display',e.target.value)} placeholder="Rp 28.900.000" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Durasi',<input value={form.duration||''} onChange={e=>set('duration',e.target.value)} placeholder="12 Hari" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Kuota Total',<input type="number" value={form.cap} onChange={e=>set('cap',+e.target.value)} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Terisi',<input type="number" value={form.sold||0} onChange={e=>set('sold',+e.target.value)} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+           ['Gambar',<select value={form.image_key||'kaaba'} onChange={e=>set('image_key',e.target.value)} style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', background:'var(--surface-card)', width:'100%' }}>{['kaaba','madinah','group','arafah','hero'].map(k=><option key={k} value={k}>{k}</option>)}</select>],
+           ['Badge Label',<input value={form.badge_label||''} onChange={e=>set('badge_label',e.target.value)} placeholder="Best Seller" style={{ padding:'9px 12px', border:'1.5px solid var(--border-default)', borderRadius:'var(--radius-sm)', fontFamily:'var(--font-ui)', fontSize:14, outline:'none', width:'100%' }} />],
+          ].map(([lbl,el])=>(
+            <div key={lbl} style={{ display:'flex', flexDirection:'column', gap:4 }}>
+              <label style={{ fontSize:11, fontWeight:700, letterSpacing:'0.08em', textTransform:'uppercase', color:'var(--text-muted)' }}>{lbl}</label>
+              {el}
+            </div>
+          ))}
+          <div style={{ gridColumn:'1/-1', display:'flex', alignItems:'center', gap:10 }}>
+            <input type="checkbox" id="pub" checked={form.is_published??true} onChange={e=>set('is_published',e.target.checked)} style={{ width:16, height:16, cursor:'pointer' }} />
+            <label htmlFor="pub" style={{ fontFamily:'var(--font-ui)', fontSize:13, fontWeight:500, color:'var(--text-primary)', cursor:'pointer' }}>Tampilkan di website publik (aqobah.com)</label>
+          </div>
+        </div>
+        <div style={{ padding:'14px 24px', borderTop:'1px solid var(--border-subtle)', display:'flex', justifyContent:'flex-end', gap:10 }}>
+          <button onClick={onClose} className="btn-ghost">Batal</button>
+          <button onClick={()=>onSave(form)} className="btn-primary">{isEdit ? 'Simpan Perubahan' : '+ Tambah Paket'}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ErpProducts() {
+  const [products, setProducts] = useState(PRODUCT_SEED);
+  const [loading, setLoading] = useState(!!SUPABASE_URL);
+  const [modal, setModal] = useState(null);
+  const [toast, setToast] = useState(null);
+
+  const showToast = (msg, ok = true) => { setToast({ msg, ok }); setTimeout(() => setToast(null), 3200); };
+
+  const loadProducts = useCallback(() => {
+    return sb('products?select=*&order=sort_order.asc,created_at.asc')
+      .then(rows => {
+        if (rows && rows.length) setProducts(rows.map(r => ({ ...r, price: r.price_display, tone: r.tone || 'blue' })));
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!SUPABASE_URL) return;
+    loadProducts()
+      .catch(() => showToast('Gagal memuat dari Supabase', false))
+      .finally(() => setLoading(false));
+  }, [loadProducts]);
+
+  const saveProduct = async (form) => {
+    const isEdit = !!(form.id && !String(form.id).startsWith('local-'));
+    const payload = {
+      name: form.name, unit: form.unit,
+      price_display: form.price_display || '',
+      duration: form.duration || '', departure: form.departure || 'Jakarta',
+      cap: +form.cap || 20, sold: +form.sold || 0,
+      tone: TONE_MAP[form.unit] || 'blue',
+      image_key: form.image_key || 'kaaba',
+      badge_label: form.badge_label || '',
+      badge_variant: TONE_MAP[form.unit]==='seal'?'seal':TONE_MAP[form.unit]==='gold'?'accent':'brand',
+      is_published: form.is_published ?? true,
+    };
+    if (SUPABASE_URL) {
+      try {
+        if (isEdit) {
+          await sb(`products?id=eq.${form.id}`, { method:'PATCH', body:JSON.stringify(payload) });
+        } else {
+          await sb('products', { method:'POST', body:JSON.stringify(payload) });
+        }
+        await loadProducts();
+        showToast(isEdit ? 'Paket diperbarui ✓' : 'Paket ditambahkan — website akan diperbarui otomatis ✓');
+      } catch { showToast('Gagal menyimpan ke Supabase', false); }
+    } else {
+      if (isEdit) {
+        setProducts(ps => ps.map(p => p.id===form.id ? { ...p, ...payload, price:payload.price_display } : p));
+      } else {
+        setProducts(ps => [...ps, { ...payload, id:`local-${Date.now()}`, price:payload.price_display }]);
+      }
+      showToast(isEdit ? 'Paket diperbarui (lokal)' : 'Paket ditambahkan (lokal) — sambungkan Supabase untuk sinkronisasi');
+    }
+    setModal(null);
+  };
+
+  const deleteProduct = async (id) => {
+    if (!confirm('Hapus paket ini dari katalog?')) return;
+    if (SUPABASE_URL && !String(id).startsWith('local-')) {
+      try {
+        await sb(`products?id=eq.${id}`, { method:'DELETE' });
+        showToast('Paket dihapus dari katalog & website ✓');
+      } catch { showToast('Gagal menghapus', false); return; }
+    } else {
+      showToast('Paket dihapus (lokal)');
+    }
+    setProducts(ps => ps.filter(p => p.id !== id));
+  };
+
+  const totalSold = products.reduce((s, p) => s + (+p.sold||0), 0);
+  const totalCap  = products.reduce((s, p) => s + (+p.cap||0), 0);
+  const fillRate  = totalCap ? Math.round(totalSold / totalCap * 100) : 0;
+
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:22 }}>
+      {/* Toast notification */}
+      {toast && (
+        <div style={{ position:'fixed', top:80, right:24, zIndex:800, background:toast.ok?'var(--success-500)':'var(--danger-500)', color:'#fff', padding:'11px 20px', borderRadius:'var(--radius-pill)', fontFamily:'var(--font-ui)', fontSize:13, fontWeight:600, boxShadow:'var(--shadow-lg)', transition:'all 0.2s' }}>{toast.msg}</div>
+      )}
+
+      {/* KPIs */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:18 }}>
+        <Kpi icon="Package"     label="Total paket aktif"  value={String(products.length)} accent="var(--brand-primary)" />
+        <Kpi icon="Users"       label="Total kuota"        value={String(totalCap)}        accent="var(--indigo-500)" />
+        <Kpi icon="TicketCheck" label="Terisi"             value={String(totalSold)}       accent="var(--success-500)" />
+        <Kpi icon="Percent"     label="Fill rate"          value={`${fillRate}%`}          accent="var(--gold-400)" />
+      </div>
+
+      {/* Header row */}
+      <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+        <div>
+          <h2 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.15rem', margin:0 }}>Katalog Paket</h2>
+          <div style={{ fontSize:12, marginTop:2 }}>
+            {SUPABASE_URL
+              ? <span style={{ color:'var(--success-500)', fontWeight:600 }}>● Terhubung ke Supabase — perubahan langsung tampil di aqobah.com</span>
+              : <span style={{ color:'var(--text-muted)' }}>Data lokal · isi SUPABASE_URL untuk sinkronisasi ke website</span>
+            }
+          </div>
+        </div>
+        <button className="btn-primary" onClick={()=>setModal('add')}>+ Paket Baru</button>
+      </div>
+
+      {/* Product grid */}
+      {loading ? (
+        <div style={{ textAlign:'center', padding:48, color:'var(--text-muted)', fontFamily:'var(--font-ui)' }}>Memuat paket dari Supabase…</div>
+      ) : (
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:18 }}>
+          {products.map(p => {
+            const pct = Math.round((+p.sold||0) / (+p.cap||1) * 100);
+            return (
+              <div key={p.id||p.name} style={{ background:'var(--surface-card)', border:'1px solid var(--border-subtle)', borderRadius:'var(--radius-lg)', padding:20, boxShadow:'var(--shadow-xs)', display:'flex', flexDirection:'column', gap:14, transition:'box-shadow var(--dur-base) var(--ease-out),transform var(--dur-base) var(--ease-out)' }}
+                onMouseEnter={e=>{ e.currentTarget.style.boxShadow='var(--shadow-md)'; e.currentTarget.style.transform='translateY(-2px)'; }}
+                onMouseLeave={e=>{ e.currentTarget.style.boxShadow='var(--shadow-xs)'; e.currentTarget.style.transform='none'; }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', gap:10 }}>
+                  <h3 style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.05rem', margin:0, lineHeight:1.25 }}>{p.name}</h3>
+                  <Pill tone={p.tone||'blue'}>{p.unit}</Pill>
+                </div>
+                <div style={{ fontFamily:'var(--font-display)', fontWeight:700, fontSize:'1.25rem', color:'var(--brand-seal)' }}>{p.price||p.price_display}</div>
+                <div>
+                  <div style={{ display:'flex', justifyContent:'space-between', fontSize:12, color:'var(--text-muted)', marginBottom:5 }}>
+                    <span>Kursi terisi</span>
+                    <span style={{ fontWeight:600, color:pct>85?'var(--danger-500)':'var(--text-secondary)' }}>{p.sold||0}/{p.cap||0} ({pct}%)</span>
+                  </div>
+                  <Progress value={+p.sold||0} max={+p.cap||1} />
+                </div>
+                {p.is_published===false && (
+                  <div style={{ fontSize:11, color:'var(--warning-500)', fontWeight:600, background:'var(--warning-50)', padding:'4px 10px', borderRadius:'var(--radius-pill)', alignSelf:'flex-start' }}>Tersembunyi dari website</div>
+                )}
+                <div style={{ display:'flex', gap:8 }}>
+                  <button className="btn-ghost" style={{ flex:1 }} onClick={()=>setModal(p)}>Edit</button>
+                  <button className="btn-primary" style={{ flex:1, justifyContent:'center', borderRadius:'var(--radius-sm)', background:'var(--danger-500)' }} onClick={()=>deleteProduct(p.id)}>Hapus</button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Modal */}
+      {modal && <ProductModal product={modal==='add'?null:modal} onSave={saveProduct} onClose={()=>setModal(null)} />}
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODULE: OPERASIONAL
+// ══════════════════════════════════════════════════════════════════════════════
+const docChecklist = [
+  { name: 'Sulaiman Hadi',  pkg: 'Haji Khusus VIP',    paspor: 'green', visa: 'green', vaksin: 'green',  manasik: 'amber' },
+  { name: 'Aminah Zahra',   pkg: 'Umroh Reguler 12H',  paspor: 'green', visa: 'green', vaksin: 'amber',  manasik: 'neutral' },
+  { name: 'Rizky Pratama',  pkg: 'Umroh Private 9H',   paspor: 'green', visa: 'amber', vaksin: 'neutral',manasik: 'neutral' },
+  { name: 'Dewi Lestari',   pkg: 'Wisata Halal Turki', paspor: 'green', visa: 'green', vaksin: 'green',  manasik: 'green' },
+];
+const docLabel = t => ({ green: 'Lengkap', amber: 'Proses', neutral: 'Belum' }[t]);
+
+const manasikSchedule = [
+  { title: 'Manasik Akbar Umroh',        date: '28 Sep 2026', loc: 'Aula Kantor Pusat' },
+  { title: 'Bimbingan Haji Khusus',      date: '02 Apr 2026', loc: 'Hotel Santika BSD' },
+  { title: 'Manasik Private Group',      date: '05 Okt 2026', loc: 'Online · Zoom' },
+];
+const vendors = [
+  { name: 'Hotel Swiss Al Maqam', detail: 'Makkah · 20 kamar',   tone: 'green', status: 'Confirmed' },
+  { name: 'Qatar Airways',        detail: '45 seat · CGK–JED',   tone: 'green', status: 'Ticketed' },
+  { name: 'Bus AC Armada',        detail: '3 unit · Madinah',    tone: 'amber', status: 'Pending' },
+  { name: 'Catering Maktab',      detail: 'Arafah–Mina',         tone: 'blue',  status: 'Booked' },
+];
+
+function ErpOps() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      <Panel title="Checklist Dokumen Jamaah" noPad action={
+        <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>Paspor · Visa · Vaksin · Manasik</span>
+      }>
+        <DataTable
+          columns={[
+            { key: 'name',    label: 'Jamaah', render: r => <span style={{ fontWeight: 600 }}>{r.name}</span> },
+            { key: 'pkg',     label: 'Paket' },
+            { key: 'paspor',  label: 'Paspor',  render: r => <Pill tone={r.paspor}>{docLabel(r.paspor)}</Pill> },
+            { key: 'visa',    label: 'Visa',    render: r => <Pill tone={r.visa}>{docLabel(r.visa)}</Pill> },
+            { key: 'vaksin',  label: 'Vaksin',  render: r => <Pill tone={r.vaksin}>{docLabel(r.vaksin)}</Pill> },
+            { key: 'manasik', label: 'Manasik', render: r => <Pill tone={r.manasik}>{docLabel(r.manasik)}</Pill> },
+          ]}
+          rows={docChecklist}
+        />
+      </Panel>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+        <Panel title="Jadwal Manasik">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+            {manasikSchedule.map((m, i) => {
+              const parts = m.date.split(' ');
+              return (
+                <div key={m.title} style={{
+                  display: 'flex', gap: 14, alignItems: 'flex-start',
+                  paddingBottom: i < manasikSchedule.length - 1 ? 16 : 0,
+                  marginBottom: i < manasikSchedule.length - 1 ? 16 : 0,
+                  borderBottom: i < manasikSchedule.length - 1 ? '1px solid var(--border-subtle)' : 'none',
+                }}>
+                  <div style={{ width: 48, textAlign: 'center', flexShrink: 0, background: 'var(--surface-brand-soft)', borderRadius: 'var(--radius-sm)', padding: '6px 0' }}>
+                    <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.15rem', color: 'var(--brand-primary)', lineHeight: 1 }}>{parts[0]}</div>
+                    <div style={{ fontSize: 10, textTransform: 'uppercase', color: 'var(--text-muted)', marginTop: 1 }}>{parts[1]}</div>
+                  </div>
+                  <div>
+                    <div style={{ fontSize: 13, fontWeight: 600 }}>{m.title}</div>
+                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>{m.loc}</div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </Panel>
+
+        <Panel title="Vendor & Logistik">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+            {vendors.map(v => (
+              <div key={v.name} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 'var(--radius-sm)', background: 'var(--surface-sunken)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <Icon name="Building2" size={16} color="var(--text-muted)" />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600 }}>{v.name}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>{v.detail}</div>
+                </div>
+                <Pill tone={v.tone}>{v.status}</Pill>
+              </div>
+            ))}
+          </div>
+        </Panel>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODULE: FINANCE
+// ══════════════════════════════════════════════════════════════════════════════
+const ledger = [
+  { date: '12 Jun', desc: 'Pelunasan SO-20461',           unit: 'Haji Khusus', dir: 'in',  amount: 'Rp 291.000.000' },
+  { date: '11 Jun', desc: 'DP Umroh Private SO-20459',    unit: 'Umrah',       dir: 'in',  amount: 'Rp 5.000.000' },
+  { date: '10 Jun', desc: 'Pembayaran Hotel Movenpick',   unit: 'Haji Khusus', dir: 'out', amount: 'Rp 480.000.000' },
+  { date: '09 Jun', desc: 'Tiket Qatar Airways (45 pax)', unit: 'Umrah',       dir: 'out', amount: 'Rp 720.000.000' },
+  { date: '08 Jun', desc: 'Invoice B2B PT Karya Abadi',   unit: 'B2B',         dir: 'in',  amount: 'Rp 124.000.000' },
+];
+const unitTone = u => ({ 'Haji Khusus': 'seal', 'Umrah': 'blue', 'B2B': 'gold' }[u] || 'neutral');
+
+function ErpFinance() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
+        <Kpi icon="TrendingUp"   label="Pemasukan (MTD)"      value="Rp 4,82 M"  delta="12,4%"  accent="var(--success-500)" />
+        <Kpi icon="TrendingDown" label="Pengeluaran (MTD)"    value="Rp 3,15 M"  delta="6,7%"   deltaUp={false} accent="var(--maroon-500)" />
+        <Kpi icon="PiggyBank"    label="Laba kotor"           value="Rp 1,67 M"  delta="18,2%"  accent="var(--brand-primary)" />
+        <Kpi icon="FileClock"    label="Piutang jatuh tempo"  value="Rp 612 Jt"               accent="var(--gold-400)" />
+      </div>
+
+      <Panel title="Buku Kas & Bank" noPad action={
+        <button className="btn-ghost" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, padding: '6px 12px' }}>
+          <Icon name="Download" size={13} color="var(--text-secondary)" /> Ekspor
+        </button>
+      }>
+        <DataTable
+          columns={[
+            { key: 'date',   label: 'Tanggal' },
+            { key: 'desc',   label: 'Keterangan', wrap: true },
+            { key: 'unit',   label: 'Unit', render: r => <Pill tone={unitTone(r.unit)}>{r.unit}</Pill> },
+            { key: 'amount', label: 'Jumlah', align: 'right', render: r => (
+              <span style={{ fontWeight: 600, fontVariantNumeric: 'tabular-nums', color: r.dir === 'in' ? 'var(--success-500)' : 'var(--danger-500)' }}>
+                {r.dir === 'in' ? '+ ' : '− '}{r.amount}
+              </span>
+            )},
+          ]}
+          rows={ledger}
+        />
+      </Panel>
+
+      {/* Summary cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 18 }}>
+        {[
+          { label: 'Haji Khusus', amount: 'Rp 2,89 M', pct: 60, color: 'var(--indigo-500)', tone: 'seal' },
+          { label: 'Umrah',       amount: 'Rp 1,16 M', pct: 24, color: 'var(--blue-500)',   tone: 'blue' },
+          { label: 'B2B',         amount: 'Rp 770 Jt', pct: 16, color: 'var(--gold-300)',   tone: 'gold' },
+        ].map(s => (
+          <div key={s.label} style={{ background: 'var(--surface-card)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-lg)', padding: 18, boxShadow: 'var(--shadow-xs)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+              <Pill tone={s.tone}>{s.label}</Pill>
+              <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>{s.pct}%</span>
+            </div>
+            <div style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: '1.3rem', color: 'var(--text-primary)', marginBottom: 10 }}>{s.amount}</div>
+            <Progress value={s.pct} max={100} color={s.color} />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// MODULE: HR
+// ══════════════════════════════════════════════════════════════════════════════
+const staff = [
+  { name: 'Ahmad Najihan Maududi', role: 'Asatidz Pembimbing', dept: 'Operasional', tone: 'green', status: 'Aktif' },
+  { name: 'Chairul Anwar',         role: 'Asatidz Pembimbing', dept: 'Operasional', tone: 'green', status: 'Aktif' },
+  { name: 'Ahmad Masyhuri',        role: 'Muthawif Senior',    dept: 'Operasional', tone: 'blue',  status: 'Bertugas' },
+  { name: 'Siti Rahmawati',        role: 'Sales Consultant',   dept: 'Sales & CRM', tone: 'green', status: 'Aktif' },
+  { name: 'Fauzan Akbar',          role: 'Finance Officer',    dept: 'Keuangan',    tone: 'green', status: 'Aktif' },
+  { name: 'Nurul Hidayah',         role: 'Customer Care',      dept: 'Layanan',     tone: 'amber', status: 'Cuti' },
+];
+function initials(name) { return name.split(' ').slice(0,2).map(w => w[0]).join(''); }
+const avatarColors = ['#E7F5FC', '#FEF6E4', '#E4F5EE', '#F3DCDD', '#EAEFF4'];
+
+function ErpHr() {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 22 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 18 }}>
+        <Kpi icon="Users"    label="Total karyawan"          value="64"  accent="var(--brand-primary)" />
+        <Kpi icon="UserCheck"label="Hadir hari ini"          value="58"  accent="var(--success-500)" />
+        <Kpi icon="Plane"    label="Bertugas di tanah suci"  value="6"   accent="var(--gold-400)" />
+        <Kpi icon="Building" label="Cabang & mitra"          value="40"  accent="var(--indigo-500)" />
+      </div>
+
+      <Panel title="Direktori Karyawan & Tim Lapangan" noPad action={
+        <button className="btn-primary" style={{ fontSize: 12, padding: '7px 14px' }}>+ Tambah</button>
+      }>
+        <DataTable
+          columns={[
+            { key: 'name', label: 'Nama', render: (r, i) => (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 12 }}>
+                <div className="avatar" style={{ width: 32, height: 32, background: avatarColors[staff.indexOf(r) % avatarColors.length], color: 'var(--indigo-700)', fontSize: 12 }}>
+                  {initials(r.name)}
+                </div>
+                <span style={{ fontWeight: 600 }}>{r.name}</span>
+              </span>
+            )},
+            { key: 'role',   label: 'Jabatan' },
+            { key: 'dept',   label: 'Divisi' },
+            { key: 'status', label: 'Status', render: r => <Pill tone={r.tone}>{r.status}</Pill> },
+            { key: 'action', label: '', align: 'right', render: r => (
+              <button className="btn-ghost" style={{ fontSize: 11, padding: '5px 10px' }}>Detail</button>
+            )},
+          ]}
+          rows={staff}
+        />
+      </Panel>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 22 }}>
+        <Panel title="Distribusi per Divisi">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {[['Operasional','28','var(--indigo-500)'],['Sales & CRM','14','var(--blue-500)'],['Keuangan','8','var(--gold-400)'],['Layanan','6','var(--maroon-500)'],['Manajerial','8','var(--neutral-400)']].map(([div, n, color]) => (
+              <div key={div}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, marginBottom: 5 }}>
+                  <span style={{ fontWeight: 500 }}>{div}</span>
+                  <span style={{ color: 'var(--text-muted)', fontVariantNumeric: 'tabular-nums' }}>{n}</span>
+                </div>
+                <Progress value={parseInt(n)} max={64} color={color} />
+              </div>
+            ))}
+          </div>
+        </Panel>
+
+        <Panel title="Jadwal Bertugas">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {[
+              { name: 'Ahmad Masyhuri', task: 'Pendamping Haji VIP · Makkah', date: 's/d 10 Jul 2026', tone: 'blue' },
+              { name: 'Tim Manasik A',  task: 'Manasik Akbar · BSD',         date: '28 Sep 2026',      tone: 'green' },
+              { name: 'Tim B2B',        task: 'Kunjungan PT BRI · Jakarta',  date: '25 Jun 2026',      tone: 'gold' },
+            ].map(s => (
+              <div key={s.name} style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+                <div style={{ width: 6, height: 6, borderRadius: '50%', background: PILL_TONES[s.tone]?.fg || '#ccc', flexShrink: 0, marginTop: 1 }} />
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: 13, fontWeight: 600 }}>{s.name}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 1 }}>{s.task}</div>
+                </div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>{s.date}</div>
+              </div>
+            ))}
+          </div>
+        </Panel>
+      </div>
+    </div>
+  );
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// APP ROOT
+// ══════════════════════════════════════════════════════════════════════════════
+const SCREENS = { dashboard: ErpDashboard, crm: ErpCrm, sales: ErpSales, products: ErpProducts, ops: ErpOps, finance: ErpFinance, hr: ErpHr };
+
+function App() {
+  const [screen, setScreen] = useState('dashboard');
+  const mainRef = useRef(null);
+
+  const nav = useCallback(key => {
+    setScreen(key);
+    if (mainRef.current) mainRef.current.scrollTop = 0;
+  }, []);
+
+  const Screen = SCREENS[screen];
+
+  return (
+    <ErpShell active={screen} onNav={nav}>
+      <Screen />
+    </ErpShell>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
