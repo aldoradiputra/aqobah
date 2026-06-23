@@ -134,7 +134,7 @@ export function ErpShell() {
           >
             Menu Utama
           </div>
-          {ERP_NAV.map((item) => (
+          {ERP_NAV.filter((item) => !item.roles || (role != null && item.roles.includes(role))).map((item) => (
             <NavLink
               key={item.key}
               to={item.to}

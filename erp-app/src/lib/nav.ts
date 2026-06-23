@@ -1,9 +1,12 @@
+import type { AppRole } from './types'
+
 // Navigation + per-module metadata, shared by the shell and placeholder pages.
 export interface NavItem {
   key: string
   label: string
   icon: string
   to: string
+  roles?: AppRole[] // when set, only these roles see the item
 }
 
 export const ERP_NAV: NavItem[] = [
@@ -14,6 +17,7 @@ export const ERP_NAV: NavItem[] = [
   { key: 'ops', label: 'Operasional', icon: 'ClipboardCheck', to: '/ops' },
   { key: 'finance', label: 'Keuangan', icon: 'Wallet', to: '/finance' },
   { key: 'hr', label: 'SDM / HR', icon: 'UserCog', to: '/hr' },
+  { key: 'audit', label: 'Audit', icon: 'FileText', to: '/audit', roles: ['admin', 'management'] },
 ]
 
 export const MODULE_META: Record<string, { title: string; subtitle: string }> = {
@@ -24,4 +28,5 @@ export const MODULE_META: Record<string, { title: string; subtitle: string }> = 
   ops: { title: 'Operasional', subtitle: 'Dokumen, manasik & vendor' },
   finance: { title: 'Keuangan', subtitle: 'Akuntansi & arus kas' },
   hr: { title: 'SDM / HR', subtitle: 'Karyawan & tim lapangan' },
+  audit: { title: 'Audit Trail', subtitle: 'Riwayat perubahan data · siapa, apa, kapan' },
 }
