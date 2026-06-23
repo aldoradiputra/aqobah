@@ -3,5 +3,7 @@
 project/
 chats/
 supabase/
-# New Vite ERP app — deployed as its own Vercel project (erp.aqobah.com), not here.
-erp-app/
+# NOTE: do NOT ignore erp-app/ here. The erp-aqobah Vercel project builds from
+# erp-app/ as its Root Directory; a root-level ignore of it discards the app
+# source and breaks that build. landing-aqobah serves only the root index.html,
+# so the extra erp-app/ files it uploads are harmless.
