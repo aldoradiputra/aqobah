@@ -35,6 +35,20 @@ export interface BusinessUnit {
   created_at: string
 }
 
+// Room-type pricing (supabase/migrations/007_*). `price` may arrive as a string
+// from Postgres numeric, so coerce with Number() before use.
+export type RoomType = 'quad' | 'triple' | 'double'
+
+export interface RoomPricing {
+  id: string
+  product_id: string
+  room_type: RoomType
+  price: number | string | null
+  currency: string
+  created_at: string
+  updated_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'

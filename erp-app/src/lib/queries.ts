@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from './supabase'
-import type { Product, AuditEntry, BusinessUnit } from './types'
+import type { Product, AuditEntry, BusinessUnit, RoomPricing } from './types'
 
 // Single source of truth for the products query — reused by the Products page
 // and the Dashboard KPIs.
@@ -58,7 +58,10 @@ export function useSaveProduct() {
         : await supabase.from('products').insert(fields)
       if (res.error) throw res.error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['products'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['products'] })
+      qc.invalidateQueries({ queryKey: ['product'] })
+    },
   })
 }
 
@@ -69,6 +72,57 @@ export function useDeleteProduct() {
       const { error } = await supabase.from('products').delete().eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['products'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['products'] })
+      qc.invalidateQueries({ queryKey: ['product'] })
+    },
+  })
+}
+
+// Single product (detail page).
+export function useProduct(id: string | undefined) {
+  return useQuery({
+    queryKey: ['product', id],
+    enabled: !!id,
+    queryFn: async (): Promise<Product | null> => {
+      const { data, error } = await supabase.from('products').select('*').eq('id', id!).maybeSingle()
+      if (error) throw error
+      return (data as Product | null) ?? null
+    },
+  })
+}
+
+// Room-type pricing for a product.
+export function useRoomPricing(productId: string | undefined) {
+  return useQuery({
+    queryKey: ['room_pricing', productId],
+    enabled: !!productId,
+    queryFn: async (): Promise<RoomPricing[]> => {
+      const { data, error } = await supabase
+        .from('product_room_pricing')
+        .select('*')
+        .eq('product_id', productId!)
+      if (error) throw error
+      return (data ?? []) as RoomPricing[]
+    },
+  })
+}
+
+export function useSaveRoomPricing(productId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (rows: { room_type: string; price: number | null }[]) => {
+      const payload = rows.map((r) => ({
+        product_id: productId,
+        room_type: r.room_type,
+        price: r.price,
+        currency: 'IDR',
+      }))
+      const { error } = await supabase
+        .from('product_room_pricing')
+        .upsert(payload, { onConflict: 'product_id,room_type' })
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['room_pricing', productId] }),
   })
 }

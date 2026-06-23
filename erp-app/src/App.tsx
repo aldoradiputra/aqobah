@@ -6,6 +6,7 @@ import { DashboardPage } from './features/DashboardPage'
 import { ProductsPage } from './features/ProductsPage'
 import { ModulePlaceholder } from './features/ModulePlaceholder'
 import { AuditPage } from './features/AuditPage'
+import { ProductDetailPage } from './features/ProductDetailPage'
 import { RoleGuard } from './auth/RoleGuard'
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
           <Route path="crm" element={<ModulePlaceholder moduleKey="crm" />} />
           <Route path="sales" element={<ModulePlaceholder moduleKey="sales" />} />
           <Route path="products" element={<ProductsPage />} />
+          <Route path="products/:id" element={<ProductDetailPage />} />
           <Route path="ops" element={<ModulePlaceholder moduleKey="ops" />} />
           <Route path="finance" element={<ModulePlaceholder moduleKey="finance" />} />
           <Route path="hr" element={<ModulePlaceholder moduleKey="hr" />} />
