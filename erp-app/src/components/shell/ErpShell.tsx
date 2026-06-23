@@ -1,8 +1,29 @@
-import { NavLink, Outlet, useLocation } from 'react-router-dom'
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { Icon } from '../ui/Icon'
 import { ERP_NAV, MODULE_META } from '../../lib/nav'
+import { useSession } from '../../auth/SessionProvider'
 
 const UNITS = ['Umrah', 'Haji', 'Halal', 'B2B']
+
+const ROLE_LABEL: Record<string, string> = {
+  admin: 'Admin',
+  management: 'Manajemen',
+  sales: 'Sales',
+  operational: 'Operasional',
+  warehouse: 'Gudang',
+  finance: 'Keuangan',
+}
+
+function initialsOf(name: string) {
+  return (
+    name
+      .split(/[\s@._-]+/)
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((s) => s[0]?.toUpperCase() ?? '')
+      .join('') || 'AQ'
+  )
+}
 
 function todayLabels() {
   const now = new Date()
@@ -17,6 +38,14 @@ export function ErpShell() {
   const active = ERP_NAV.find((n) => n.to === location.pathname)?.key ?? 'dashboard'
   const meta = MODULE_META[active] ?? MODULE_META.dashboard
   const date = todayLabels()
+  const navigate = useNavigate()
+  const { user, profile, role, signOut } = useSession()
+  const displayName = profile?.full_name || user?.email || 'Pengguna'
+  const roleLabel = role ? ROLE_LABEL[role] ?? role : '—'
+  async function handleSignOut() {
+    await signOut()
+    navigate('/login', { replace: true })
+  }
 
   return (
     <div style={{ display: 'flex', height: '100vh', overflow: 'hidden', background: 'var(--surface-page)' }}>
@@ -172,7 +201,7 @@ export function ErpShell() {
             className="avatar"
             style={{ width: 34, height: 34, background: 'var(--gold-300)', color: 'var(--indigo-800)', fontSize: 13 }}
           >
-            AD
+            {initialsOf(displayName)}
           </div>
           <div style={{ flex: 1, minWidth: 0 }}>
             <div
@@ -184,11 +213,15 @@ export function ErpShell() {
                 textOverflow: 'ellipsis',
               }}
             >
-              Admin Pusat
+              {displayName}
             </div>
-            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', marginTop: 1 }}>Kantor Pusat · Tangsel</div>
+            <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)', marginTop: 1 }}>{roleLabel}</div>
           </div>
-          <button title="Keluar" style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 4 }}>
+          <button
+            title="Keluar"
+            onClick={handleSignOut}
+            style={{ background: 'transparent', border: 'none', cursor: 'pointer', padding: 4 }}
+          >
             <Icon name="LogOut" size={15} color="rgba(255,255,255,0.45)" />
           </button>
         </div>

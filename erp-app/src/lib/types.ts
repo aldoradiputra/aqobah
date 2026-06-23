@@ -22,3 +22,23 @@ export interface Product {
   created_at: string
   updated_at: string
 }
+
+// Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
+export type AppRole =
+  | 'admin'
+  | 'management'
+  | 'sales'
+  | 'operational'
+  | 'warehouse'
+  | 'finance'
+
+export interface Profile {
+  id: string
+  email: string | null
+  full_name: string | null
+  role: AppRole
+  business_unit: string | null
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
