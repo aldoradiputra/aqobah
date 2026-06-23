@@ -33,6 +33,7 @@ client-side routing.
 - [x] Supabase SDK + TanStack Query + routing
 - [x] Products page reading live Supabase data (reference feature)
 - [x] Auth (email/password) + `profiles` + role-based RLS
-- [ ] Cross-cutting: audit log, activity feed, list/kanban DataView
+- [x] Audit log (generic triggers + admin Audit Trail page)
+- [ ] Cross-cutting: activity feed + list/kanban DataView
 
 See `../.claude` plan / roadmap for the full phase breakdown.

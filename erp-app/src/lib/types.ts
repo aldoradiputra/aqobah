@@ -42,3 +42,16 @@ export interface Profile {
   created_at: string
   updated_at: string
 }
+
+// Audit log (supabase/migrations/005_audit_log.sql).
+export interface AuditEntry {
+  id: number
+  actor_id: string | null
+  actor_email: string | null
+  action: 'INSERT' | 'UPDATE' | 'DELETE' | string
+  entity_type: string
+  entity_id: string | null
+  old_data: Record<string, unknown> | null
+  new_data: Record<string, unknown> | null
+  created_at: string
+}

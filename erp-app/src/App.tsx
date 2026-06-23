@@ -5,6 +5,8 @@ import { LoginPage } from './auth/LoginPage'
 import { DashboardPage } from './features/DashboardPage'
 import { ProductsPage } from './features/ProductsPage'
 import { ModulePlaceholder } from './features/ModulePlaceholder'
+import { AuditPage } from './features/AuditPage'
+import { RoleGuard } from './auth/RoleGuard'
 
 export default function App() {
   return (
@@ -19,6 +21,14 @@ export default function App() {
           <Route path="ops" element={<ModulePlaceholder moduleKey="ops" />} />
           <Route path="finance" element={<ModulePlaceholder moduleKey="finance" />} />
           <Route path="hr" element={<ModulePlaceholder moduleKey="hr" />} />
+          <Route
+            path="audit"
+            element={
+              <RoleGuard allow={['admin', 'management']} fallback={<Navigate to="/" replace />}>
+                <AuditPage />
+              </RoleGuard>
+            }
+          />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Route>
