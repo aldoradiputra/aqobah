@@ -37,4 +37,8 @@ client-side routing.
 - [x] DataView (list ⇄ kanban) + search/filter/sort bar
 - [ ] Activity feed (per-record comments + timeline) — with Phase 1 detail views
 
+## Status (Phase 1 — Product configuration)
+- [x] Business units + kode produk + departure/return dates; editable products (CRUD)
+- [ ] Room-type pricing, components/HPP, inventory BOM, sales→ops requests
+
 See `../.claude` plan / roadmap for the full phase breakdown.
