@@ -35,7 +35,9 @@ function todayLabels() {
 
 export function ErpShell() {
   const location = useLocation()
-  const active = ERP_NAV.find((n) => n.to === location.pathname)?.key ?? 'dashboard'
+  const path = location.pathname
+  const active =
+    ERP_NAV.find((n) => n.to !== '/' && (path === n.to || path.startsWith(n.to + '/')))?.key ?? 'dashboard'
   const meta = MODULE_META[active] ?? MODULE_META.dashboard
   const date = todayLabels()
   const navigate = useNavigate()

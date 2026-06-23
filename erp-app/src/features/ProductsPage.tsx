@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useProducts, useBusinessUnits, useDeleteProduct } from '../lib/queries'
 import { useSession } from '../auth/SessionProvider'
 import { DataTable, Pill, Progress, Panel } from '../components/ui'
@@ -73,7 +74,15 @@ export function ProductsPage() {
       label: 'Kode',
       render: (r) => <span style={{ fontWeight: 600, fontSize: 12 }}>{r.product_code ?? '—'}</span>,
     },
-    { key: 'name', label: 'Paket', render: (r) => <span style={{ fontWeight: 600 }}>{r.name}</span> },
+    {
+      key: 'name',
+      label: 'Paket',
+      render: (r) => (
+        <Link to={`/products/${r.id}`} style={{ fontWeight: 600, color: 'var(--text-link)', textDecoration: 'none' }}>
+          {r.name}
+        </Link>
+      ),
+    },
     { key: 'unit', label: 'Unit', render: (r) => <Pill tone={UNIT_TONE[r.unit] ?? 'neutral'}>{r.unit}</Pill> },
     { key: 'departure_date', label: 'Berangkat', render: (r) => fmtDate(r.departure_date) },
     { key: 'price_display', label: 'Harga', render: (r) => r.price_display ?? '—' },
