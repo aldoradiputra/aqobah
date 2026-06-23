@@ -19,8 +19,20 @@ export interface Product {
   tone: string | null
   is_published: boolean
   sort_order: number | null
+  product_code: string | null
+  departure_date: string | null
+  return_date: string | null
   created_at: string
   updated_at: string
+}
+
+// Business unit reference (supabase/migrations/006_*).
+export interface BusinessUnit {
+  id: string
+  code: string
+  name: string
+  sort_order: number
+  created_at: string
 }
 
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
