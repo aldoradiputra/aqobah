@@ -34,6 +34,7 @@ client-side routing.
 - [x] Products page reading live Supabase data (reference feature)
 - [x] Auth (email/password) + `profiles` + role-based RLS
 - [x] Audit log (generic triggers + admin Audit Trail page)
-- [ ] Cross-cutting: activity feed + list/kanban DataView
+- [x] DataView (list ⇄ kanban) + search/filter/sort bar
+- [ ] Activity feed (per-record comments + timeline) — with Phase 1 detail views
 
 See `../.claude` plan / roadmap for the full phase breakdown.

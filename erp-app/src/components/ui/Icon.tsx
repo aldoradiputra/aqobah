@@ -2,7 +2,8 @@ import type { CSSProperties } from 'react'
 import {
   LayoutDashboard, Users, ShoppingCart, Package, ClipboardCheck, Wallet, UserCog,
   Search, Bell, LogOut, CircleAlert, Plus, TrendingUp, Building2, Boxes, Truck,
-  FileText, Settings, ChevronRight, Loader2, Star, type LucideIcon,
+  FileText, Settings, ChevronRight, ChevronDown, Loader2, Star, List, LayoutGrid,
+  type LucideIcon,
 } from 'lucide-react'
 
 // Curated icon registry (explicit imports keep the bundle tree-shakeable).
@@ -10,7 +11,7 @@ import {
 const REGISTRY: Record<string, LucideIcon> = {
   LayoutDashboard, Users, ShoppingCart, Package, ClipboardCheck, Wallet, UserCog,
   Search, Bell, LogOut, CircleAlert, Plus, TrendingUp, Building2, Boxes, Truck,
-  FileText, Settings, ChevronRight, Loader2, Star,
+  FileText, Settings, ChevronRight, ChevronDown, Loader2, Star, List, LayoutGrid,
 }
 
 export function Icon({
