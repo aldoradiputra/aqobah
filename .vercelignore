@@ -3,3 +3,5 @@
 project/
 chats/
 supabase/
+# New Vite ERP app — deployed as its own Vercel project (erp.aqobah.com), not here.
+erp-app/
