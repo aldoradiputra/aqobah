@@ -32,7 +32,7 @@ client-side routing.
 - [x] Vite + React + TS scaffold, design tokens, ERP shell, UI primitives
 - [x] Supabase SDK + TanStack Query + routing
 - [x] Products page reading live Supabase data (reference feature)
-- [ ] Auth (email/password) + `profiles` + role-based RLS
+- [x] Auth (email/password) + `profiles` + role-based RLS
 - [ ] Cross-cutting: audit log, activity feed, list/kanban DataView
 
 See `../.claude` plan / roadmap for the full phase breakdown.
