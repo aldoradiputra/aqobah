@@ -9,6 +9,7 @@ import type {
   ProductComponent,
   InventoryItem,
   ProductBomEntry,
+  ActivityEvent,
 } from './types'
 
 // Single source of truth for the products query — reused by the Products page
@@ -251,5 +252,47 @@ export function useDeleteBom(productId: string) {
       if (error) throw error
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['product_bom', productId] }),
+  })
+}
+
+// Activity feed (per-record comments). Reusable across any entity type.
+export function useActivityEvents(entityType: string, entityId: string | undefined) {
+  return useQuery({
+    queryKey: ['activity', entityType, entityId],
+    enabled: !!entityId,
+    queryFn: async (): Promise<ActivityEvent[]> => {
+      const { data, error } = await supabase
+        .from('activity_events')
+        .select('*')
+        .eq('entity_type', entityType)
+        .eq('entity_id', entityId!)
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      return (data ?? []) as ActivityEvent[]
+    },
+  })
+}
+
+export function usePostComment(entityType: string, entityId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (body: string) => {
+      const { error } = await supabase
+        .from('activity_events')
+        .insert({ entity_type: entityType, entity_id: entityId, event_type: 'comment', body })
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['activity', entityType, entityId] }),
+  })
+}
+
+export function useDeleteActivity(entityType: string, entityId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('activity_events').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['activity', entityType, entityId] }),
   })
 }

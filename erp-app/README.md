@@ -41,6 +41,7 @@ client-side routing.
 - [x] Business units + kode produk + departure/return dates; editable products (CRUD)
 - [x] Product detail page + room-type pricing (quad/triple/double)
 - [x] Components/HPP cost sheet + inventory BOM (per gender)
-- [ ] Sales→ops product requests, per-record activity feed
+- [x] Per-record activity feed (comments)
+- [ ] Sales→ops product requests
 
 See `../.claude` plan / roadmap for the full phase breakdown.
