@@ -18,6 +18,7 @@ import type {
   SalesTeamPipeline,
   SalesTeamMember,
   Profile,
+  Customer,
 } from './types'
 
 // Single source of truth for the products query — reused by the Products page
@@ -614,6 +615,62 @@ export function useProfiles() {
         .order('full_name')
       if (error) throw error
       return (data ?? []) as Profile[]
+    },
+  })
+}
+
+// ── CRM customers & partners (supabase/migrations/018) ───────────────────────
+export function useCustomers() {
+  return useQuery({
+    queryKey: ['customers'],
+    queryFn: async (): Promise<Customer[]> => {
+      const { data, error } = await supabase.from('customers').select('*').order('name')
+      if (error) throw error
+      return (data ?? []) as Customer[]
+    },
+  })
+}
+
+export function useCustomer(id: string | undefined) {
+  return useQuery({
+    queryKey: ['customer', id],
+    enabled: !!id,
+    queryFn: async (): Promise<Customer | null> => {
+      const { data, error } = await supabase.from('customers').select('*').eq('id', id!).maybeSingle()
+      if (error) throw error
+      return (data as Customer | null) ?? null
+    },
+  })
+}
+
+export function useSaveCustomer() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id?: string } & Record<string, unknown>) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('customers').update(fields).eq('id', id)
+        : await supabase.from('customers').insert(fields)
+      if (res.error) throw res.error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['customers'] })
+      qc.invalidateQueries({ queryKey: ['customer'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
+  })
+}
+
+export function useDeleteCustomer() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('customers').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['customers'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
     },
   })
 }
