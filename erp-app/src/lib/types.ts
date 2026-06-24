@@ -99,6 +99,19 @@ export interface ProductBomEntry {
   updated_at: string
 }
 
+// Activity feed (supabase/migrations/010_activity_events.sql).
+export interface ActivityEvent {
+  id: string
+  entity_type: string
+  entity_id: string
+  actor_id: string | null
+  actor_email: string | null
+  event_type: 'comment' | 'note' | 'system' | string
+  body: string
+  metadata: Record<string, unknown>
+  created_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'
