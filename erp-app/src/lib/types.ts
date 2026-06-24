@@ -138,6 +138,7 @@ export interface ProductRequest {
   requested_by_email: string | null
   assigned_to: string | null
   linked_product_id: string | null
+  reference_code: string | null
   created_at: string
   updated_at: string
 }

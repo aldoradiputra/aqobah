@@ -43,6 +43,12 @@ export function RequestDetailPage() {
           <Pill tone="neutral">{TYPE_LABEL[req.type] ?? req.type}</Pill>
         </div>
         <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>
+          {req.reference_code && (
+            <>
+              <span style={{ fontWeight: 600, color: 'var(--text-secondary)', letterSpacing: '0.02em' }}>{req.reference_code}</span>
+              {' · '}
+            </>
+          )}
           Diminta oleh {req.requested_by_email ?? '—'} · {fmt(req.created_at)}
         </div>
       </div>

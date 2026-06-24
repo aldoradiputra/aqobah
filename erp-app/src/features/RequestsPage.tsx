@@ -17,6 +17,15 @@ function fmtDate(d: string): string {
 
 const columns: Column<ProductRequest>[] = [
   {
+    key: 'reference_code',
+    label: 'Kode',
+    render: (r) => (
+      <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-secondary)', letterSpacing: '0.02em' }}>
+        {r.reference_code ?? '—'}
+      </span>
+    ),
+  },
+  {
     key: 'title',
     label: 'Judul',
     render: (r) => (
