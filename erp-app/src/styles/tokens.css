@@ -227,3 +227,19 @@ button:focus-visible { outline: 2px solid var(--blue-400); outline-offset: 2px; 
   border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
   font-weight: 700; flex-shrink: 0; font-family: var(--font-ui);
 }
+
+/* Record detail: main content + sticky activity aside on wide screens.
+   Collapses to one column (the feed drops to the bottom) when the viewport is
+   narrow — including browser zoom, which shrinks the CSS viewport. */
+.record-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 18px;
+  align-items: start;
+}
+.record-layout__main { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.record-layout__aside { position: sticky; top: 18px; }
+@media (max-width: 1100px) {
+  .record-layout { grid-template-columns: minmax(0, 1fr); }
+  .record-layout__aside { position: static; }
+}
