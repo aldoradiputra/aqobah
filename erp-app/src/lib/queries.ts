@@ -12,6 +12,8 @@ import type {
   ActivityEvent,
   ActivityAttachment,
   ProductRequest,
+  CrmPipeline,
+  CrmPipelineStage,
 } from './types'
 
 // Single source of truth for the products query — reused by the Products page
@@ -375,5 +377,106 @@ export function useUpdateRequest() {
       qc.invalidateQueries({ queryKey: ['product_request'] })
       qc.invalidateQueries({ queryKey: ['activity'] })
     },
+  })
+}
+
+// ── CRM pipelines & stages (config; supabase/migrations/016) ────────────────
+export function useCrmPipelines() {
+  return useQuery({
+    queryKey: ['crm_pipelines'],
+    queryFn: async (): Promise<CrmPipeline[]> => {
+      const { data, error } = await supabase.from('crm_pipelines').select('*').order('sort_order')
+      if (error) throw error
+      return (data ?? []) as CrmPipeline[]
+    },
+  })
+}
+
+// All stages across pipelines, grouped client-side by the settings page.
+export function useAllPipelineStages() {
+  return useQuery({
+    queryKey: ['pipeline_stages'],
+    queryFn: async (): Promise<CrmPipelineStage[]> => {
+      const { data, error } = await supabase
+        .from('crm_pipeline_stages')
+        .select('*')
+        .order('pipeline_id')
+        .order('sort_order')
+      if (error) throw error
+      return (data ?? []) as CrmPipelineStage[]
+    },
+  })
+}
+
+// Stages for one pipeline (used by the deal kanban in 2.4).
+export function usePipelineStages(pipelineId: string | undefined) {
+  return useQuery({
+    queryKey: ['pipeline_stages', pipelineId],
+    enabled: !!pipelineId,
+    queryFn: async (): Promise<CrmPipelineStage[]> => {
+      const { data, error } = await supabase
+        .from('crm_pipeline_stages')
+        .select('*')
+        .eq('pipeline_id', pipelineId!)
+        .order('sort_order')
+      if (error) throw error
+      return (data ?? []) as CrmPipelineStage[]
+    },
+  })
+}
+
+export function useSavePipeline() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id?: string } & Record<string, unknown>) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('crm_pipelines').update(fields).eq('id', id)
+        : await supabase.from('crm_pipelines').insert(fields)
+      if (res.error) throw res.error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['crm_pipelines'] }),
+  })
+}
+
+export function useSaveStage() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id?: string } & Record<string, unknown>) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('crm_pipeline_stages').update(fields).eq('id', id)
+        : await supabase.from('crm_pipeline_stages').insert(fields)
+      if (res.error) throw res.error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['pipeline_stages'] }),
+  })
+}
+
+export function useDeleteStage() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('crm_pipeline_stages').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['pipeline_stages'] }),
+  })
+}
+
+// Persist a new stage ordering (sort_order = position) for a pipeline.
+export function useReorderStages() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (rows: { id: string; sort_order: number }[]) => {
+      for (const r of rows) {
+        const { error } = await supabase
+          .from('crm_pipeline_stages')
+          .update({ sort_order: r.sort_order })
+          .eq('id', r.id)
+        if (error) throw error
+      }
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['pipeline_stages'] }),
   })
 }
