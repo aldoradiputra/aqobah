@@ -112,6 +112,24 @@ export interface ActivityEvent {
   created_at: string
 }
 
+// Sales → ops product requests (supabase/migrations/011_*).
+export type RequestType = 'custom_product' | 'estimation'
+export type RequestStatus = 'open' | 'in_progress' | 'done' | 'rejected'
+
+export interface ProductRequest {
+  id: string
+  type: RequestType | string
+  title: string
+  details: string | null
+  status: RequestStatus | string
+  requested_by: string | null
+  requested_by_email: string | null
+  assigned_to: string | null
+  linked_product_id: string | null
+  created_at: string
+  updated_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'

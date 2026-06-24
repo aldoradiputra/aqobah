@@ -10,6 +10,7 @@ import type {
   InventoryItem,
   ProductBomEntry,
   ActivityEvent,
+  ProductRequest,
 } from './types'
 
 // Single source of truth for the products query — reused by the Products page
@@ -294,5 +295,58 @@ export function useDeleteActivity(entityType: string, entityId: string) {
       if (error) throw error
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['activity', entityType, entityId] }),
+  })
+}
+
+// ── Sales → ops product requests ────────────────────────────────────────────
+export function useProductRequests() {
+  return useQuery({
+    queryKey: ['product_requests'],
+    queryFn: async (): Promise<ProductRequest[]> => {
+      const { data, error } = await supabase
+        .from('product_requests')
+        .select('*')
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      return (data ?? []) as ProductRequest[]
+    },
+  })
+}
+
+export function useProductRequest(id: string | undefined) {
+  return useQuery({
+    queryKey: ['product_request', id],
+    enabled: !!id,
+    queryFn: async (): Promise<ProductRequest | null> => {
+      const { data, error } = await supabase.from('product_requests').select('*').eq('id', id!).maybeSingle()
+      if (error) throw error
+      return (data as ProductRequest | null) ?? null
+    },
+  })
+}
+
+export function useCreateRequest() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { type: string; title: string; details: string | null }) => {
+      const { error } = await supabase.from('product_requests').insert(input)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_requests'] }),
+  })
+}
+
+export function useUpdateRequest() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id: string } & Record<string, unknown>) => {
+      const { id, ...fields } = input
+      const { error } = await supabase.from('product_requests').update(fields).eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product_requests'] })
+      qc.invalidateQueries({ queryKey: ['product_request'] })
+    },
   })
 }

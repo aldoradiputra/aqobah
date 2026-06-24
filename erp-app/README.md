@@ -42,6 +42,6 @@ client-side routing.
 - [x] Product detail page + room-type pricing (quad/triple/double)
 - [x] Components/HPP cost sheet + inventory BOM (per gender)
 - [x] Per-record activity feed (comments)
-- [ ] Sales→ops product requests
+- [x] Sales→ops product requests — **Phase 1 complete**
 
 See `../.claude` plan / roadmap for the full phase breakdown.

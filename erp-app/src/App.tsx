@@ -7,6 +7,8 @@ import { ProductsPage } from './features/ProductsPage'
 import { ModulePlaceholder } from './features/ModulePlaceholder'
 import { AuditPage } from './features/AuditPage'
 import { ProductDetailPage } from './features/ProductDetailPage'
+import { RequestsPage } from './features/RequestsPage'
+import { RequestDetailPage } from './features/RequestDetailPage'
 import { RoleGuard } from './auth/RoleGuard'
 
 export default function App() {
@@ -20,6 +22,8 @@ export default function App() {
           <Route path="sales" element={<ModulePlaceholder moduleKey="sales" />} />
           <Route path="products" element={<ProductsPage />} />
           <Route path="products/:id" element={<ProductDetailPage />} />
+          <Route path="requests" element={<RequestsPage />} />
+          <Route path="requests/:id" element={<RequestDetailPage />} />
           <Route path="ops" element={<ModulePlaceholder moduleKey="ops" />} />
           <Route path="finance" element={<ModulePlaceholder moduleKey="finance" />} />
           <Route path="hr" element={<ModulePlaceholder moduleKey="hr" />} />
