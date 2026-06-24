@@ -40,6 +40,7 @@ client-side routing.
 ## Status (Phase 1 — Product configuration)
 - [x] Business units + kode produk + departure/return dates; editable products (CRUD)
 - [x] Product detail page + room-type pricing (quad/triple/double)
-- [ ] Components/HPP, inventory BOM, sales→ops requests, activity feed
+- [x] Components/HPP cost sheet + inventory BOM (per gender)
+- [ ] Sales→ops product requests, per-record activity feed
 
 See `../.claude` plan / roadmap for the full phase breakdown.

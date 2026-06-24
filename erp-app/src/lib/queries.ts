@@ -1,6 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from './supabase'
-import type { Product, AuditEntry, BusinessUnit, RoomPricing, ComponentType, ProductComponent } from './types'
+import type {
+  Product,
+  AuditEntry,
+  BusinessUnit,
+  RoomPricing,
+  ComponentType,
+  ProductComponent,
+  InventoryItem,
+  ProductBomEntry,
+} from './types'
 
 // Single source of truth for the products query — reused by the Products page
 // and the Dashboard KPIs.
@@ -185,5 +194,62 @@ export function useDeleteComponent(productId: string) {
       if (error) throw error
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['product_components', productId] }),
+  })
+}
+
+// Inventory items master (read for selects).
+export function useInventoryItems() {
+  return useQuery({
+    queryKey: ['inventory_items'],
+    queryFn: async (): Promise<InventoryItem[]> => {
+      const { data, error } = await supabase
+        .from('inventory_items')
+        .select('*')
+        .eq('is_active', true)
+        .order('name')
+      if (error) throw error
+      return (data ?? []) as InventoryItem[]
+    },
+  })
+}
+
+// Per-product inventory BOM (items each jemaah receives, by gender).
+export function useProductBom(productId: string | undefined) {
+  return useQuery({
+    queryKey: ['product_bom', productId],
+    enabled: !!productId,
+    queryFn: async (): Promise<ProductBomEntry[]> => {
+      const { data, error } = await supabase
+        .from('product_inventory_bom')
+        .select('*')
+        .eq('product_id', productId!)
+      if (error) throw error
+      return (data ?? []) as ProductBomEntry[]
+    },
+  })
+}
+
+export function useSaveBom(productId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id?: string; inventory_item_id: string; qty_per_pax: number; gender: string }) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('product_inventory_bom').update(fields).eq('id', id)
+        : await supabase.from('product_inventory_bom').insert({ ...fields, product_id: productId })
+      if (res.error) throw res.error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_bom', productId] }),
+  })
+}
+
+export function useDeleteBom(productId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('product_inventory_bom').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_bom', productId] }),
   })
 }
