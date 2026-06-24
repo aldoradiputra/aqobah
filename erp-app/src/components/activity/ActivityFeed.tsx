@@ -40,14 +40,19 @@ const FIELD_LABELS: Record<string, Record<string, string>> = {
   product_components: { qty: 'Qty', unit_cost: 'Biaya satuan', note: 'Catatan', component_type_id: 'Jenis komponen' },
   product_inventory_bom: { qty_per_pax: 'Qty/pax', gender: 'Gender', inventory_item_id: 'Item' },
   product_requests: { status: 'Status', assigned_to: 'Ditugaskan', title: 'Judul', details: 'Detail', type: 'Tipe' },
+  customers: {
+    name: 'Nama', customer_type: 'Tipe', nik: 'NIK', npwp: 'NPWP', phone: 'Telepon', email: 'Email',
+    address: 'Alamat', city: 'Kota', is_partner: 'Mitra', commission_rate: 'Komisi (%)', owner_id: 'Pemilik', notes: 'Catatan',
+  },
 }
 const MONEY_FIELDS = new Set(['price', 'unit_cost'])
 const DATE_FIELDS = new Set(['departure_date', 'return_date'])
-const UUID_FIELDS = new Set(['component_type_id', 'inventory_item_id', 'assigned_to'])
+const UUID_FIELDS = new Set(['component_type_id', 'inventory_item_id', 'assigned_to', 'owner_id'])
 const ENUM_MAPS: Record<string, Record<string, string>> = {
   status: { open: 'Terbuka', in_progress: 'Diproses', done: 'Selesai', rejected: 'Ditolak' },
   gender: { male: 'Pria', female: 'Wanita', all: 'Semua', unisex: 'Unisex' },
   type: { custom_product: 'Produk Custom', estimation: 'Estimasi' },
+  customer_type: { individual: 'Individu', corporation: 'Korporasi' },
 }
 
 function fmtValue(field: string, v: unknown): string {

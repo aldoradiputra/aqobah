@@ -11,6 +11,8 @@ import { RequestsPage } from './features/RequestsPage'
 import { RequestDetailPage } from './features/RequestDetailPage'
 import { CrmLayout, CrmComingSoon } from './features/crm/CrmLayout'
 import { CrmSettingsPage } from './features/crm/CrmSettingsPage'
+import { CustomersPage } from './features/crm/CustomersPage'
+import { CustomerDetailPage } from './features/crm/CustomerDetailPage'
 import { RoleGuard } from './auth/RoleGuard'
 
 export default function App() {
@@ -22,7 +24,8 @@ export default function App() {
           <Route index element={<DashboardPage />} />
           <Route path="crm" element={<CrmLayout />}>
             <Route index element={<CrmComingSoon title="Pipeline Deal" note="Papan pipeline hadir di PR berikutnya (deals + kanban)." />} />
-            <Route path="customers" element={<CrmComingSoon title="Pelanggan & Mitra" note="Daftar pelanggan & mitra hadir di PR berikutnya." />} />
+            <Route path="customers" element={<CustomersPage />} />
+            <Route path="customers/:id" element={<CustomerDetailPage />} />
             <Route
               path="settings"
               element={

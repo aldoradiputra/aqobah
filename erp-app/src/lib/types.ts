@@ -193,6 +193,27 @@ export interface SalesTeamMember {
   created_at: string
 }
 
+// CRM customers & partners (supabase/migrations/018_customers.sql).
+export type CustomerType = 'individual' | 'corporation'
+
+export interface Customer {
+  id: string
+  customer_type: CustomerType | string
+  name: string
+  nik: string | null
+  npwp: string | null
+  phone: string | null
+  email: string | null
+  address: string | null
+  city: string | null
+  is_partner: boolean
+  commission_rate: number | null
+  owner_id: string | null
+  notes: string | null
+  created_at: string
+  updated_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'
