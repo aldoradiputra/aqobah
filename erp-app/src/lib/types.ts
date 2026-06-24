@@ -143,6 +143,30 @@ export interface ProductRequest {
   updated_at: string
 }
 
+// CRM pipelines & configurable stages (supabase/migrations/016_crm_pipelines.sql).
+export type PipelineChannel = 'direct' | 'indirect'
+
+export interface CrmPipeline {
+  id: string
+  name: string
+  channel: PipelineChannel | string
+  sort_order: number
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface CrmPipelineStage {
+  id: string
+  pipeline_id: string
+  name: string
+  sort_order: number
+  is_won: boolean
+  is_lost: boolean
+  created_at: string
+  updated_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'
