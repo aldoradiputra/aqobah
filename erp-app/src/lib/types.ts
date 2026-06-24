@@ -167,6 +167,32 @@ export interface CrmPipelineStage {
   updated_at: string
 }
 
+// CRM sales teams & membership (supabase/migrations/017_sales_teams.sql).
+export type TeamSeniority = 'member' | 'lead'
+
+export interface SalesTeam {
+  id: string
+  name: string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface SalesTeamPipeline {
+  id: string
+  team_id: string
+  pipeline_id: string
+  created_at: string
+}
+
+export interface SalesTeamMember {
+  id: string
+  team_id: string
+  user_id: string
+  seniority: TeamSeniority | string
+  created_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'

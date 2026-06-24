@@ -14,6 +14,10 @@ import type {
   ProductRequest,
   CrmPipeline,
   CrmPipelineStage,
+  SalesTeam,
+  SalesTeamPipeline,
+  SalesTeamMember,
+  Profile,
 } from './types'
 
 // Single source of truth for the products query — reused by the Products page
@@ -478,5 +482,138 @@ export function useReorderStages() {
       }
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['pipeline_stages'] }),
+  })
+}
+
+// ── CRM sales teams & membership (config; supabase/migrations/017) ───────────
+export function useSalesTeams() {
+  return useQuery({
+    queryKey: ['sales_teams'],
+    queryFn: async (): Promise<SalesTeam[]> => {
+      const { data, error } = await supabase.from('sales_teams').select('*').order('name')
+      if (error) throw error
+      return (data ?? []) as SalesTeam[]
+    },
+  })
+}
+
+export function useSaveTeam() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id?: string } & Record<string, unknown>) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('sales_teams').update(fields).eq('id', id)
+        : await supabase.from('sales_teams').insert(fields)
+      if (res.error) throw res.error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sales_teams'] }),
+  })
+}
+
+export function useDeleteTeam() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('sales_teams').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['sales_teams'] })
+      qc.invalidateQueries({ queryKey: ['sales_team_pipelines'] })
+      qc.invalidateQueries({ queryKey: ['sales_team_members'] })
+    },
+  })
+}
+
+// Team ↔ pipeline links (all rows; grouped client-side).
+export function useTeamPipelines() {
+  return useQuery({
+    queryKey: ['sales_team_pipelines'],
+    queryFn: async (): Promise<SalesTeamPipeline[]> => {
+      const { data, error } = await supabase.from('sales_team_pipelines').select('*')
+      if (error) throw error
+      return (data ?? []) as SalesTeamPipeline[]
+    },
+  })
+}
+
+export function useAddTeamPipeline() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { team_id: string; pipeline_id: string }) => {
+      const { error } = await supabase.from('sales_team_pipelines').insert(input)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sales_team_pipelines'] }),
+  })
+}
+
+export function useRemoveTeamPipeline() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { team_id: string; pipeline_id: string }) => {
+      const { error } = await supabase
+        .from('sales_team_pipelines')
+        .delete()
+        .eq('team_id', input.team_id)
+        .eq('pipeline_id', input.pipeline_id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sales_team_pipelines'] }),
+  })
+}
+
+// Team memberships (all rows; grouped client-side).
+export function useTeamMembers() {
+  return useQuery({
+    queryKey: ['sales_team_members'],
+    queryFn: async (): Promise<SalesTeamMember[]> => {
+      const { data, error } = await supabase.from('sales_team_members').select('*')
+      if (error) throw error
+      return (data ?? []) as SalesTeamMember[]
+    },
+  })
+}
+
+export function useSaveTeamMember() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id?: string; team_id?: string; user_id?: string; seniority?: string }) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('sales_team_members').update(fields).eq('id', id)
+        : await supabase.from('sales_team_members').insert(fields)
+      if (res.error) throw res.error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sales_team_members'] }),
+  })
+}
+
+export function useRemoveTeamMember() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('sales_team_members').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['sales_team_members'] }),
+  })
+}
+
+// Active staff directory for the team member picker. Profiles RLS (003) lets
+// admin/management read all rows — the only place this is used (CRM settings).
+export function useProfiles() {
+  return useQuery({
+    queryKey: ['profiles'],
+    queryFn: async (): Promise<Profile[]> => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('is_active', true)
+        .order('full_name')
+      if (error) throw error
+      return (data ?? []) as Profile[]
+    },
   })
 }
