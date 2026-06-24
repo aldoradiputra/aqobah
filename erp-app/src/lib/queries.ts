@@ -19,6 +19,7 @@ import type {
   SalesTeamMember,
   Profile,
   Customer,
+  Deal,
 } from './types'
 
 // Single source of truth for the products query — reused by the Products page
@@ -670,6 +671,84 @@ export function useDeleteCustomer() {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['customers'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
+  })
+}
+
+// ── CRM deals (supabase/migrations/019) ──────────────────────────────────────
+export function useDeals(pipelineId: string | undefined) {
+  return useQuery({
+    queryKey: ['deals', pipelineId],
+    enabled: !!pipelineId,
+    queryFn: async (): Promise<Deal[]> => {
+      const { data, error } = await supabase
+        .from('deals')
+        .select('*')
+        .eq('pipeline_id', pipelineId!)
+        .order('created_at', { ascending: false })
+      if (error) throw error
+      return (data ?? []) as Deal[]
+    },
+  })
+}
+
+export function useDeal(id: string | undefined) {
+  return useQuery({
+    queryKey: ['deal', id],
+    enabled: !!id,
+    queryFn: async (): Promise<Deal | null> => {
+      const { data, error } = await supabase.from('deals').select('*').eq('id', id!).maybeSingle()
+      if (error) throw error
+      return (data as Deal | null) ?? null
+    },
+  })
+}
+
+export function useSaveDeal() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id?: string } & Record<string, unknown>) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('deals').update(fields).eq('id', id)
+        : await supabase.from('deals').insert(fields)
+      if (res.error) throw res.error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['deals'] })
+      qc.invalidateQueries({ queryKey: ['deal'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
+  })
+}
+
+// Stage move (kanban drag); optionally records a lost_reason.
+export function useMoveDealStage() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: { id: string; stage_id: string; lost_reason?: string | null }) => {
+      const { id, ...fields } = input
+      const { error } = await supabase.from('deals').update(fields).eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['deals'] })
+      qc.invalidateQueries({ queryKey: ['deal'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
+  })
+}
+
+export function useDeleteDeal() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('deals').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['deals'] })
       qc.invalidateQueries({ queryKey: ['activity'] })
     },
   })

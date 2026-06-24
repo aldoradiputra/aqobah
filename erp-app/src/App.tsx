@@ -9,10 +9,12 @@ import { AuditPage } from './features/AuditPage'
 import { ProductDetailPage } from './features/ProductDetailPage'
 import { RequestsPage } from './features/RequestsPage'
 import { RequestDetailPage } from './features/RequestDetailPage'
-import { CrmLayout, CrmComingSoon } from './features/crm/CrmLayout'
+import { CrmLayout } from './features/crm/CrmLayout'
 import { CrmSettingsPage } from './features/crm/CrmSettingsPage'
 import { CustomersPage } from './features/crm/CustomersPage'
 import { CustomerDetailPage } from './features/crm/CustomerDetailPage'
+import { DealsBoard } from './features/crm/DealsBoard'
+import { DealDetailPage } from './features/crm/DealDetailPage'
 import { RoleGuard } from './auth/RoleGuard'
 
 export default function App() {
@@ -23,7 +25,8 @@ export default function App() {
         <Route element={<ErpShell />}>
           <Route index element={<DashboardPage />} />
           <Route path="crm" element={<CrmLayout />}>
-            <Route index element={<CrmComingSoon title="Pipeline Deal" note="Papan pipeline hadir di PR berikutnya (deals + kanban)." />} />
+            <Route index element={<DealsBoard />} />
+            <Route path="deals/:id" element={<DealDetailPage />} />
             <Route path="customers" element={<CustomersPage />} />
             <Route path="customers/:id" element={<CustomerDetailPage />} />
             <Route
