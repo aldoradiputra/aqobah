@@ -2,7 +2,7 @@ import type { CSSProperties } from 'react'
 import {
   LayoutDashboard, Users, ShoppingCart, Package, ClipboardCheck, Wallet, UserCog,
   Search, Bell, LogOut, CircleAlert, Plus, TrendingUp, Building2, Boxes, Truck,
-  FileText, Settings, ChevronRight, ChevronDown, Loader2, Star, List, LayoutGrid, Inbox,
+  FileText, Settings, ChevronRight, ChevronDown, Loader2, Star, List, LayoutGrid, Inbox, Paperclip,
   type LucideIcon,
 } from 'lucide-react'
 
@@ -11,7 +11,7 @@ import {
 const REGISTRY: Record<string, LucideIcon> = {
   LayoutDashboard, Users, ShoppingCart, Package, ClipboardCheck, Wallet, UserCog,
   Search, Bell, LogOut, CircleAlert, Plus, TrendingUp, Building2, Boxes, Truck,
-  FileText, Settings, ChevronRight, ChevronDown, Loader2, Star, List, LayoutGrid, Inbox,
+  FileText, Settings, ChevronRight, ChevronDown, Loader2, Star, List, LayoutGrid, Inbox, Paperclip,
 }
 
 export function Icon({
