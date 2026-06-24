@@ -71,6 +71,34 @@ export interface ProductComponent {
   updated_at: string
 }
 
+// Inventory items + per-product BOM (supabase/migrations/009_*).
+export type InventoryCategory = 'product_consumable' | 'store_retail' | 'office_supply' | 'asset'
+export type GenderVariant = 'male' | 'female' | 'unisex'
+
+export interface InventoryItem {
+  id: string
+  sku: string | null
+  name: string
+  category: InventoryCategory | string
+  unit: string
+  gender_variant: GenderVariant | string
+  is_active: boolean
+  created_at: string
+  updated_at: string
+}
+
+export type BomGender = 'male' | 'female' | 'all'
+
+export interface ProductBomEntry {
+  id: string
+  product_id: string
+  inventory_item_id: string
+  qty_per_pax: number | string
+  gender: BomGender | string
+  created_at: string
+  updated_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'

@@ -6,6 +6,7 @@ import { Panel, Pill, Progress, Icon } from '../components/ui'
 import type { PillTone } from '../components/ui'
 import { ProductModal } from './ProductModal'
 import { ProductComponentsSection } from './ProductComponentsSection'
+import { ProductBomSection } from './ProductBomSection'
 import type { RoomType } from '../lib/types'
 
 const CONFIG_ROLES = ['admin', 'management', 'operational']
@@ -169,10 +170,11 @@ export function ProductDetailPage() {
 
       <ProductComponentsSection productId={product.id} canConfigure={canConfigure} />
 
-      <Panel title="Inventory & Aktivitas">
+      <ProductBomSection productId={product.id} canConfigure={canConfigure} />
+
+      <Panel title="Aktivitas">
         <div style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.7 }}>
-          Inventory BOM (koper, seragam, dll. per jenis kelamin) dan umpan-balik aktivitas akan ditambahkan pada
-          langkah Phase 1 berikutnya.
+          Umpan-balik aktivitas (komentar &amp; lini masa per record) akan ditambahkan pada langkah berikutnya.
         </div>
       </Panel>
 
