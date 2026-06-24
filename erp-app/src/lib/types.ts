@@ -49,6 +49,28 @@ export interface RoomPricing {
   updated_at: string
 }
 
+// Komponen keberangkatan / HPP (supabase/migrations/008_*).
+export interface ComponentType {
+  id: string
+  code: string
+  name: string
+  sort_order: number
+  created_at: string
+}
+
+export interface ProductComponent {
+  id: string
+  product_id: string
+  component_type_id: string | null
+  note: string | null
+  qty: number | string
+  unit_cost: number | string
+  currency: string
+  sort_order: number
+  created_at: string
+  updated_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'

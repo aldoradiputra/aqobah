@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { supabase } from './supabase'
-import type { Product, AuditEntry, BusinessUnit, RoomPricing } from './types'
+import type { Product, AuditEntry, BusinessUnit, RoomPricing, ComponentType, ProductComponent } from './types'
 
 // Single source of truth for the products query — reused by the Products page
 // and the Dashboard KPIs.
@@ -124,5 +124,66 @@ export function useSaveRoomPricing(productId: string) {
       if (error) throw error
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['room_pricing', productId] }),
+  })
+}
+
+// Component reference taxonomy (komponen keberangkatan).
+export function useComponentTypes() {
+  return useQuery({
+    queryKey: ['component_types'],
+    queryFn: async (): Promise<ComponentType[]> => {
+      const { data, error } = await supabase.from('component_types').select('*').order('sort_order')
+      if (error) throw error
+      return (data ?? []) as ComponentType[]
+    },
+  })
+}
+
+// Per-product cost lines (HPP).
+export function useProductComponents(productId: string | undefined) {
+  return useQuery({
+    queryKey: ['product_components', productId],
+    enabled: !!productId,
+    queryFn: async (): Promise<ProductComponent[]> => {
+      const { data, error } = await supabase
+        .from('product_components')
+        .select('*')
+        .eq('product_id', productId!)
+        .order('sort_order')
+        .order('created_at')
+      if (error) throw error
+      return (data ?? []) as ProductComponent[]
+    },
+  })
+}
+
+export function useSaveComponent(productId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (input: {
+      id?: string
+      component_type_id: string | null
+      note: string | null
+      qty: number
+      unit_cost: number
+    }) => {
+      const { id, ...fields } = input
+      const res = id
+        ? await supabase.from('product_components').update(fields).eq('id', id)
+        : await supabase.from('product_components').insert({ ...fields, product_id: productId })
+      if (res.error) throw res.error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_components', productId] }),
+  })
+}
+
+export function useDeleteComponent(productId: string) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from('product_components').delete().eq('id', id)
+      if (error) throw error
+    },
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_components', productId] }),
   })
 }
