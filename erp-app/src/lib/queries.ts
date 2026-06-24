@@ -676,6 +676,24 @@ export function useDeleteCustomer() {
   })
 }
 
+// Bulk import customers from a parsed CSV (chunked inserts; owner stamped by caller).
+export function useImportCustomers() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: async (rows: Record<string, unknown>[]) => {
+      const CHUNK = 500
+      for (let i = 0; i < rows.length; i += CHUNK) {
+        const { error } = await supabase.from('customers').insert(rows.slice(i, i + CHUNK))
+        if (error) throw error
+      }
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['customers'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
+  })
+}
+
 // ── CRM deals (supabase/migrations/019) ──────────────────────────────────────
 export function useDeals(pipelineId: string | undefined) {
   return useQuery({
