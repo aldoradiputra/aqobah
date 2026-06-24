@@ -73,7 +73,7 @@ export function ProductDetailPage() {
   if (isError || !product) return <div style={{ color: 'var(--danger-500)', fontSize: 14 }}>Paket tidak ditemukan.</div>
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 860 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 1180 }}>
       <Link
         to="/products"
         style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text-link)', textDecoration: 'none' }}
@@ -95,6 +95,9 @@ export function ProductDetailPage() {
           </button>
         )}
       </div>
+
+      <div className="record-layout">
+        <div className="record-layout__main">
 
       <Panel title="Ringkasan">
         <InfoRow label="Unit bisnis">
@@ -173,7 +176,11 @@ export function ProductDetailPage() {
 
       <ProductBomSection productId={product.id} canConfigure={canConfigure} />
 
-      <ActivityFeed entityType="product" entityId={product.id} />
+        </div>
+        <aside className="record-layout__aside">
+          <ActivityFeed entityType="product" entityId={product.id} />
+        </aside>
+      </div>
 
       {editing && <ProductModal product={product} businessUnits={businessUnits} onClose={() => setEditing(false)} />}
     </div>

@@ -28,7 +28,7 @@ export function RequestDetailPage() {
   const assignedToMe = req.assigned_to === user?.id
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 820 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 18, maxWidth: 1180 }}>
       <Link
         to="/requests"
         style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 13, color: 'var(--text-link)', textDecoration: 'none' }}
@@ -46,6 +46,9 @@ export function RequestDetailPage() {
           Diminta oleh {req.requested_by_email ?? '—'} · {fmt(req.created_at)}
         </div>
       </div>
+
+      <div className="record-layout">
+        <div className="record-layout__main">
 
       <Panel title="Detail Permintaan">
         <div style={{ fontSize: 14, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', lineHeight: 1.7 }}>
@@ -83,7 +86,11 @@ export function RequestDetailPage() {
         )}
       </Panel>
 
-      <ActivityFeed entityType="product_request" entityId={req.id} />
+        </div>
+        <aside className="record-layout__aside">
+          <ActivityFeed entityType="product_request" entityId={req.id} />
+        </aside>
+      </div>
     </div>
   )
 }
