@@ -7,6 +7,7 @@ import type { Column, PillTone } from '../../components/ui'
 import { FilterBar } from '../../components/data-view'
 import type { SelectFilter } from '../../components/data-view'
 import { CustomerModal } from './CustomerModal'
+import { CustomerImportModal } from './CustomerImportModal'
 import type { Customer } from '../../lib/types'
 
 const TYPE_LABEL: Record<string, string> = { individual: 'Individu', corporation: 'Korporasi' }
@@ -20,6 +21,7 @@ export function CustomersPage() {
   const canWrite = role != null && WRITE_ROLES.includes(role)
 
   const [editing, setEditing] = useState<Customer | 'new' | null>(null)
+  const [importing, setImporting] = useState(false)
   const [search, setSearch] = useState('')
   const [type, setType] = useState('all')
   const [partner, setPartner] = useState('all')
@@ -130,9 +132,14 @@ export function CustomersPage() {
           filters={filters}
           right={
             canWrite ? (
-              <button className="btn-primary" onClick={() => setEditing('new')}>
-                + Pelanggan Baru
-              </button>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button className="btn-ghost" onClick={() => setImporting(true)}>
+                  Impor CSV
+                </button>
+                <button className="btn-primary" onClick={() => setEditing('new')}>
+                  + Pelanggan Baru
+                </button>
+              </div>
             ) : undefined
           }
         />
@@ -147,6 +154,7 @@ export function CustomersPage() {
       {!isLoading && !isError && filtered.length > 0 && <DataTable columns={columns} rows={filtered} />}
 
       {editing !== null && <CustomerModal customer={editing === 'new' ? null : editing} onClose={() => setEditing(null)} />}
+      {importing && <CustomerImportModal onClose={() => setImporting(false)} />}
     </Panel>
   )
 }
