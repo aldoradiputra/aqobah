@@ -214,6 +214,24 @@ export interface Customer {
   updated_at: string
 }
 
+// CRM deals (supabase/migrations/019_deals.sql).
+export interface Deal {
+  id: string
+  pipeline_id: string
+  stage_id: string
+  customer_id: string | null
+  partner_id: string | null
+  title: string
+  estimated_value: number | null
+  expected_pax: number | null
+  product_id: string | null
+  forecast_close_date: string | null
+  owner_id: string | null
+  lost_reason: string | null
+  created_at: string
+  updated_at: string
+}
+
 // Auth / access model (supabase/migrations/003_auth_profiles_roles.sql).
 export type AppRole =
   | 'admin'

@@ -44,10 +44,18 @@ const FIELD_LABELS: Record<string, Record<string, string>> = {
     name: 'Nama', customer_type: 'Tipe', nik: 'NIK', npwp: 'NPWP', phone: 'Telepon', email: 'Email',
     address: 'Alamat', city: 'Kota', is_partner: 'Mitra', commission_rate: 'Komisi (%)', owner_id: 'Pemilik', notes: 'Catatan',
   },
+  deals: {
+    title: 'Judul', stage_id: 'Tahap', estimated_value: 'Nilai', expected_pax: 'Estimasi pax',
+    forecast_close_date: 'Perkiraan closing', customer_id: 'Pelanggan', partner_id: 'Mitra',
+    product_id: 'Paket', owner_id: 'Pemilik', lost_reason: 'Alasan kalah',
+  },
 }
-const MONEY_FIELDS = new Set(['price', 'unit_cost'])
-const DATE_FIELDS = new Set(['departure_date', 'return_date'])
-const UUID_FIELDS = new Set(['component_type_id', 'inventory_item_id', 'assigned_to', 'owner_id'])
+const MONEY_FIELDS = new Set(['price', 'unit_cost', 'estimated_value'])
+const DATE_FIELDS = new Set(['departure_date', 'return_date', 'forecast_close_date'])
+const UUID_FIELDS = new Set([
+  'component_type_id', 'inventory_item_id', 'assigned_to', 'owner_id',
+  'customer_id', 'partner_id', 'product_id', 'pipeline_id',
+])
 const ENUM_MAPS: Record<string, Record<string, string>> = {
   status: { open: 'Terbuka', in_progress: 'Diproses', done: 'Selesai', rejected: 'Ditolak' },
   gender: { male: 'Pria', female: 'Wanita', all: 'Semua', unisex: 'Unisex' },
