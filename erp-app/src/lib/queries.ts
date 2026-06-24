@@ -72,6 +72,7 @@ export function useSaveProduct() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['product'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
     },
   })
 }
@@ -86,6 +87,7 @@ export function useDeleteProduct() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['products'] })
       qc.invalidateQueries({ queryKey: ['product'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
     },
   })
 }
@@ -134,7 +136,10 @@ export function useSaveRoomPricing(productId: string) {
         .upsert(payload, { onConflict: 'product_id,room_type' })
       if (error) throw error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['room_pricing', productId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['room_pricing', productId] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
   })
 }
 
@@ -184,7 +189,10 @@ export function useSaveComponent(productId: string) {
         : await supabase.from('product_components').insert({ ...fields, product_id: productId })
       if (res.error) throw res.error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_components', productId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product_components', productId] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
   })
 }
 
@@ -195,7 +203,10 @@ export function useDeleteComponent(productId: string) {
       const { error } = await supabase.from('product_components').delete().eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_components', productId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product_components', productId] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
   })
 }
 
@@ -241,7 +252,10 @@ export function useSaveBom(productId: string) {
         : await supabase.from('product_inventory_bom').insert({ ...fields, product_id: productId })
       if (res.error) throw res.error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_bom', productId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product_bom', productId] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
   })
 }
 
@@ -252,7 +266,10 @@ export function useDeleteBom(productId: string) {
       const { error } = await supabase.from('product_inventory_bom').delete().eq('id', id)
       if (error) throw error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_bom', productId] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product_bom', productId] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
   })
 }
 
@@ -332,7 +349,10 @@ export function useCreateRequest() {
       const { error } = await supabase.from('product_requests').insert(input)
       if (error) throw error
     },
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['product_requests'] }),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ['product_requests'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
+    },
   })
 }
 
@@ -347,6 +367,7 @@ export function useUpdateRequest() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['product_requests'] })
       qc.invalidateQueries({ queryKey: ['product_request'] })
+      qc.invalidateQueries({ queryKey: ['activity'] })
     },
   })
 }

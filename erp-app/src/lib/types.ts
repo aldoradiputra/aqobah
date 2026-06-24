@@ -100,6 +100,13 @@ export interface ProductBomEntry {
 }
 
 // Activity feed (supabase/migrations/010_activity_events.sql).
+export interface ActivityAttachment {
+  path: string
+  name: string
+  size: number
+  type: string
+}
+
 export interface ActivityEvent {
   id: string
   entity_type: string
@@ -108,7 +115,12 @@ export interface ActivityEvent {
   actor_email: string | null
   event_type: 'comment' | 'note' | 'system' | string
   body: string
-  metadata: Record<string, unknown>
+  metadata: {
+    action?: 'INSERT' | 'UPDATE' | 'DELETE' | string
+    source_table?: string
+    changes?: Record<string, { old: unknown; new: unknown }>
+    attachments?: ActivityAttachment[]
+  }
   created_at: string
 }
 
