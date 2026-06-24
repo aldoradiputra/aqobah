@@ -10,6 +10,7 @@ import type {
   InventoryItem,
   ProductBomEntry,
   ActivityEvent,
+  ActivityAttachment,
   ProductRequest,
 } from './types'
 
@@ -294,10 +295,15 @@ export function useActivityEvents(entityType: string, entityId: string | undefin
 export function usePostComment(entityType: string, entityId: string) {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: async (body: string) => {
-      const { error } = await supabase
-        .from('activity_events')
-        .insert({ entity_type: entityType, entity_id: entityId, event_type: 'comment', body })
+    mutationFn: async (input: { body: string; attachments?: ActivityAttachment[] }) => {
+      const { body, attachments } = input
+      const { error } = await supabase.from('activity_events').insert({
+        entity_type: entityType,
+        entity_id: entityId,
+        event_type: 'comment',
+        body,
+        metadata: attachments && attachments.length ? { attachments } : {},
+      })
       if (error) throw error
     },
     onSuccess: () => qc.invalidateQueries({ queryKey: ['activity', entityType, entityId] }),

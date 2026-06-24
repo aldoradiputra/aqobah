@@ -1,8 +1,15 @@
-import { useState, type CSSProperties, type FormEvent } from 'react'
+import { useState, useEffect, useRef, type CSSProperties, type FormEvent, type ChangeEvent } from 'react'
 import { useActivityEvents, usePostComment, useDeleteActivity } from '../../lib/queries'
 import { useSession } from '../../auth/SessionProvider'
 import { Panel, Icon } from '../ui'
-import type { ActivityEvent } from '../../lib/types'
+import type { ActivityEvent, ActivityAttachment } from '../../lib/types'
+import {
+  uploadActivityAttachments,
+  signedAttachmentUrl,
+  isImageAttachment,
+  formatBytes,
+  MAX_ATTACHMENT_BYTES,
+} from '../../lib/storage'
 
 function initialsOf(s: string | null): string {
   if (!s) return 'AQ'
@@ -104,6 +111,97 @@ function SystemEvent({ ev }: { ev: ActivityEvent }) {
   )
 }
 
+// ── Attachment rendering ────────────────────────────────────────────────────
+// Files live in a private bucket; every view fetches a fresh 60 s signed URL.
+function AttachmentThumb({ att }: { att: ActivityAttachment }) {
+  const [url, setUrl] = useState<string | null>(null)
+  const [failed, setFailed] = useState(false)
+  useEffect(() => {
+    let alive = true
+    signedAttachmentUrl(att.path)
+      .then((u) => alive && setUrl(u))
+      .catch(() => alive && setFailed(true))
+    return () => {
+      alive = false
+    }
+  }, [att.path])
+
+  if (failed) return <AttachmentChip att={att} />
+  return (
+    <button
+      type="button"
+      onClick={() => url && window.open(url, '_blank', 'noopener')}
+      title={att.name}
+      style={{
+        padding: 0, width: 96, height: 96, overflow: 'hidden', cursor: url ? 'pointer' : 'default',
+        borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)', background: 'var(--surface-sunken)',
+      }}
+    >
+      {url ? (
+        <img src={url} alt={att.name} loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+      ) : (
+        <span style={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', color: 'var(--text-muted)', fontSize: 11 }}>…</span>
+      )}
+    </button>
+  )
+}
+
+function AttachmentChip({ att }: { att: ActivityAttachment }) {
+  const [loading, setLoading] = useState(false)
+  async function open() {
+    setLoading(true)
+    try {
+      const u = await signedAttachmentUrl(att.path)
+      window.open(u, '_blank', 'noopener')
+    } catch (e) {
+      alert((e as Error).message)
+    } finally {
+      setLoading(false)
+    }
+  }
+  return (
+    <button
+      type="button"
+      onClick={open}
+      disabled={loading}
+      title={att.name}
+      style={{
+        display: 'inline-flex', alignItems: 'center', gap: 6, padding: '5px 9px', maxWidth: 240,
+        borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-default)', background: 'var(--surface-sunken)',
+        cursor: 'pointer', fontSize: 12, color: 'var(--text-secondary)',
+      }}
+    >
+      <Icon name="Paperclip" size={13} />
+      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{att.name}</span>
+      <span style={{ color: 'var(--text-muted)', flexShrink: 0 }}>{formatBytes(att.size)}</span>
+    </button>
+  )
+}
+
+function AttachmentList({ attachments }: { attachments: ActivityAttachment[] }) {
+  if (!attachments.length) return null
+  const images = attachments.filter(isImageAttachment)
+  const files = attachments.filter((a) => !isImageAttachment(a))
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+      {images.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+          {images.map((a) => (
+            <AttachmentThumb key={a.path} att={a} />
+          ))}
+        </div>
+      )}
+      {files.length > 0 && (
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
+          {files.map((a) => (
+            <AttachmentChip key={a.path} att={a} />
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // Reusable per-record activity feed. Drop it on any record:
 //   <ActivityFeed entityType="product" entityId={id} />
 export function ActivityFeed({ entityType, entityId }: { entityType: string; entityId: string }) {
@@ -112,31 +210,78 @@ export function ActivityFeed({ entityType, entityId }: { entityType: string; ent
   const post = usePostComment(entityType, entityId)
   const del = useDeleteActivity(entityType, entityId)
   const [text, setText] = useState('')
+  const [files, setFiles] = useState<File[]>([])
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const busy = uploading || post.isPending
+
+  function onPickFiles(e: ChangeEvent<HTMLInputElement>) {
+    const picked = Array.from(e.target.files ?? [])
+    const tooBig = picked.find((f) => f.size > MAX_ATTACHMENT_BYTES)
+    if (tooBig) alert(`"${tooBig.name}" melebihi batas 10 MB.`)
+    const ok = picked.filter((f) => f.size <= MAX_ATTACHMENT_BYTES)
+    if (ok.length) setFiles((prev) => [...prev, ...ok])
+    e.target.value = '' // allow re-picking the same file
+  }
+
+  function removeFile(i: number) {
+    setFiles((prev) => prev.filter((_, idx) => idx !== i))
+  }
 
   async function submit(e: FormEvent) {
     e.preventDefault()
     const body = text.trim()
-    if (!body) return
+    if (!body && files.length === 0) return
+    setUploading(true)
     try {
-      await post.mutateAsync(body)
+      const attachments = files.length ? await uploadActivityAttachments(entityType, entityId, files) : []
+      await post.mutateAsync({ body, attachments })
       setText('')
+      setFiles([])
     } catch (err) {
       alert((err as Error).message)
+    } finally {
+      setUploading(false)
     }
   }
 
   return (
     <Panel title="Aktivitas & Komentar">
-      <form onSubmit={submit} style={{ display: 'flex', gap: 8, marginBottom: events.length ? 18 : 4 }}>
-        <input
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Tulis komentar…"
-          style={inputStyle}
-        />
-        <button type="submit" className="btn-primary" disabled={post.isPending || !text.trim()}>
-          Kirim
-        </button>
+      <form onSubmit={submit} style={{ marginBottom: events.length ? 18 : 4 }}>
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Tulis komentar…"
+            style={inputStyle}
+          />
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={busy}
+            title="Lampirkan berkas"
+            style={iconBtnStyle}
+          >
+            <Icon name="Paperclip" size={16} />
+          </button>
+          <button type="submit" className="btn-primary" disabled={busy || (!text.trim() && files.length === 0)}>
+            {uploading ? 'Mengunggah…' : 'Kirim'}
+          </button>
+        </div>
+        <input ref={fileInputRef} type="file" multiple onChange={onPickFiles} style={{ display: 'none' }} />
+        {files.length > 0 && (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+            {files.map((f, i) => (
+              <span key={i} style={pendingChipStyle}>
+                <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: 160 }}>{f.name}</span>
+                <span style={{ color: 'var(--text-muted)' }}>{formatBytes(f.size)}</span>
+                <button type="button" onClick={() => removeFile(i)} aria-label="Hapus lampiran" style={removeBtnStyle}>
+                  ×
+                </button>
+              </span>
+            ))}
+          </div>
+        )}
       </form>
 
       {isLoading && <div style={{ color: 'var(--text-muted)', fontSize: 13 }}>Memuat…</div>}
@@ -148,6 +293,7 @@ export function ActivityFeed({ entityType, entityId }: { entityType: string; ent
         {events.map((ev) => {
           if (ev.event_type === 'system') return <SystemEvent key={ev.id} ev={ev} />
           const canDelete = ev.actor_id === user?.id || role === 'admin'
+          const attachments = ev.metadata?.attachments ?? []
           return (
             <div key={ev.id} style={{ display: 'flex', gap: 10 }}>
               <div
@@ -161,9 +307,12 @@ export function ActivityFeed({ entityType, entityId }: { entityType: string; ent
                   <span style={{ fontWeight: 600, fontSize: 13 }}>{ev.actor_email ?? 'Sistem'}</span>
                   <span style={{ fontSize: 11, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>{fmt(ev.created_at)}</span>
                 </div>
-                <div style={{ fontSize: 13, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
-                  {ev.body}
-                </div>
+                {ev.body && (
+                  <div style={{ fontSize: 13, color: 'var(--text-secondary)', whiteSpace: 'pre-wrap', wordBreak: 'break-word' }}>
+                    {ev.body}
+                  </div>
+                )}
+                {attachments.length > 0 && <AttachmentList attachments={attachments} />}
                 {canDelete && (
                   <button
                     onClick={() => del.mutateAsync(ev.id)}
@@ -190,4 +339,39 @@ const inputStyle: CSSProperties = {
   fontSize: 14,
   color: 'var(--text-primary)',
   outline: 'none',
+}
+
+const iconBtnStyle: CSSProperties = {
+  display: 'grid',
+  placeItems: 'center',
+  width: 38,
+  padding: 0,
+  borderRadius: 'var(--radius-sm)',
+  border: '1px solid var(--border-default)',
+  background: 'var(--surface-sunken)',
+  color: 'var(--text-secondary)',
+  cursor: 'pointer',
+  flexShrink: 0,
+}
+
+const pendingChipStyle: CSSProperties = {
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: 6,
+  padding: '4px 8px',
+  borderRadius: 'var(--radius-sm)',
+  border: '1px solid var(--border-default)',
+  background: 'var(--surface-sunken)',
+  fontSize: 12,
+  color: 'var(--text-secondary)',
+}
+
+const removeBtnStyle: CSSProperties = {
+  background: 'none',
+  border: 'none',
+  cursor: 'pointer',
+  color: 'var(--text-muted)',
+  fontSize: 15,
+  lineHeight: 1,
+  padding: 0,
 }
