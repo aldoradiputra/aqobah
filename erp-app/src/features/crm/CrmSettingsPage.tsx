@@ -9,6 +9,7 @@ import {
 } from '../../lib/queries'
 import { Panel } from '../../components/ui'
 import type { CrmPipeline, CrmPipelineStage } from '../../lib/types'
+import { CrmTeamsPanel } from './CrmTeamsPanel'
 
 const CHANNEL_LABEL: Record<string, string> = { direct: 'Langsung', indirect: 'Tidak Langsung' }
 
@@ -55,6 +56,9 @@ export function CrmSettingsPage() {
         </div>
       ))}
       <AddPipeline existingCount={pipelines.length} />
+      <div style={{ borderTop: '1px solid var(--border-subtle)', marginTop: 6, paddingTop: 18 }}>
+        <CrmTeamsPanel />
+      </div>
     </div>
   )
 }
